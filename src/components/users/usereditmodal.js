@@ -14,12 +14,11 @@ import {
   CSpinner,
   CAlert
 } from '@coreui/react'
-import { createUser } from '../../store/actions/appactions';
+import { editUser } from '../../store/actions/appactions';
 import { useDispatch, useSelector } from 'react-redux';
 
 const Modals = ({show, close}) => {
   const [name, setName] = useState('');
-  const [password, setPassword] = useState('');
   const [address, setAddress] = useState('');
   const [mobile, setMobile] = useState('');
   const app = useSelector(state => state.app)
@@ -27,7 +26,7 @@ const Modals = ({show, close}) => {
 
 
   const onSubmit = () => {
-    dispatch(createUser(app.user.token, name, address, mobile, password));
+    dispatch(editUser(app.user.token, name, address, mobile, app.user._id));
   }
   return (
             <CModal 
@@ -35,19 +34,19 @@ const Modals = ({show, close}) => {
               onClose={close}
             >
               <CModalHeader closeButton>
-                <CModalTitle>Create user</CModalTitle>
+                <CModalTitle>Edit user</CModalTitle>
               </CModalHeader>
               <CModalBody>
               <CCol xs="12">
               <CRow>
-               {app.error && app.error.type === 'createadminerror' ?  <CCol xs='12'>
+               {app.error && app.error.type === 'editadminerror' ?  <CCol xs='12'>
                 <CAlert color="danger" closeButton>
                 An error occured, please try again
               </CAlert>
                 </CCol> : null}
-                {app.successadmin ?  <CCol xs='12'>
+                {app.successedit ?  <CCol xs='12'>
                 <CAlert color="success" closeButton>
-                Admin created successfully
+                Admin Edited successfully
               </CAlert>
                 </CCol> : null}
                 <CCol xs="12">
@@ -68,14 +67,14 @@ const Modals = ({show, close}) => {
                     <CInput id="name" placeholder="Enter mobile" value={mobile} onChange={(e) => setMobile(e.target.value)} required />
                   </CFormGroup>
                 </CCol>
-                <CCol xs="12">
+                {/* <CCol xs="12">
                   <CFormGroup>
                     <CLabel htmlFor="name">Password</CLabel>
                     <CInput id="password" placeholder="Enter password" value={password} onChange={(e) => setPassword(e.target.value)} required />
                   </CFormGroup>
-                </CCol>
+                </CCol> */}
                 <CCol xs='12'>
-                <CButton color="primary" block onClick={onSubmit}>{app.loading ? <CSpinner color="success" size="sm" /> : 'create'}</CButton>
+                <CButton color="primary" block onClick={onSubmit}>{app.loading ? <CSpinner color="success" size="sm" /> : 'submit'}</CButton>
                 </CCol>
               </CRow>
               </CCol>

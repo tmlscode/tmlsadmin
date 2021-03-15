@@ -1,15 +1,23 @@
 import React from 'react'
 import {
-  CBadge,
   CDropdown,
   CDropdownItem,
   CDropdownMenu,
   CDropdownToggle,
   CImg
 } from '@coreui/react'
-import CIcon from '@coreui/icons-react'
+import { useSelector, useDispatch } from 'react-redux'
+import {Logout} from '../store/actions/appactions';
+import Cookies from 'js-cookie';
 
 const TheHeaderDropdown = () => {
+  const dispatch = useDispatch()
+
+  const onLogout = () => {
+    Cookies.remove('token');
+    dispatch(Logout())
+    window.location.reload();
+  }
   return (
     <CDropdown
       inNav
@@ -19,7 +27,7 @@ const TheHeaderDropdown = () => {
       <CDropdownToggle className="c-header-nav-link" caret={false}>
         <div className="c-avatar">
           <CImg
-            src={'avatars/6.jpg'}
+            src={'https://cdn.pixabay.com/photo/2016/08/08/09/17/avatar-1577909_960_720.png'}
             className="c-avatar-img"
             alt="admin@bootstrapmaster.com"
           />
@@ -34,55 +42,8 @@ const TheHeaderDropdown = () => {
         >
           <strong>Account</strong>
         </CDropdownItem>
-        <CDropdownItem>
-          <CIcon name="cil-bell" className="mfe-2" />
-          Updates
-          <CBadge color="info" className="mfs-auto">42</CBadge>
-        </CDropdownItem>
-        <CDropdownItem>
-          <CIcon name="cil-envelope-open" className="mfe-2" />
-          Messages
-          <CBadge color="success" className="mfs-auto">42</CBadge>
-        </CDropdownItem>
-        <CDropdownItem>
-          <CIcon name="cil-task" className="mfe-2" />
-          Tasks
-          <CBadge color="danger" className="mfs-auto">42</CBadge>
-        </CDropdownItem>
-        <CDropdownItem>
-          <CIcon name="cil-comment-square" className="mfe-2" />
-          Comments
-          <CBadge color="warning" className="mfs-auto">42</CBadge>
-        </CDropdownItem>
-        <CDropdownItem
-          header
-          tag="div"
-          color="light"
-          className="text-center"
-        >
-          <strong>Settings</strong>
-        </CDropdownItem>
-        <CDropdownItem>
-          <CIcon name="cil-user" className="mfe-2" />Profile
-        </CDropdownItem>
-        <CDropdownItem>
-          <CIcon name="cil-settings" className="mfe-2" />
-          Settings
-        </CDropdownItem>
-        <CDropdownItem>
-          <CIcon name="cil-credit-card" className="mfe-2" />
-          Payments
-          <CBadge color="secondary" className="mfs-auto">42</CBadge>
-        </CDropdownItem>
-        <CDropdownItem>
-          <CIcon name="cil-file" className="mfe-2" />
-          Projects
-          <CBadge color="primary" className="mfs-auto">42</CBadge>
-        </CDropdownItem>
-        <CDropdownItem divider />
-        <CDropdownItem>
-          <CIcon name="cil-lock-locked" className="mfe-2" />
-          Lock Account
+        <CDropdownItem onClick={onLogout}>
+          Logout
         </CDropdownItem>
       </CDropdownMenu>
     </CDropdown>

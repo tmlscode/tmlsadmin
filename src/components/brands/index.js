@@ -10,13 +10,13 @@ import {
   CPagination,
   CButton,
 } from '@coreui/react'
-import CIcon from '@coreui/icons-react'
 import Modal from './brandmodal';
 import EditModal from './brandeditmodal';
 import { useDispatch, useSelector } from 'react-redux';
-import { getBrands } from 'src/store/actions/appactions';
+import { clearSuccess, getBrands } from 'src/store/actions/appactions';
+import moment from 'moment';
 
-const fields = [{key: 'title', _style: { width: '50%'}}, {key: 'Action', _style: { width: '50%', displa: 'flex', alignItems: 'flex-end'}}]
+const fields = [{key: 'title'}, {key: 'since'}, {key: 'Action'}]
 
 const Users = () => {
   const history = useHistory()
@@ -25,7 +25,6 @@ const Users = () => {
   const [page, setPage] = useState(currentPage)
   const [show, setShow] = useState(false);
   const [brand, setBrand] = useState('');
-  const [close, setClose] = useState(false);
   const dispatch = useDispatch();
   const app = useSelector(state => state.app)
   const [showedit, setShowedit] = useState(false);
@@ -44,10 +43,19 @@ const Users = () => {
 
   const handleClose = () => {
       setShow(false);
+    
   }
 
   const handleClosedit = () => {
     setShowedit(false);
+    setBrand('');  
+    dispatch(getBrands());
+    dispatch(clearSuccess());
+  }
+
+  const onOpen = (title) => {
+    setBrand(title)
+    setShowedit(true)
   }
 
 
@@ -80,14 +88,17 @@ const Users = () => {
             itemsPerPage={5}
             activePage={page}
             clickableRows
-            onRowClick={(item) => setBrand({title: item._id, id: item.title})}
             scopedSlots = {{
+              'since':
+                (item)=>(
+                  <td>
+                  {moment(item.since).format('DD/MM/YY')}
+                  </td>
+                ),
               'Action':
                 (item)=>(
                   <td>
-                   <CButton variant="ghost" color="transparent" onClick={(e) => {setBrand(item); setShowedit(true)}}>
-                <CIcon name="cil-lightbulb" />
-              </CButton>
+                   <a onClick={() => onOpen(item)}>edit</a>
                   </td>
                 )
             }}

@@ -1,4 +1,4 @@
-import React, { useState, useRef, useMemo, useEffect } from 'react'
+import React, { useState } from 'react'
 import {
   CButton,
   CModal,
@@ -7,6 +7,7 @@ import {
   CModalHeader,
   CModalTitle,
   CRow,
+  CTextarea,
   CCol,
   CFormGroup,
   CAlert,
@@ -17,43 +18,26 @@ import {
 } from '@coreui/react'
 import CIcon from '@coreui/icons-react'
 import { useDispatch, useSelector } from 'react-redux';
-import { createEvent } from '../../store/actions/appactions';
-import JoditEditor from "jodit-react";
-import he from 'he';
+import { editPhoto } from '../../store/actions/appactions';
 import moment from 'moment';
 
 
-const Modals = ({show, close, brand, editorwords}) => {
-  const [title, setTitle] = useState('');
-  const [photoUrl, setPhotourl] = useState(brand.gallery);
-  const [venue, setVenue] = useState('');
+const Modals = ({show, close, brand}) => {
+  const [title, setTitle] = useState(brand.title);
+  const [photoUrl, setPhotourl] = useState(brand.url);
+  const [description, setDescription] = useState(brand.about);
   const dispatch = useDispatch();
   const app = useSelector(state => state.app)
-  const editor = useRef(null)
-	const [content, setContent] = useState(editorwords);
-  const initialdate = moment(brand.date).format('L');
-  const [date, setDate] = useState(initialdate);
-	
-	const config = {
-		buttons: [ "bold", "italic", "underline", "strikethrough", "|", "ul", "ol", "|", "center", "left", "right", "justify", "|", "link", "image"],
-    uploader: { insertImageAsBase64URI: true },
-    removeButtons: ["brush", "file"],
-    showXPathInStatusbar: false,
-    showCharsCounter: false,
-    showWordsCounter: false,
-    toolbarAdaptive: false
-	}
+  const [date, setDate] = useState(brand.date);
+
 
   const onSubmit = () => {
-    const about = he.encode(content, {
-      'encodeEverything': true
-    });
 
-    const dbdate = moment(date).format();
-    
-
-    dispatch(createEvent(app.user.token, title, about, venue, photoUrl, dbdate));
+    dispatch(editPhoto(app.user.token, brand._id, title, description, photoUrl));
   }
+
+  console.log(photoUrl);
+
 
   const uploadfile = async e => {
     const files = e.target.files;
@@ -66,22 +50,14 @@ const Modals = ({show, close, brand, editorwords}) => {
       body: data
     });
     const file = await res.json();
-    setPhotourl([...photoUrl, file.secure_url])
+    setPhotourl(file.secure_url)
   }
 
-  const removeImage = (url) => {
-    let array = [];
-    array.push(photoUrl);
-    var filtered = array.filter(function(value, index, arr){ 
-      return value !== url;
-  });
-    setPhotourl(filtered);
+  const removeImage = () => {
+   setPhotourl('');
   }
 
 
-  useEffect(() => {
-    setContent(editorwords);
-  }, [])
 
   return (
             <CModal 
@@ -90,19 +66,19 @@ const Modals = ({show, close, brand, editorwords}) => {
               size='lg'
             >
               <CModalHeader closeButton>
-                <CModalTitle>Edit {brand.title} Event</CModalTitle>
+                <CModalTitle>Edit {brand.title} Photo vote</CModalTitle>
               </CModalHeader>
               <CModalBody>
               <CCol xs="12">
               <CRow>
-              {app.error && app.error.type === 'createeventerror' ?  <CCol xs='12'>
+              {app.error && app.error.type === 'createphotoerror' ?  <CCol xs='12'>
                 <CAlert color="danger" closeButton>
                 An error occured, please try again
               </CAlert>
                 </CCol> : null}
-                {app.successevent ? <CCol xs='12'>
+                {app.successedit ? <CCol xs='12'>
                 <CAlert color="success">
-                Event Edited successfully
+                Photo Edited successfully
               </CAlert>
                 </CCol> : null}
                 <CCol xs="6">
@@ -111,7 +87,7 @@ const Modals = ({show, close, brand, editorwords}) => {
                     <CInput id="name" placeholder="Enter your name" required value={title} onChange={(e) => setTitle(e.target.value)} />
                   </CFormGroup>
                 </CCol>
-                <CCol xs="6">
+                {/* <CCol xs="6">
                   <CFormGroup>
                     <CLabel htmlFor="name">Venue</CLabel>
                     <CInput id="name" placeholder="Enter your name" required value={venue} onChange={(e) => setVenue(e.target.value)} />
@@ -122,32 +98,28 @@ const Modals = ({show, close, brand, editorwords}) => {
                     <CLabel htmlFor="date-input">Date</CLabel>
                     <CInput type="date" id="date-input" name="date-input" value={date} onChange={(e) => setDate(e.target.value)} placeholder="date" />
                   </CFormGroup>
-                </CCol>
+                </CCol> */}
                 <CCol xs={6}>
                 <CLabel htmlFor="file-input">Files upload</CLabel>
-                <CInputFile id="file-input" name="file-input" onChange={uploadfile}/>
+                <CInputFile disabled={photoUrl >= 1} id="file-input" name="file-input" onChange={uploadfile}/>
                 </CCol>
-               {photoUrl && photoUrl.length > 0 ? 
-                photoUrl.map((photo, index) => {
-                 return (
+               {photoUrl  ? 
                    <CCol xs='3' style={{height: 150, marginBottom: 20}}>
-                        <CButton onClick={() => removeImage(index)} variant="ghost" color="transparent" style={{backgroundImage: `url(${photo})`, height: 150, width: '100%', backgroundSize: 'cover', backgroundPosition: 'center', display: 'flex', flexDirection: 'row', alignItems: 'flex-start', justifyContent: 'flex-end'}}>
+                        <CButton onClick={removeImage} variant="ghost" color="transparent" style={{backgroundImage: `url(${photoUrl})`, height: 150, width: '100%', backgroundSize: 'cover', backgroundPosition: 'center', display: 'flex', flexDirection: 'row', alignItems: 'flex-start', justifyContent: 'flex-end'}}>
                         <CIcon name="cil-x-circle" style={{color: 'red'}} size='lg' />
-                        </CButton>
-                  
+                        </CButton>      
                    </CCol>
-                 )
-               }) : null}
+                 : null}
                 <CCol xs='12' style={{marginBottom: 30}}>
-                   {useMemo( () => (   <JoditEditor
-            	  ref={editor}
-                value={content}
-                config={config}
-		            tabIndex={1} 
-		            // onBlur={newContent => setContent(newContent)} // preferred to use only this option to update the content for performance reasons
-                onChange={content => setContent(content)}
-                />), [] )}
-                </CCol>
+                    <CLabel htmlFor="textarea-input">Description</CLabel>
+                    <CTextarea 
+                      name="description" 
+                      value={description} 
+                      rows="9"
+                      onChange={(e) => setDescription(e.target.value)}
+                      placeholder="Description..." 
+                    />
+                    </CCol>
                 <CCol xs='12'>
                 <CButton  color="primary" block onClick={() => onSubmit()}>{app.loading ?  <CSpinner color="success" size="sm" /> : 'create'}</CButton>
                 </CCol>

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import {
   CButton,
   CModal,
@@ -22,8 +22,7 @@ const Modals = ({show, close}) => {
   const app = useSelector(state => state.app)
 
   const onSubmit = () => {
-    const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MDNhYmMzNmQ4M2M3YTRlNDE0OTQwNGMiLCJuYW1lIjoia2VubnkiLCJhZGRyZXNzIjoiaWxhbGEiLCJpYXQiOjE2MTQ1NzYyNTIsImV4cCI6MTYxNzE2ODI1MiwiYXVkIjoiQ2xpZW50IiwiaXNzIjoiU3dhaGlsaXN3ZWF0c2hvcCIsInN1YiI6IkF1dGhvcml6ZSJ9.08HR0N6PncrkpLspAG5FBJzgJkjATKdBNvbDOLW3kns'
-    dispatch(createCategory(title, token));
+    dispatch(createCategory(title, app.user.token));
   }
   return (
             <CModal 

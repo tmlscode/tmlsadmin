@@ -10,13 +10,13 @@ import {
   CPagination,
   CButton,
 } from '@coreui/react'
-import CIcon from '@coreui/icons-react'
 import Modal from './subcategoriesmodal';
 import EditModal from './subcategorieseditmodal';
 import { useDispatch, useSelector } from 'react-redux';
 import { getSubcategories, getCategories } from '../../store/actions/appactions';
+import moment from 'moment';
 
-const fields = [{key: 'title'}, {key: 'category', label: 'Category'}, {key: 'Action'}]
+const fields = [{key: 'title'}, {key: 'category', label: 'Category'}, , {key: 'since', label: 'Date'}, {key: 'Action'}]
 
 const Users = () => {
   const history = useHistory()
@@ -25,7 +25,6 @@ const Users = () => {
   const [page, setPage] = useState(currentPage)
   const [show, setShow] = useState(false);
   const [brand, setBrand] = useState('');
-  const [close, setClose] = useState(false);
   const dispatch = useDispatch();
   const app = useSelector(state => state.app)
   const [showedit, setShowedit] = useState(false);
@@ -49,6 +48,9 @@ const Users = () => {
 
   const handleClosedit = () => {
     setShowedit(false);
+    dispatch(getSubcategories());
+    dispatch(getCategories());
+
   }
 
 
@@ -81,7 +83,6 @@ const Users = () => {
             activePage={page}
             loading={app.loading}
             clickableRows
-            onRowClick={(item) => setBrand({title: item._id, id: item.title})}
             scopedSlots = {{
               'category':
                 (item)=>(
@@ -89,12 +90,18 @@ const Users = () => {
                    {item.category.title}
                   </td>
                 ),
+                'since':
+                (item)=>(
+                  <td>
+                 {moment(item.since).format('DD/MM/YY')}
+                  </td>
+                ),
               'Action':
                 (item)=>(
                   <td>
-                   <CButton variant="ghost" color="transparent" onClick={(e) => {setBrand(item); setShowedit(true)}}>
-                <CIcon name="cil-lightbulb" />
-              </CButton>
+                   <a onClick={(e) => {setBrand(item); setShowedit(true)}}>
+                Edit
+              </a>
                   </td>
                 )
             }}

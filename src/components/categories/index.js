@@ -10,13 +10,13 @@ import {
   CPagination,
   CButton,
 } from '@coreui/react'
-import CIcon from '@coreui/icons-react'
 import Modal from './categorymodal';
 import EditModal from './categoryeditmodal';
 import { useDispatch, useSelector } from 'react-redux';
-import { getCategories } from '../../store/actions/appactions';
+import { getCategories, clearSuccess } from '../../store/actions/appactions';
+import moment from 'moment';
 
-const fields = [{key: 'title', _style: { width: '50%'}}, {key: 'Action', _style: { width: '50%', displa: 'flex', alignItems: 'flex-end'}}]
+const fields = [{key: 'title'}, {key: 'since', label: 'Date'},{key: 'Action'}]
 
 const Users = () => {
   const history = useHistory()
@@ -48,6 +48,8 @@ const Users = () => {
 
   const handleClosedit = () => {
     setShowedit(false);
+    dispatch(getCategories());
+    dispatch(clearSuccess());
   }
 
 
@@ -80,14 +82,17 @@ const Users = () => {
             activePage={page}
             loading={app.loading}
             clickableRows
-            onRowClick={(item) => setBrand({title: item._id, id: item.title})}
             scopedSlots = {{
+              'since':
+              (item)=>(
+                <td>
+               {moment(item.since).format('DD/MM/YY')}
+                </td>
+              ),
               'Action':
                 (item)=>(
                   <td>
-                   <CButton variant="ghost" color="transparent" onClick={(e) => {setBrand(item); setShowedit(true)}}>
-                <CIcon name="cil-lightbulb" />
-              </CButton>
+                   <a onClick={(e) => {setBrand(item); setShowedit(true)}}>edit</a>
                   </td>
                 )
             }}
