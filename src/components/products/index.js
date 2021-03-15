@@ -14,7 +14,7 @@ import Modal from './createproductmodal';
 import EditModal from './editproductmodal';
 import Deletemodal from './deleteproductmodal';
 import { useDispatch, useSelector } from 'react-redux';
-import { clearSuccess, getProducts } from '../../store/actions/appactions';
+import { clearSuccess, getProducts, getCategories, getSubcategories } from '../../store/actions/appactions';
 import Lightbox from 'react-image-lightbox';
 import moment from 'moment';
 import he from 'he';
@@ -38,6 +38,8 @@ const Products = () => {
 
   useEffect(() => {
     dispatch(getProducts());
+    dispatch(getCategories());
+    dispatch(getSubcategories());
   }, [dispatch]);
 
   const pageChange = newPage => {
