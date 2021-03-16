@@ -13,7 +13,7 @@ import {
 import Modal from './categorymodal';
 import EditModal from './categoryeditmodal';
 import { useDispatch, useSelector } from 'react-redux';
-import { getCategories, clearSuccess } from '../../store/actions/appactions';
+import { getClients, clearSuccess } from '../../store/actions/appactions';
 import moment from 'moment';
 
 const fields = [{key: 'title'}, {key: 'since', label: 'Date'},{key: 'Action'}]
@@ -31,7 +31,8 @@ const Users = () => {
   const [showedit, setShowedit] = useState(false);
 
   useEffect(() => {
-    dispatch(getCategories());
+    dispatch(getClients());
+    clearSuccess();
   }, [dispatch]);
 
   const pageChange = newPage => {
@@ -44,11 +45,13 @@ const Users = () => {
 
   const handleClose = () => {
       setShow(false);
+      dispatch(getClients());
+      clearSuccess();
   }
 
   const handleClosedit = () => {
     setShowedit(false);
-    dispatch(getCategories());
+    dispatch(getClients());
     dispatch(clearSuccess());
   }
 
@@ -64,7 +67,7 @@ const Users = () => {
           <CCardHeader>
           <CRow>
                  <CCol xs="11"  className="mb-3 mb-xl-0">
-                  Categories
+                  Product Clients
                 </CCol>
                 <CCol xs="1" className="mb-3 mb-xl-0" style={{display: 'flex', alignItems: 'flex-end', flexDirection: 'row'}}>
                 <CButton color="primary" onClick={() => setShow(true)}>Create</CButton>
@@ -73,7 +76,7 @@ const Users = () => {
           </CCardHeader>
           <CCardBody>
           <CDataTable
-            items={app.categories}
+            items={app.clients}
             fields={fields}
             hover
             striped

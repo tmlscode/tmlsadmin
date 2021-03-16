@@ -15,7 +15,7 @@ import {
   CLabel
 } from '@coreui/react'
 import { useDispatch, useSelector } from 'react-redux';
-import { editSubcategory } from '../../store/actions/appactions';
+import { editCategory } from '../../store/actions/appactions';
 
 const Modals = ({show, close, brand}) => {
   const [title, setTitle] = useState('');
@@ -23,7 +23,7 @@ const Modals = ({show, close, brand}) => {
   const app = useSelector(state => state.app)
 
   const onSubmit = () => {
-    dispatch(editSubcategory(app.user.token, brand._id, title));
+    dispatch(editCategory(app.user.token, brand._id, title));
   }
   return (
             <CModal 
@@ -31,7 +31,7 @@ const Modals = ({show, close, brand}) => {
               onClose={close}
             >
               <CModalHeader closeButton>
-                <CModalTitle>Edit {brand.title} Subcategory</CModalTitle>
+                <CModalTitle>Edit {brand.title} Product Category</CModalTitle>
               </CModalHeader>
               <CModalBody>
               <CCol xs="12">

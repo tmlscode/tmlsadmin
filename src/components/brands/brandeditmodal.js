@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import {
   CButton,
   CModal,
@@ -50,7 +50,7 @@ const Modals = ({show, close, brand}) => {
                 <CCol xs="12">
                   <CFormGroup>
                     <CLabel htmlFor="name">Title</CLabel>
-                    <CInput id="title" placeholder="Enter title" required dafaultValue={title} onChange={(e) => setTitle(e.target.value)} />
+                    <CInput id="title" placeholder="Enter title" required value={title} onChange={(e) => setTitle(e.target.value)} />
                   </CFormGroup>
                 </CCol>
                 <CCol xs='12'>

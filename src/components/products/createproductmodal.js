@@ -14,11 +14,12 @@ import {
   CInputFile,
   CInput,
   CLabel,
-  CSpinner
+  CSpinner,
+  CTextarea
 } from '@coreui/react'
 import CIcon from '@coreui/icons-react'
 import { useDispatch, useSelector } from 'react-redux';
-import { createEvent } from '../../store/actions/appactions';
+import { createProduct } from '../../store/actions/appactions';
 import JoditEditor from "jodit-react";
 import he from 'he';
 import moment from 'moment';
@@ -26,35 +27,30 @@ import moment from 'moment';
 
 const Modals = ({show, close}) => {
   const [title, setTitle] = useState('');
+  const [description, setDescription] = useState('');
   const [photoUrl, setPhotourl] = useState([]);
   const [venue, setVenue] = useState('');
   const dispatch = useDispatch();
   const [category, setCategory] = useState('');
   const [subcategory, setSubcategory] = useState('');
+  const [size, setSize] = useState('');
+  const [color, setColor] = useState('');
+  const [sizes, setSizes] = useState([]);
+  const [colors, setColors] = useState([]);
   const app = useSelector(state => state.app)
-  const editor = useRef(null)
 	const [content, setContent] = useState('');
   const [date, setDate] = useState(new Date());
+  const [url, setUrl] = useState('');
+  const [price, setPrice] = useState(0);
+  const [quantity, setQuantity] = useState(0);
+  const [client, setClient] = useState('');
+  const [brand, setBrand] = useState('');
 	
-	const config = {
-		buttons: [ "bold", "italic", "underline", "strikethrough", "|", "ul", "ol", "|", "center", "left", "right", "justify", "|", "link", "image"],
-    uploader: { insertImageAsBase64URI: true },
-    removeButtons: ["brush", "file"],
-    showXPathInStatusbar: false,
-    showCharsCounter: false,
-    showWordsCounter: false,
-    toolbarAdaptive: false
-	}
 
   const onSubmit = () => {
-    const about = he.encode(content, {
-      'encodeEverything': true
-    });
+    const about = description;   
 
-    const dbdate = moment(date).format();
-    
-
-    dispatch(createEvent(app.user.token, title, about, venue, photoUrl, dbdate));
+    dispatch(createProduct(app.user.token, title, about, url, photoUrl, price, category, subcategory, brand, sizes, colors, quantity, client));
   }
 
   const uploadfile = async e => {
@@ -80,6 +76,32 @@ const Modals = ({show, close}) => {
     setPhotourl(filtered);
   }
 
+  const uploadimagefile = async e => {
+    const files = e.target.files;
+    const data = new FormData();
+    data.append('file', files[0]);
+    data.append('upload_preset', 'photopost');
+
+    const res = await fetch('https://api.cloudinary.com/v1_1/dedfrilse/image/upload', {
+      method: 'POST',
+      body: data
+    });
+    const file = await res.json();
+    setUrl(file.secure_url)
+  }
+
+
+  const handleColors = (newcolor) => {
+      if(!colors.includes(newcolor)){
+        setColors([...colors, newcolor])
+      }
+  }
+
+  const handleSizes = (newsize) => {
+    if(!sizes.includes(newsize)){
+        setSizes([...sizes, newsize])
+    }
+  }
 
 
   return (
@@ -89,7 +111,7 @@ const Modals = ({show, close}) => {
               size='lg'
             >
               <CModalHeader closeButton>
-                <CModalTitle>Create Event</CModalTitle>
+                <CModalTitle>Create Product</CModalTitle>
               </CModalHeader>
               <CModalBody>
               <CCol xs="12">
@@ -112,13 +134,43 @@ const Modals = ({show, close}) => {
                 </CCol>
                 <CCol xs="6">
                   <CFormGroup>
-                    <CLabel htmlFor="name">Venue</CLabel>
-                    <CInput id="name" placeholder="Enter your name" required value={venue} onChange={(e) => setVenue(e.target.value)} />
+                    <CLabel htmlFor="name">Price</CLabel>
+                    <CInput id="name" placeholder="Enter price" required value={price} onChange={(e) => setPrice(e.target.value)} />
+                  </CFormGroup>
+                </CCol>
+                <CCol xs="6">
+                  <CFormGroup>
+                    <CLabel htmlFor="name">Quantity</CLabel>
+                    <CInput id="name" placeholder="Enter your name" required value={quantity} onChange={(e) => setQuantity(e.target.value)} />
                   </CFormGroup>
                 </CCol>
                 <CCol xs="6">
                 <CFormGroup>
-                    <CLabel htmlFor="ccmonth">Category</CLabel>
+                    <CLabel htmlFor="ccmonth">Brand</CLabel>
+                    <CSelect custom name="ccmonth" id="ccmonth" value={brand} onChange={(e) => setBrand(e.target.value)}>
+                     {app.brands ? app.brands.map(category => {
+                       return (
+                        <option value={category._id}>{category.title}</option>
+                       )
+                     }) : null}
+                    </CSelect>
+                  </CFormGroup>
+                </CCol>
+                <CCol xs="6">
+                <CFormGroup>
+                    <CLabel htmlFor="ccmonth">Product Client</CLabel>
+                    <CSelect custom name="ccmonth" id="ccmonth" value={client} onChange={(e) => setClient(e.target.value)}>
+                     {app.clients ? app.clients.map(category => {
+                       return (
+                        <option value={category._id}>{category.title}</option>
+                       )
+                     }) : null}
+                    </CSelect>
+                  </CFormGroup>
+                </CCol>
+                <CCol xs="6">
+                <CFormGroup>
+                    <CLabel htmlFor="ccmonth">Product Category</CLabel>
                     <CSelect custom name="ccmonth" id="ccmonth" value={category} onChange={(e) => setCategory(e.target.value)}>
                      {app.categories ? app.categories.map(category => {
                        return (
@@ -130,7 +182,7 @@ const Modals = ({show, close}) => {
                 </CCol>
                 <CCol xs="6">
                 <CFormGroup>
-                    <CLabel htmlFor="ccmonth">Subcategory</CLabel>
+                    <CLabel htmlFor="ccmonth">Product Type</CLabel>
                     <CSelect custom name="ccmonth" id="ccmonth" value={subcategory} onChange={(e) => setSubcategory(e.target.value)}>
                      {app.subcategories ? app.subcategories.map(category => {
                        return (
@@ -140,10 +192,56 @@ const Modals = ({show, close}) => {
                     </CSelect>
                   </CFormGroup>
                 </CCol>
+                <CCol xs="6">
+                <CFormGroup>
+                    <CLabel htmlFor="ccmonth">Colors</CLabel> <small>selected colors: {colors.toString()}</small>
+                    <CSelect custom name="ccmonth" id="ccmonth" value={color} onChange={(e) => {setColor(e.target.value); handleColors(e.target.value)}}> 
+                    {app.colors ? app.colors.map(category => {
+                       return (
+                        <option value={category.title}>{category.title}</option>
+                       )
+                     }) : null}
+                    </CSelect>
+                  </CFormGroup>
+                </CCol>
+                <CCol xs="6">
+                <CFormGroup>
+                    <CLabel htmlFor="ccmonth">Sizes</CLabel> <small>selected sizes: {sizes.toString()}</small>
+                    <CSelect custom name="ccmonth" id="ccmonth" value={size} onChange={(e) => {setSize(e.target.value); handleSizes(e.target.value)}}> 
+                    {app.sizes ? app.sizes.map(category => {
+                       return (
+                        <option value={category.title}>{category.title}</option>
+                       )
+                     }) : null}
+                    </CSelect>
+                  </CFormGroup>
+                </CCol>
+                <CCol xs='12' style={{marginBottom: 30}}>
+                    <CLabel htmlFor="textarea-input">Description</CLabel>
+                    <CTextarea 
+                      name="description" 
+                      value={description} 
+                      rows="9"
+                      onChange={(e) => setDescription(e.target.value)}
+                      placeholder="Description..." 
+                    />
+                    </CCol>
                 <CCol xs={6} style={{marginBottom: 30}}>
-                <CLabel htmlFor="file-input">Files upload</CLabel>
+                <CLabel htmlFor="file-input">Image upload</CLabel>
+                <CInputFile id="file-input" name="file-input" onChange={uploadimagefile} disabled={url}/>
+                </CCol>
+                <CCol xs={6} style={{marginBottom: 30}}>
+                <CLabel htmlFor="file-input">Gallery upload</CLabel>
                 <CInputFile id="file-input" name="file-input" onChange={uploadfile}/>
                 </CCol>
+                {url ?
+                   <CCol xs='3' style={{height: 150, marginBottom: 20}}>
+                        <CButton variant="ghost" onClick={() => {setUrl('')}} color="transparent" style={{backgroundImage: `url(${url})`, height: 150, width: '100%', backgroundSize: 'cover', backgroundPosition: 'center', display: 'flex', flexDirection: 'row', alignItems: 'flex-start', justifyContent: 'flex-end'}}>
+                        <CIcon name="cil-x-circle" style={{color: 'red'}} size='lg' />
+                        </CButton>
+                  
+                   </CCol>
+                 : null}
                {photoUrl && photoUrl.length > 0 ? 
                 photoUrl.map((photo, index) => {
                  return (

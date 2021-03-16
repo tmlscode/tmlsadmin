@@ -12,6 +12,7 @@ import {
 } from '@coreui/react'
 import Modal from './photomodal';
 import EditModal from './photoeditmodal';
+import Deletemodal from './photodeletemodal';
 import { useDispatch, useSelector } from 'react-redux';
 import { clearSuccess, getPhotos, setPhoto } from 'src/store/actions/appactions';
 import Lightbox from 'react-image-lightbox';
@@ -32,9 +33,11 @@ const Users = () => {
   const [images, setImages] = useState([]);
   const [photoIndex, setPhotoindex] = useState(0);
   const [open, setOpen] = useState(false);
+  const [deletes, setDeletes] = useState(false);
 
   useEffect(() => {
     dispatch(getPhotos());
+    clearSuccess();
   }, [dispatch]);
 
   const pageChange = newPage => {
@@ -70,6 +73,18 @@ const Users = () => {
     setOpen(true);
   }
 
+  const onDelete = (title) => {
+    setBrand(title)
+    setDeletes(true)
+  }
+
+  const handleClosedelete = () => {
+    setDeletes(false);
+    dispatch(getPhotos()); 
+    clearSuccess();
+}
+
+
   return (
       <>
       {open && (
@@ -88,6 +103,7 @@ const Users = () => {
         )}
       <Modal show={show} close={handleClose}/>
    <EditModal show={showedit} close={handleClosedit} brand={brand}/>
+   <Deletemodal show={deletes} close={handleClosedelete} brand={brand}/>
     <CRow>
       <CCol xl={12}>
         <CCard>
@@ -136,7 +152,7 @@ const Users = () => {
               'Action':
                 (item)=>(
                   <td>
-                   <a onClick={(e) => onOpen(e, item)}>edit</a>
+                   <a onClick={(e) => onOpen(e, item)}>edit</a> | {item.state === 'active' ? <a onClick={(e) => onDelete(item)}>deactivate</a> : <a onClick={(e) => onDelete(item)}>activate</a>}
                   </td>
                 )
             }}

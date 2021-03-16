@@ -64,7 +64,7 @@ const Modals = ({show, close}) => {
               size='lg'
             >
               <CModalHeader closeButton>
-                <CModalTitle>Create Event</CModalTitle>
+                <CModalTitle>Create Photo Rating</CModalTitle>
               </CModalHeader>
               <CModalBody>
               <CCol xs="12">

@@ -17,7 +17,7 @@ import {
 import { editUser } from '../../store/actions/appactions';
 import { useDispatch, useSelector } from 'react-redux';
 
-const Modals = ({show, close}) => {
+const Modals = ({show, close, brand}) => {
   const [name, setName] = useState('');
   const [address, setAddress] = useState('');
   const [mobile, setMobile] = useState('');
@@ -26,7 +26,7 @@ const Modals = ({show, close}) => {
 
 
   const onSubmit = () => {
-    dispatch(editUser(app.user.token, name, address, mobile, app.user._id));
+    dispatch(editUser(app.user.token, name, address, mobile, brand._id));
   }
   return (
             <CModal 

@@ -38,6 +38,7 @@ const Users = () => {
 
   useEffect(() => {
     dispatch(getEvents());
+    clearSuccess();
   }, [dispatch]);
 
   const pageChange = newPage => {
@@ -77,6 +78,7 @@ const Users = () => {
   const handleClosedelete = () => {
     setDeletes(false);
     dispatch(getEvents()); 
+    clearSuccess();
 }
 
   const onDelete = (title) => {
@@ -158,7 +160,7 @@ const Users = () => {
               'Action':
                 (item)=>(
                   <td>
-                   <a onClick={() => onOpen(item)}>edit</a> | {item.isActive ? <a onClick={() => onDelete(item)}>deactivate</a> : <a onClick={() => onDelete(item)}>activate</a>}
+                   <a onClick={() => onOpen(item)}>edit</a> | {item.isactive ? <a onClick={() => onDelete(item)}>deactivate</a> : <a onClick={() => onDelete(item)}>activate</a>}
                   </td>
                 )
             }}

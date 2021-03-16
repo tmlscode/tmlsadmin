@@ -8,16 +8,21 @@ import {
   CDataTable,
   CRow,
   CPagination,
+  CTabs,
+  CNav,
+  CNavLink,
+  CNavItem,
+  CTabContent,
+  CTabPane,
   CButton,
 } from '@coreui/react'
-import Modal from './usermodal';
-import EditModal from './usereditmodal';
-import Deletemodal from './userdeletemodal';
-import moment from 'moment';
+import Modal from './brandmodal';
+import EditModal from './sizeeditmodal';
 import { useDispatch, useSelector } from 'react-redux';
-import { clearSuccess, getUsers } from 'src/store/actions/appactions';
+import { clearSuccess, getSizes } from 'src/store/actions/appactions';
+import moment from 'moment';
 
-const fields = [{key: 'name'}, {key: 'mobile'},{key: 'address'},{key: 'since', label: 'Date'},{key: 'Action'}]
+const fields = [{key: 'title'}, {key: 'since'}, {key: 'Action'}]
 
 const Users = () => {
   const history = useHistory()
@@ -29,15 +34,13 @@ const Users = () => {
   const dispatch = useDispatch();
   const app = useSelector(state => state.app)
   const [showedit, setShowedit] = useState(false);
-  const [deletes, setDeletes] = useState(false);
 
   useEffect(() => {
-    dispatch(getUsers(app.user.token, app.user._id));
-    clearSuccess();
-  }, [dispatch, app.user.token, app.user._id]);
+    dispatch(getSizes());
+  }, [dispatch]);
 
   const pageChange = newPage => {
-    currentPage !== newPage && history.push(`/users?page=${newPage}`)
+    currentPage !== newPage && history.push(`/productsetup?page=${newPage}`)
   }
 
   useEffect(() => {
@@ -46,20 +49,13 @@ const Users = () => {
 
   const handleClose = () => {
       setShow(false);
-      dispatch(getUsers(app.user.token, app.user._id)); 
-      clearSuccess();
+    
   }
-
-  const handleClosedelete = () => {
-    setDeletes(false);
-    dispatch(getUsers(app.user.token, app.user._id)); 
-    clearSuccess();
-}
 
   const handleClosedit = () => {
     setShowedit(false);
     setBrand('');  
-    dispatch(getUsers(app.user.token, app.user._id));
+    dispatch(getSizes());
     dispatch(clearSuccess());
   }
 
@@ -68,34 +64,15 @@ const Users = () => {
     setShowedit(true)
   }
 
-  const onDelete = (title) => {
-    setBrand(title)
-    setDeletes(true)
-  }
 
-const users = app.users ? app.users.filter(user => user.role !== 'root') : [];
 
   return (
       <>
       <Modal show={show} close={handleClose}/>
       <EditModal show={showedit} close={handleClosedit} brand={brand}/>
-      <Deletemodal show={deletes} close={handleClosedelete} brand={brand}/>
-    <CRow>
-      <CCol xl={12}>
-        <CCard>
-          <CCardHeader>
-          <CRow>
-                 <CCol xs="11"  className="mb-3 mb-xl-0">
-                  Users
-                </CCol>
-                <CCol xs="1" className="mb-3 mb-xl-0" style={{display: 'flex', alignItems: 'flex-end', flexDirection: 'row'}}>
-                <CButton color="primary" onClick={() => setShow(true)}>Create</CButton>
-                </CCol>
-                </CRow>
-          </CCardHeader>
-          <CCardBody>
-          <CDataTable
-            items={users}
+    
+                  <CDataTable
+            items={app.sizes}
             fields={fields}
             hover
             striped
@@ -106,15 +83,15 @@ const users = app.users ? app.users.filter(user => user.role !== 'root') : [];
             clickableRows
             scopedSlots = {{
               'since':
-              (item)=>(
-                <td>
-                {moment(item.since).format('DD/MM/YY')}
-                </td>
-              ),
+                (item)=>(
+                  <td>
+                  {moment(item.since).format('DD/MM/YY')}
+                  </td>
+                ),
               'Action':
                 (item)=>(
                   <td>
-                   <a  onClick={() => onOpen(item)}>edit</a> | <a  onClick={() => onDelete(item)}>delete</a>
+                   <a onClick={() => onOpen(item)}>edit</a>
                   </td>
                 )
             }}
@@ -126,10 +103,7 @@ const users = app.users ? app.users.filter(user => user.role !== 'root') : [];
             doubleArrows={false} 
             align="center"
           />
-          </CCardBody>
-        </CCard>
-      </CCol>
-    </CRow>
+         
     </>
   )
 }

@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useRef } from 'react'
 import {
   CButton,
   CModal,
@@ -19,12 +19,14 @@ import {
 import CIcon from '@coreui/icons-react'
 import { useDispatch, useSelector } from 'react-redux';
 import { editPhoto } from '../../store/actions/appactions';
+import he from 'he';
 import moment from 'moment';
 
 
 const Modals = ({show, close, brand}) => {
   const [title, setTitle] = useState(brand.title);
   const [photoUrl, setPhotourl] = useState(brand.url);
+  const [venue, setVenue] = useState(brand.venue);
   const [description, setDescription] = useState(brand.about);
   const dispatch = useDispatch();
   const app = useSelector(state => state.app)
@@ -32,12 +34,10 @@ const Modals = ({show, close, brand}) => {
 
 
   const onSubmit = () => {
+    const dbdate = moment(date).format();
 
-    dispatch(editPhoto(app.user.token, brand._id, title, description, photoUrl));
+    dispatch(editPhoto(app.user.token, brand._id, title, description, photoUrl, venue,  dbdate));
   }
-
-  console.log(photoUrl);
-
 
   const uploadfile = async e => {
     const files = e.target.files;
@@ -87,7 +87,7 @@ const Modals = ({show, close, brand}) => {
                     <CInput id="name" placeholder="Enter your name" required value={title} onChange={(e) => setTitle(e.target.value)} />
                   </CFormGroup>
                 </CCol>
-                {/* <CCol xs="6">
+                <CCol xs="6">
                   <CFormGroup>
                     <CLabel htmlFor="name">Venue</CLabel>
                     <CInput id="name" placeholder="Enter your name" required value={venue} onChange={(e) => setVenue(e.target.value)} />
@@ -98,7 +98,7 @@ const Modals = ({show, close, brand}) => {
                     <CLabel htmlFor="date-input">Date</CLabel>
                     <CInput type="date" id="date-input" name="date-input" value={date} onChange={(e) => setDate(e.target.value)} placeholder="date" />
                   </CFormGroup>
-                </CCol> */}
+                </CCol>
                 <CCol xs={6}>
                 <CLabel htmlFor="file-input">Files upload</CLabel>
                 <CInputFile disabled={photoUrl >= 1} id="file-input" name="file-input" onChange={uploadfile}/>

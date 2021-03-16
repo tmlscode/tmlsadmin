@@ -66,7 +66,7 @@ const Login = () => {
                     </CInputGroup>
                     <CRow>
                       <CCol xs="6">
-                        <CButton color="primary" className="px-4" onClick={onSubmit}>{appdata.loading ? <CSpinner color="success" size="sm" /> : 'Signin'}</CButton>
+                        <CButton color="primary" className="px-4" onClick={onSubmit}>{appdata.loading ? <CSpinner color="white" size="sm" /> : 'Signin'}</CButton>
                       </CCol>
                     </CRow>
                   </CForm>

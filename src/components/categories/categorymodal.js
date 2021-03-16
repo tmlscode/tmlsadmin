@@ -10,11 +10,12 @@ import {
   CCol,
   CFormGroup,
   CInput,
+  CAlert,
   CLabel,
   CSpinner
 } from '@coreui/react'
 import { useDispatch, useSelector } from 'react-redux';
-import { createCategory } from '../../store/actions/appactions';
+import { createClient } from '../../store/actions/appactions';
 
 const Modals = ({show, close}) => {
   const [title, setTitle] = useState('');
@@ -22,7 +23,7 @@ const Modals = ({show, close}) => {
   const app = useSelector(state => state.app)
 
   const onSubmit = () => {
-    dispatch(createCategory(title, app.user.token));
+    dispatch(createClient(title, app.user.token));
   }
   return (
             <CModal 
@@ -30,15 +31,25 @@ const Modals = ({show, close}) => {
               onClose={close}
             >
               <CModalHeader closeButton>
-                <CModalTitle>Create Brand</CModalTitle>
+                <CModalTitle>Create Product Client</CModalTitle>
               </CModalHeader>
               <CModalBody>
               <CCol xs="12">
               <CRow>
+              {app.error && app.error.type === 'clienterror' ?  <CCol xs='12'>
+                <CAlert color="danger" closeButton>
+                An error occured, please try again
+              </CAlert>
+                </CCol> : null}
+                {app.successclient ? <CCol xs='12'>
+                <CAlert color="success">
+                Client Created successfully
+              </CAlert>
+                </CCol> : null}
                 <CCol xs="12">
                   <CFormGroup>
                     <CLabel htmlFor="name">Title</CLabel>
-                    <CInput id="name" placeholder="Enter your name" required value={title} onChange={(e) => setTitle(e.target.value)} />
+                    <CInput id="name" placeholder="Enter Title" required value={title} onChange={(e) => setTitle(e.target.value)} />
                   </CFormGroup>
                 </CCol>
                 <CCol xs='12'>

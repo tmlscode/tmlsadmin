@@ -48,10 +48,10 @@ const Product = React.lazy(() => import('./components/products/index'));
 
 const routes = [
   { path: '/', exact: true, name: 'Home' },
-  { path: '/brands', exact: true, name: 'brand', component: Brand },
+  { path: '/productsetup', exact: true, name: 'product setup', component: Brand },
   { path: '/products', exact: true, name: ' Products', component: Product },
-  { path: '/category', exact: true, name: 'Category', component: Category },
-  { path: '/subcategory', exact: true, name: 'Subcategory', component: Subcategory },
+  { path: '/productclients', exact: true, name: 'product clients', component: Category },
+  { path: '/productscategories', exact: true, name: 'products categories', component: Subcategory },
   { path: '/events', exact: true, name: 'Events', component: Events },
   { path: '/photos', exact: true, name: 'Photo', component: Photo },
   { path: '/dashboard', name: 'Dashboard', component: Dashboard },

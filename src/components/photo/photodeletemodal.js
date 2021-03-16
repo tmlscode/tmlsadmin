@@ -11,7 +11,7 @@ import {
   CSpinner,
   CAlert
 } from '@coreui/react'
-import { deleteEvent } from '../../store/actions/appactions';
+import { deletePhoto } from '../../store/actions/appactions';
 import { useDispatch, useSelector } from 'react-redux';
 
 const Modals = ({show, close, brand}) => {
@@ -20,7 +20,15 @@ const Modals = ({show, close, brand}) => {
 
 
   const onSubmit = () => {
-    dispatch(deleteEvent(app.user.token, brand._id, brand.isactive));
+    if(brand.state === 'active'){
+      const value = 'inactive'
+      dispatch(deletePhoto(app.user.token, brand._id, value));
+    }else if(brand.state === 'inactive'){
+      const value = 'active'
+      dispatch(deletePhoto(app.user.token, brand._id, value));
+    } else {
+      return null;
+    }
   }
   return (
     <CModal 
@@ -28,25 +36,25 @@ const Modals = ({show, close, brand}) => {
     onClose={close}
   >
     <CModalHeader closeButton>
-      <CModalTitle>ToggleEvent</CModalTitle>
+      <CModalTitle>Toggle Photos Rating</CModalTitle>
     </CModalHeader>
     <CModalBody>
     <CRow>
-         {app.error && app.error.type === 'toggleeventerror' ?  <CCol xs='12'>
+         {app.error && app.error.type === 'togglephotoerror' ?  <CCol xs='12'>
                 <CAlert color="danger" closeButton>
                 An error occured, please try again
               </CAlert>
                 </CCol> : null}
                 {app.successedit ?  <CCol xs='12'>
                 <CAlert color="success" closeButton>
-                Event toggled successfully
+                Photo Rating toggled successfully
               </CAlert>
                 </CCol> : null}
     </CRow>
-      Are you sure you want to delete {brand ? brand.title : null}?
+      Are you sure you want to {brand.state === 'active' ? "deactivate" : "activate"} {brand ? brand.title : null}?
     </CModalBody>
     <CModalFooter>
-      <CButton color={brand.isactive ? 'danger' : 'success'} onClick={onSubmit}>{app.loading ? <CSpinner color="white" size="sm" /> : brand.isactive ? 'deactivate' : 'activate'}</CButton>{' '}
+      <CButton color={brand.state === 'active' ? 'danger' : 'success'} onClick={onSubmit}>{app.loading ? <CSpinner color="white" size="sm" /> : brand.state === 'active' ? 'deactivate' : 'activate'}</CButton>{' '}
       <CButton 
         color="secondary" 
         onClick={close}

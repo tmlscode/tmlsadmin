@@ -14,11 +14,11 @@ import Modal from './createproductmodal';
 import EditModal from './editproductmodal';
 import Deletemodal from './deleteproductmodal';
 import { useDispatch, useSelector } from 'react-redux';
-import { clearSuccess, getProducts, getCategories, getSubcategories } from '../../store/actions/appactions';
+import { clearSuccess, getProducts, getCategories, getSubcategories, getBrands, getClients, getColors, getSizes,sideBar, setEditmodal } from '../../store/actions/appactions';
 import Lightbox from 'react-image-lightbox';
 import moment from 'moment';
 import he from 'he';
-const fields = [{key: 'title'},{key: 'brand'},{key: 'category'},{key: 'subcategory'},{key: 'size'},{key: 'color'},{key: 'gallery'},{key: 'since', label: 'Date'}, {key: 'Action'}]
+const fields = [{key: 'title'},{key: 'brand'},{key: 'client', label: 'Product Client'}, {key: 'category', label: 'Product Category'},{key: 'subcategory', label: 'Product Type'},{key: 'size'},{key: 'color'},{key: 'gallery'},,{key: 'image'},{key: 'since', label: 'Date'}, {key: 'Action'}]
 
 const Products = () => {
   const history = useHistory()
@@ -37,9 +37,15 @@ const Products = () => {
   const [editorwords, setEditorwords] = useState('');
 
   useEffect(() => {
+    dispatch(sideBar(false))
     dispatch(getProducts());
     dispatch(getCategories());
     dispatch(getSubcategories());
+    dispatch(getBrands());
+    dispatch(getClients());
+    dispatch(getColors());
+    dispatch(getSizes());
+    clearSuccess();
   }, [dispatch]);
 
   const pageChange = newPage => {
@@ -53,6 +59,7 @@ const Products = () => {
   const handleClose = () => {
       setShow(false);
       dispatch(getProducts());
+      clearSuccess();
   }
 
   const handleClosedit = () => {
@@ -63,11 +70,7 @@ const Products = () => {
   }
 
   const onOpen = (title) => {
-    const words = he.decode(title.about);
-    console.log(words);
-    setBrand(title)
-    setEditorwords(words);
-    setShowedit(true)
+    dispatch(setEditmodal(title));
   }
 
 
@@ -79,6 +82,7 @@ const Products = () => {
   const handleClosedelete = () => {
     setDeletes(false);
     dispatch(getProducts()); 
+    clearSuccess();
 }
 
   const onDelete = (title) => {
@@ -104,7 +108,7 @@ const Products = () => {
           />        
         )}
       <Modal show={show} close={handleClose}/>
-      <EditModal show={showedit} close={handleClosedit} brand={brand} editorwords={editorwords}/>
+      <EditModal/>
       <Deletemodal show={deletes} close={handleClosedelete} brand={brand}/>
     <CRow>
       <CCol xl={12}>
@@ -135,6 +139,12 @@ const Products = () => {
                 (item)=>(
                   <td>
                    {item.brand.title}
+                  </td>
+                ),
+                'client':
+                (item)=>(
+                  <td>
+                   {item.client.title}
                   </td>
                 ),
               'category':
@@ -172,6 +182,12 @@ const Products = () => {
               </a>
                   </td>
                 ),
+                'image':
+                (item)=>(
+                  <td>
+                   <a variant="ghost" color="transparent" onClick={() => onOpenphotos([item.image])}>image</a>
+                  </td>
+                ),
                 'since':
                 (item)=>(
                   <td>
@@ -181,7 +197,7 @@ const Products = () => {
               'Action':
                 (item)=>(
                   <td>
-                   <a onClick={() => onOpen(item)}>edit</a> | {item.isActive ? <a onClick={() => onDelete(item)}>deactivate</a> : <a onClick={() => onDelete(item)}>activate</a>}
+                   <a onClick={() => onOpen(item)}>edit</a> | <a onClick={() => onDelete(item)}>delete</a>
                   </td>
                 )
             }}
@@ -189,7 +205,7 @@ const Products = () => {
           <CPagination
             activePage={page}
             onActivePageChange={pageChange}
-            pages={4}
+            pages={15}
             doubleArrows={false} 
             align="center"
           />

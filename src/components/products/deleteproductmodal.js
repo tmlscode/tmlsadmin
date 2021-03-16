@@ -11,7 +11,7 @@ import {
   CSpinner,
   CAlert
 } from '@coreui/react'
-import { deleteEvent } from '../../store/actions/appactions';
+import { deleteProduct } from '../../store/actions/appactions';
 import { useDispatch, useSelector } from 'react-redux';
 
 const Modals = ({show, close, brand}) => {
@@ -20,7 +20,7 @@ const Modals = ({show, close, brand}) => {
 
 
   const onSubmit = () => {
-    dispatch(deleteEvent(app.user.token, brand._id, brand.isActive));
+    dispatch(deleteProduct(app.user.token, brand._id));
   }
   return (
     <CModal 
@@ -32,21 +32,21 @@ const Modals = ({show, close, brand}) => {
     </CModalHeader>
     <CModalBody>
     <CRow>
-         {app.error && app.error.type === 'toggleeventerror' ?  <CCol xs='12'>
+         {app.error && app.error.type === 'productdeleteerror' ?  <CCol xs='12'>
                 <CAlert color="danger" closeButton>
                 An error occured, please try again
               </CAlert>
                 </CCol> : null}
                 {app.successedit ?  <CCol xs='12'>
                 <CAlert color="success" closeButton>
-                Event toggled successfully
+                Product Deleted successfully
               </CAlert>
                 </CCol> : null}
     </CRow>
       Are you sure you want to delete {brand ? brand.title : null}?
     </CModalBody>
     <CModalFooter>
-      <CButton color={brand.isActive ? 'danger' : 'success'} onClick={onSubmit}>{app.loading ? <CSpinner color="success" size="sm" /> : brand.isActive ? 'deactivate' : 'activate'}</CButton>{' '}
+      <CButton color='danger' onClick={onSubmit}>{app.loading ? <CSpinner color="white" size="sm" /> : 'delete'}</CButton>{' '}
       <CButton 
         color="secondary" 
         onClick={close}

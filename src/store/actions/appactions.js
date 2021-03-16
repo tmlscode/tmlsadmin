@@ -23,10 +23,10 @@ export const sideBar = (sidebarShow) => async dispatch => {
     })
   }
 
-  export const setEditmodal = (data) => async dispatch => { 
+  export const setEditmodal = (editmodal) => async dispatch => { 
     dispatch({
         type: types.SETMODAL,
-        payload: data
+        payload: editmodal
     })
   }
 
@@ -59,6 +59,52 @@ export const sideBar = (sidebarShow) => async dispatch => {
     
     }
 
+    export const getColors = () => async dispatch => { 
+        dispatch({
+            type: types.LOADING,
+        })
+            await Swahili.get('/color').then(res => {
+    
+                dispatch({
+                            type: types.GET_COLORS,
+                            payload: res.data
+                        })
+            }).catch(err => {
+                console.log(err.response.data);
+                dispatch({
+                    type: types.ERROR,
+                    payload: {
+                        type: 'colorerror',
+                        error: err
+                    }
+                })
+            })
+        
+        }
+
+        export const getSizes = () => async dispatch => { 
+            dispatch({
+                type: types.LOADING,
+            })
+                await Swahili.get('/size').then(res => {
+        
+                    dispatch({
+                                type: types.GET_SIZES,
+                                payload: res.data
+                            })
+                }).catch(err => {
+                    console.log(err.response.data);
+                    dispatch({
+                        type: types.ERROR,
+                        payload: {
+                            type: 'sizeerror',
+                            error: err
+                        }
+                    })
+                })
+            
+            }
+
     export const getCategories = () => async dispatch => { 
         dispatch({
             type: types.LOADING,
@@ -80,6 +126,28 @@ export const sideBar = (sidebarShow) => async dispatch => {
                 })
             })
         }
+
+        export const getClients = () => async dispatch => { 
+            dispatch({
+                type: types.LOADING,
+            })
+                await Swahili.get('/client').then(res => {
+        
+                    dispatch({
+                                type: types.GET_CLIENTS,
+                                payload: res.data
+                            })
+                }).catch(err => {
+                    console.log(err.response.data);
+                    dispatch({
+                        type: types.ERROR,
+                        payload: {
+                            type: 'clienterror',
+                            error: err
+                        }
+                    })
+                })
+            }
 
         export const getSubcategories = () => async dispatch => { 
             dispatch({
@@ -125,6 +193,48 @@ export const sideBar = (sidebarShow) => async dispatch => {
         
         }
 
+        export const createColor = (title, token) => async dispatch => { 
+            dispatch({
+                type: types.LOADING,
+            })
+                await Swahili.post('/color/create', {title, token}).then(res => {
+                    dispatch({
+                                type: types.SUCCESS_COLOR,
+                                payload: res.data
+                            })
+                }).catch(err => {
+                    dispatch({
+                        type: types.ERROR,
+                        payload: {
+                            type: 'colorerror',
+                            error: err
+                        }
+                    })
+                })
+            
+            }
+
+            export const createSize = (title, token) => async dispatch => { 
+                dispatch({
+                    type: types.LOADING,
+                })
+                    await Swahili.post('/size/create', {title, token}).then(res => {
+                        dispatch({
+                                    type: types.SUCCESS_SIZE,
+                                    payload: res.data
+                                })
+                    }).catch(err => {
+                        dispatch({
+                            type: types.ERROR,
+                            payload: {
+                                type: 'sizeerror',
+                                error: err
+                            }
+                        })
+                    })
+                
+                }
+
         export const editBrand = (token, brandid, title) => async dispatch => { 
             dispatch({
                 type: types.LOADING,
@@ -146,11 +256,11 @@ export const sideBar = (sidebarShow) => async dispatch => {
         
             }
 
-            export const editCategory = (token, categoryid, title) => async dispatch => { 
+            export const editClient = (token, clientid, title) => async dispatch => { 
                 dispatch({
                     type: types.LOADING,
                 })
-                    await Swahili.post('/category/edit', {token, categoryid, title}).then(res => {
+                    await Swahili.post('/client/edit', {token, clientid, title}).then(res => {
                         dispatch({
                                     type: types.SUCCESS_EDIT,
                                     payload: res.data
@@ -159,13 +269,34 @@ export const sideBar = (sidebarShow) => async dispatch => {
                         dispatch({
                             type: types.ERROR,
                             payload: {
-                                type: 'categoryediterror',
+                                type: 'clientediterror',
                                 error: err
                             }
                         })
                     })
             
                 }
+
+                export const editCategory = (token, categoryid, title) => async dispatch => { 
+                    dispatch({
+                        type: types.LOADING,
+                    })
+                        await Swahili.post('/category/edit', {token, categoryid, title}).then(res => {
+                            dispatch({
+                                        type: types.SUCCESS_EDIT,
+                                        payload: res.data
+                                    })
+                        }).catch(err => {
+                            dispatch({
+                                type: types.ERROR,
+                                payload: {
+                                    type: 'categoryediterror',
+                                    error: err
+                                }
+                            })
+                        })
+                
+                    }
 
                 export const editSubcategory = (token, subcategoryid, title) => async dispatch => { 
                     dispatch({
@@ -188,20 +319,63 @@ export const sideBar = (sidebarShow) => async dispatch => {
                 
                     }
 
-        export const createCategory = (title, token) => async dispatch => { 
+                    export const editSize = (token, sizeid, title) => async dispatch => { 
+                        dispatch({
+                            type: types.LOADING,
+                        })
+                            await Swahili.post('/size/edit', {token, sizeid, title}).then(res => {
+                                dispatch({
+                                            type: types.SUCCESS_EDIT,
+                                            payload: res.data
+                                        })
+                            }).catch(err => {
+                                dispatch({
+                                    type: types.ERROR,
+                                    payload: {
+                                        type: 'sizeediterror',
+                                        error: err
+                                    }
+                                })
+                            })
+                    
+                        }
+
+                        
+                    export const editColor = (token, colorid, title) => async dispatch => { 
+                        dispatch({
+                            type: types.LOADING,
+                        })
+                            await Swahili.post('/color/edit', {token, colorid, title}).then(res => {
+                                dispatch({
+                                            type: types.SUCCESS_EDIT,
+                                            payload: res.data
+                                        })
+                            }).catch(err => {
+                                dispatch({
+                                    type: types.ERROR,
+                                    payload: {
+                                        type: 'colorediterror',
+                                        error: err
+                                    }
+                                })
+                            })
+                    
+                        }
+
+        export const createClient = (title, token) => async dispatch => { 
             dispatch({
                 type: types.LOADING,
             })
-                await Swahili.post('/category/create', {title, token}).then(res => {
+                await Swahili.post('/client/create', {title, token}).then(res => {
                     dispatch({
-                                type: types.SUCCESS_CATEGORY,
+                                type: types.SUCCESS_CLIENT,
                                 payload: res.data
                             })
                 }).catch(err => {
                     dispatch({
                         type: types.ERROR,
                         payload: {
-                            type: 'categoryerror',
+                            type: 'clienterror',
                             error: err
                         }
                     })
@@ -209,11 +383,11 @@ export const sideBar = (sidebarShow) => async dispatch => {
             
             }
 
-            export const createSubcategory = (title, category, token) => async dispatch => { 
+            export const createSubcategory = (title, token) => async dispatch => { 
                 dispatch({
                     type: types.LOADING,
                 })
-                    await Swahili.post('/subcategory/create', {title, category, token}).then(res => {
+                    await Swahili.post('/subcategory/create', {title, token}).then(res => {
                         dispatch({
                                     type: types.SUCCESS_SUBCATEGORY,
                                     payload: res.data
@@ -229,6 +403,27 @@ export const sideBar = (sidebarShow) => async dispatch => {
                     })
                 
                 }
+
+                export const createCategory = (title, token) => async dispatch => { 
+                    dispatch({
+                        type: types.LOADING,
+                    })
+                        await Swahili.post('/category/create', {title, token}).then(res => {
+                            dispatch({
+                                        type: types.SUCCESS_CATEGORY,
+                                        payload: res.data
+                                    })
+                        }).catch(err => {
+                            dispatch({
+                                type: types.ERROR,
+                                payload: {
+                                    type: 'categoryerror',
+                                    error: err
+                                }
+                            })
+                        })
+                    
+                    }
 
                 export const Loginuser = ({mobile, password}) => async dispatch => { 
                     dispatch({
@@ -339,14 +534,15 @@ export const sideBar = (sidebarShow) => async dispatch => {
                 
                 }
 
-                export const deleteEvent = (token, eventid, isActive) => async dispatch => { 
+                export const deleteEvent = (token, eventid, isactive) => async dispatch => { 
                     dispatch({
                         type: types.CLEAR_ERROR,
                     })
                     dispatch({
                         type: types.LOADING,
                     })
-                    await Swahili.post('/event/toggle', {token, eventid, isActive}).then(res => {
+                    await Swahili.post('/event/toggle', {token, eventid, isactive}).then(res => {
+                        console.log(res.data);
                         dispatch({
                                     type: types.SUCCESS_EDIT,
                                     payload: res.data
@@ -357,6 +553,59 @@ export const sideBar = (sidebarShow) => async dispatch => {
                             type: types.ERROR,
                             payload: {
                                 type: 'toggleeventerror',
+                                error: err.response.data
+                            }
+                        })
+                    })
+                
+                }
+
+                
+                export const deletePhoto = (token, photoid, state) => async dispatch => { 
+                    dispatch({
+                        type: types.CLEAR_ERROR,
+                    })
+                    dispatch({
+                        type: types.LOADING,
+                    })
+                    await Swahili.post('/photo/toggle', {token, photoid, state}).then(res => {
+                        console.log(res.data);
+                        dispatch({
+                                    type: types.SUCCESS_EDIT,
+                                    payload: res.data
+                                })
+                        // window.location.replace('/dashboard');
+                    }).catch(err => {
+                        dispatch({
+                            type: types.ERROR,
+                            payload: {
+                                type: 'togglephotoerror',
+                                error: err.response.data
+                            }
+                        })
+                    })
+                
+                }
+
+                export const deleteProduct = (token, productid) => async dispatch => { 
+                    dispatch({
+                        type: types.CLEAR_ERROR,
+                    })
+                    dispatch({
+                        type: types.LOADING,
+                    })
+                    await Swahili.post('/product/delete', {token, productid}).then(res => {
+                        console.log(res.data);
+                        dispatch({
+                                    type: types.SUCCESS_EDIT,
+                                    payload: res.data
+                                })
+                        // window.location.replace('/dashboard');
+                    }).catch(err => {
+                        dispatch({
+                            type: types.ERROR,
+                            payload: {
+                                type: 'productdeleteerror',
                                 error: err.response.data
                             }
                         })
@@ -397,6 +646,57 @@ export const sideBar = (sidebarShow) => async dispatch => {
                 
                 }
 
+                export const createProduct = (token, title, about, image, gallery, price, category, subcategory, brand, size, color, quantity, client) => async dispatch => { 
+                    dispatch({
+                        type: types.CLEAR_ERROR,
+                    })
+                    dispatch({
+                        type: types.LOADING,
+                    })
+                    await Swahili.post('/product/create', {token, title, about, image, gallery, price, category, subcategory, brand, size, color, quantity, client}).then(res => {
+                        dispatch({
+                                    type: types.SUCCESS_CREATE_PRODUCT,
+                                    payload: res.data
+                                })
+                    }).catch(err => {
+                        console.log(err.response.data);
+                        dispatch({
+                            type: types.ERROR,
+                            payload: {
+                                type: 'createproducterror',
+                                error: err.response.data
+                            }
+                        })
+                    })
+                
+                }
+
+                export const editProduct = (token, productid, title, about, image, gallery, price, category, subcategory, brand, size, color, quantity, client) => async dispatch => { 
+                    dispatch({
+                        type: types.CLEAR_ERROR,
+                    })
+                    dispatch({
+                        type: types.LOADING,
+                    })
+                    await Swahili.post('/product/edit', {token, productid, title, about, image, gallery, price, category, subcategory, brand, size, color, quantity, client}).then(res => {
+                        dispatch({
+                                    type: types.SUCCESS_EDIT,
+                                    payload: res.data
+                                })
+                    }).catch(err => {
+                        console.log(err.response.data);
+                        dispatch({
+                            type: types.ERROR,
+                            payload: {
+                                type: 'createproducterror',
+                                error: err.response.data
+                            }
+                        })
+                    })
+                
+                }
+
+
                 export const createPhoto = (token, title, about, venue, url, date) => async dispatch => { 
                     dispatch({
                         type: types.CLEAR_ERROR,
@@ -422,14 +722,14 @@ export const sideBar = (sidebarShow) => async dispatch => {
                 
                 }
 
-                export const editPhoto = (token, photoid, title, about, url) => async dispatch => { 
+                export const editPhoto = (token, photoid, title, about, url, venue, date) => async dispatch => { 
                     dispatch({
                         type: types.CLEAR_ERROR,
                     })
                     dispatch({
                         type: types.LOADING,
                     })
-                    await Swahili.post('/photo/edit', {token, photoid, title, about, url}).then(res => {
+                    await Swahili.post('/photo/edit', {token, photoid, title, about, url, venue, date}).then(res => {
                         dispatch({
                                     type: types.SUCCESS_EDIT,
                                     payload: res.data

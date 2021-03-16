@@ -8,13 +8,23 @@ import {
   CDataTable,
   CRow,
   CPagination,
+  CTabs,
+  CNav,
+  CNavLink,
+  CNavItem,
+  CTabContent,
+  CTabPane,
   CButton,
 } from '@coreui/react'
 import Modal from './brandmodal';
 import EditModal from './brandeditmodal';
 import { useDispatch, useSelector } from 'react-redux';
-import { clearSuccess, getBrands } from 'src/store/actions/appactions';
+import { clearSuccess, getBrands, getColors, getSubcategories, getSizes} from 'src/store/actions/appactions';
 import moment from 'moment';
+import Colors from './color';
+import Brandtable from './brands';
+import Sizes from './sizes';
+import Producttype from './producttype';
 
 const fields = [{key: 'title'}, {key: 'since'}, {key: 'Action'}]
 
@@ -31,6 +41,7 @@ const Users = () => {
 
   useEffect(() => {
     dispatch(getBrands());
+    clearSuccess();
   }, [dispatch]);
 
   const pageChange = newPage => {
@@ -43,6 +54,11 @@ const Users = () => {
 
   const handleClose = () => {
       setShow(false);
+      dispatch(getBrands());
+      dispatch(getSubcategories());
+      dispatch(getSizes());
+      dispatch(getColors());
+      clearSuccess();
     
   }
 
@@ -51,6 +67,7 @@ const Users = () => {
     setBrand('');  
     dispatch(getBrands());
     dispatch(clearSuccess());
+    clearSuccess();
   }
 
   const onOpen = (title) => {
@@ -70,7 +87,7 @@ const Users = () => {
           <CCardHeader>
           <CRow>
                  <CCol xs="11"  className="mb-3 mb-xl-0">
-                  Brands
+                  Products SETUP Entries
                 </CCol>
                 <CCol xs="1" className="mb-3 mb-xl-0" style={{display: 'flex', alignItems: 'flex-end', flexDirection: 'row'}}>
                 <CButton color="primary" onClick={() => setShow(true)}>Create</CButton>
@@ -78,38 +95,45 @@ const Users = () => {
                 </CRow>
           </CCardHeader>
           <CCardBody>
-          <CDataTable
-            items={app.brands}
-            fields={fields}
-            hover
-            striped
-            loading={app.loading}
-            alignItems='space-between'
-            itemsPerPage={5}
-            activePage={page}
-            clickableRows
-            scopedSlots = {{
-              'since':
-                (item)=>(
-                  <td>
-                  {moment(item.since).format('DD/MM/YY')}
-                  </td>
-                ),
-              'Action':
-                (item)=>(
-                  <td>
-                   <a onClick={() => onOpen(item)}>edit</a>
-                  </td>
-                )
-            }}
-          />
-          <CPagination
-            activePage={page}
-            onActivePageChange={pageChange}
-            pages={4}
-            doubleArrows={false} 
-            align="center"
-          />
+          <CTabs activeTab="brands">
+              <CNav variant="tabs">
+                <CNavItem>
+                  <CNavLink data-tab="brands">
+                    Brands
+                  </CNavLink>
+                </CNavItem>
+                <CNavItem>
+                  <CNavLink data-tab="type">
+                    Product Type
+                  </CNavLink>
+                </CNavItem>
+                <CNavItem>
+                  <CNavLink data-tab="size">
+                    Product Size
+                  </CNavLink>
+                </CNavItem>
+                <CNavItem>
+                  <CNavLink data-tab="color">
+                    Product Color
+                  </CNavLink>
+                </CNavItem>
+              </CNav>
+              <CTabContent>
+                <CTabPane data-tab="brands">
+                  <Brandtable/>
+                </CTabPane>
+                <CTabPane data-tab="type">
+                 <Producttype/>
+                </CTabPane>
+                <CTabPane data-tab="size">
+                  <Sizes/>
+                </CTabPane>
+                <CTabPane data-tab="color">
+                  <Colors/>
+                </CTabPane>
+              </CTabContent>
+            </CTabs>
+          
           </CCardBody>
         </CCard>
       </CCol>

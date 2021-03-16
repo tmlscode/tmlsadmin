@@ -7,7 +7,8 @@ const initialState = {
   error: null,
   categories: [],
   subcategories: [],
-  parameters: {}
+  parameters: {},
+  editmodal: false
 }
 
 export const appReducer = (state = initialState, action) => {
@@ -57,20 +58,31 @@ export const appReducer = (state = initialState, action) => {
       }
     case types.SETMODAL:
       return {
-        ...state, 
+        ...state,
         parameters: action.payload,
-        modal: true,
-       
+        editmodal: true,              
       }
     case types.CLEAR_SUCCESS:
       return {
         ...state,
-        successedit: false
+        successedit: false,
+        successadmin: false,
+        successcategory: false,
+        successclient: false,
+        successclients: false,
+        successcolor: false,
+        successcolors: false,
+        successevent: false,
+        successphoto: false,
+        successproduct: false,
+        successsize: false,
+        successsizes: false,
+        successsubcategory: false,
       }
     case types.CLOSE_MODAL:
       return {
         ...state,
-        modal: false,
+        editmodal: false,
         parameters: {}
       }
     case types.SUCCESS_REGISTER:
@@ -130,6 +142,27 @@ export const appReducer = (state = initialState, action) => {
               loading: false,
               successedit: false
           }
+    case types.GET_CLIENTS:
+          return{
+                ...state,
+                clients: action.payload,
+                loading: false,
+                successclients: false
+          }
+    case types.GET_COLORS:
+          return{
+                  ...state,
+                  colors: action.payload,
+                  loading: false,
+                  successcolors: false
+          }
+          case types.GET_SIZES:
+            return{
+                  ...state,
+                  sizes: action.payload,
+                  loading: false,
+                  successsizes: true
+            }
     case types.GET_PRODUCTS:
           return{
              ...state,
@@ -152,14 +185,44 @@ export const appReducer = (state = initialState, action) => {
     case types.SUCCESS_CATEGORY:
       return {
         ...state,
-        categories: [action.payload, ...state.categories],
-        loading: false
+        loading: false,
+        successcategory: true,
+        error: null
       }
+      case types.SUCCESS_COLOR:
+        return {
+          ...state,
+          loading: false,
+          successcolor: true,
+          error: null
+        }
+        case types.SUCCESS_SIZE:
+          return {
+            ...state,
+            loading: false,
+            successsize: true,
+            error: null
+          }
+      case types.SUCCESS_CLIENT:
+        return {
+          ...state,
+          loading: false,
+          successclient: true,
+          error: null,
+        }
       case types.SUCCESS_SUBCATEGORY:
         return {
           ...state,
-          subcategories: [action.payload, ...state.subcategories],
-          loading: false
+          loading: false,
+          successsubcategory: true,
+          error: null
+        }
+      case types.SUCCESS_CREATE_PRODUCT:
+        return {
+          ...state,
+          successproduct: true,
+          loading: false,
+          error: false
         }
     default:
       return state

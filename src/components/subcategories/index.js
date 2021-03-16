@@ -13,10 +13,10 @@ import {
 import Modal from './subcategoriesmodal';
 import EditModal from './subcategorieseditmodal';
 import { useDispatch, useSelector } from 'react-redux';
-import { getSubcategories, getCategories } from '../../store/actions/appactions';
+import { getCategories, clearSuccess } from '../../store/actions/appactions';
 import moment from 'moment';
 
-const fields = [{key: 'title'}, {key: 'category', label: 'Category'}, , {key: 'since', label: 'Date'}, {key: 'Action'}]
+const fields = [{key: 'title'} , {key: 'since', label: 'Date'}, {key: 'Action'}]
 
 const Users = () => {
   const history = useHistory()
@@ -30,8 +30,8 @@ const Users = () => {
   const [showedit, setShowedit] = useState(false);
 
   useEffect(() => {
-    dispatch(getSubcategories());
     dispatch(getCategories());
+    clearSuccess();
   }, [dispatch]);
 
   const pageChange = newPage => {
@@ -44,13 +44,14 @@ const Users = () => {
 
   const handleClose = () => {
       setShow(false);
+      dispatch(getCategories());
+      clearSuccess();
   }
 
   const handleClosedit = () => {
     setShowedit(false);
-    dispatch(getSubcategories());
     dispatch(getCategories());
-
+    clearSuccess();
   }
 
 
@@ -65,7 +66,7 @@ const Users = () => {
           <CCardHeader>
           <CRow>
                  <CCol xs="11"  className="mb-3 mb-xl-0">
-                  Subategories
+                  Product Categories
                 </CCol>
                 <CCol xs="1" className="mb-3 mb-xl-0" style={{display: 'flex', alignItems: 'flex-end', flexDirection: 'row'}}>
                 <CButton color="primary" onClick={() => setShow(true)}>Create</CButton>
@@ -74,7 +75,7 @@ const Users = () => {
           </CCardHeader>
           <CCardBody>
           <CDataTable
-            items={app.subcategories}
+            items={app.categories}
             fields={fields}
             hover
             striped
@@ -84,12 +85,6 @@ const Users = () => {
             loading={app.loading}
             clickableRows
             scopedSlots = {{
-              'category':
-                (item)=>(
-                  <td>
-                   {item.category.title}
-                  </td>
-                ),
                 'since':
                 (item)=>(
                   <td>

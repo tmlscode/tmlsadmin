@@ -20,7 +20,7 @@ const Modals = ({show, close, brand}) => {
 
 
   const onSubmit = () => {
-    dispatch(deleteUser(app.user.token, app.user._id));
+    dispatch(deleteUser(app.user.token, brand._id));
   }
   return (
     <CModal 
@@ -46,7 +46,7 @@ const Modals = ({show, close, brand}) => {
       Are you sure you want to delete {brand ? brand.name : null}?
     </CModalBody>
     <CModalFooter>
-      <CButton color="danger" onClick={onSubmit}>{app.loading ? <CSpinner color="success" size="sm" /> : 'delete'}</CButton>{' '}
+      <CButton color="danger" onClick={onSubmit}>{app.loading ? <CSpinner color="white" size="sm" /> : 'delete'}</CButton>{' '}
       <CButton 
         color="secondary" 
         onClick={close}
