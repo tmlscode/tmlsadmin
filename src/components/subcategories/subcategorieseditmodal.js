@@ -25,13 +25,19 @@ const Modals = ({show, close, brand}) => {
   const onSubmit = () => {
     dispatch(editCategory(app.user.token, brand._id, title));
   }
+
+  const setting = () => {
+    setTitle(brand.title);
+  }
+  
   return (
             <CModal 
               show={show} 
               onClose={close}
+              onOpened={setting}
             >
               <CModalHeader closeButton>
-                <CModalTitle>Edit {brand.title} Product Category</CModalTitle>
+                <CModalTitle>Edit Product Category</CModalTitle>
               </CModalHeader>
               <CModalBody>
               <CCol xs="12">

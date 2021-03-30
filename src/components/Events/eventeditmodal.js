@@ -31,8 +31,7 @@ const Modals = ({show, close, brand, editorwords}) => {
   const app = useSelector(state => state.app)
   const editor = useRef(null)
 	const [content, setContent] = useState(editorwords);
-  const initialdate = moment(brand.date).format('L');
-  const [date, setDate] = useState(initialdate);
+  const [date, setDate] = useState('');
 	
 	const config = {
 		buttons: [ "bold", "italic", "underline", "strikethrough", "|", "ul", "ol", "|", "center", "left", "right", "justify", "|", "link", "image"],
@@ -78,19 +77,25 @@ const Modals = ({show, close, brand, editorwords}) => {
     setPhotourl(filtered);
   }
 
+const setting = () => {
+  const formateddate = moment(brand.date).format('YYYY-MM-DD');
+  setTitle(brand.title);
+  setVenue(brand.venue);
+  setDate(formateddate);
+  setPhotourl(brand.gallery);
+  setContent(editorwords);
+}
 
-  useEffect(() => {
-    setContent(editorwords);
-  }, [])
 
   return (
             <CModal 
               show={show} 
               onClose={close}
               size='lg'
+              onOpened={setting}
             >
               <CModalHeader closeButton>
-                <CModalTitle>Edit {brand.title} Event</CModalTitle>
+                <CModalTitle>Edit Event</CModalTitle>
               </CModalHeader>
               <CModalBody>
               <CCol xs="12">

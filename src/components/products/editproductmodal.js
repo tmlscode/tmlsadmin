@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect, useLayoutEffect} from 'react'
+import React, { useState} from 'react'
 import {
   CButton,
   CModal,
@@ -22,9 +22,9 @@ import { useDispatch, useSelector } from 'react-redux';
 import { closeModal, editProduct } from '../../store/actions/appactions';
 
 
-const Modals = () => {  
+const Modals = (props) => {  
   const app = useSelector(state => state.app)
-  const [title, setTitle] = useState(app.parameters.title);
+  const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [photoUrl, setPhotourl] = useState([]);
   const dispatch = useDispatch();
@@ -46,6 +46,7 @@ const Modals = () => {
     dispatch(editProduct(app.user.token, app.parameters._id, title, about, url, photoUrl, price, category, subcategory, brand, sizes, colors, quantity, client));
   }
 
+
   const uploadfile = async e => {
     const files = e.target.files;
     const data = new FormData();
@@ -60,13 +61,19 @@ const Modals = () => {
     setPhotourl([...photoUrl, file.secure_url])
   }
 
-  const removeImage = (url) => {
+  const removeImage = (photoindex) => {
+    console.log(photoindex);
     let array = [];
     array.push(photoUrl);
-    var filtered = array.filter(function(value, index, arr){ 
-      return value !== url;
-  });
-    setPhotourl(filtered);
+    for( var i = 0; i < array.length; i++){ 
+    
+      if ( array[i] === photoindex) { 
+  
+          array.splice(i, photoindex); 
+          
+      }
+      setPhotourl(array);
+  }
   }
 
   const uploadimagefile = async e => {
@@ -100,15 +107,30 @@ const Modals = () => {
     dispatch(closeModal());
   }
 
+  const setting = () => {
+    setTitle(props.brand.title);
+    setPrice(props.brand.price);
+    setQuantity(props.brand.quantity);
+    setBrand(props.brand.brand._id);
+    setCategory(props.brand.category._id);
+    setSubcategory(props.brand.subcategory._id);
+    setClient(props.brand.client._id);
+    setColors(props.brand.color);
+    setSizes(props.brand.size);
+    setDescription(props.brand.about);
+    setPhotourl(props.brand.gallery);
+    setUrl(props.brand.image);
+  }
 
   return (
             <CModal 
-              show={app.editmodal} 
-              onClose={setClose}
+              show={props.show} 
+              onClose={props.close}
+              onOpened={setting}
               size='lg'
             >
               <CModalHeader closeButton>
-                <CModalTitle>Edit {app.parameters.title} Product</CModalTitle>
+                <CModalTitle>Edit Product</CModalTitle>
               </CModalHeader>
               <CModalBody>
               <CCol xs="12">
@@ -243,8 +265,8 @@ const Modals = () => {
                 photoUrl.map((photo, index) => {
                  return (
                    <CCol xs='3' style={{height: 150, marginBottom: 20}}>
-                        <CButton onClick={() => removeImage(index)} variant="ghost" color="transparent" style={{backgroundImage: `url(${photo})`, height: 150, width: '100%', backgroundSize: 'cover', backgroundPosition: 'center', display: 'flex', flexDirection: 'row', alignItems: 'flex-start', justifyContent: 'flex-end'}}>
-                        <CIcon name="cil-x-circle" style={{color: 'red'}} size='lg' />
+                        <CButton  variant="ghost" color="transparent" style={{backgroundImage: `url(${photo})`, height: 150, width: '100%', backgroundSize: 'cover', backgroundPosition: 'center', display: 'flex', flexDirection: 'row', alignItems: 'flex-start', justifyContent: 'flex-end'}}>
+                        <CIcon name="cil-x-circle" style={{color: 'red'}} size='lg' onClick={() => removeImage(index)} />
                         </CButton>
                   
                    </CCol>

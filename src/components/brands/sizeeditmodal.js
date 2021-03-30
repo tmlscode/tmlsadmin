@@ -26,13 +26,18 @@ const Modals = ({show, close, brand}) => {
     dispatch(editSize(app.user.token, brand._id, title));
   }
 
+  const setting = () => {
+    setTitle(brand.title);
+  }
+
   return (
             <CModal 
               show={show} 
               onClose={close}
+              onOpened={setting}
             >
               <CModalHeader closeButton>
-                <CModalTitle>Edit {brand.title} Size</CModalTitle>
+                <CModalTitle>Edit Size</CModalTitle>
               </CModalHeader>
               <CModalBody>
               <CCol xs="12">
@@ -50,7 +55,7 @@ const Modals = ({show, close, brand}) => {
                 <CCol xs="12">
                   <CFormGroup>
                     <CLabel htmlFor="name">Title</CLabel>
-                    <CInput id="title" placeholder="Enter title" required dafaultValue={title} onChange={(e) => setTitle(e.target.value)} />
+                    <CInput id="title" placeholder="Enter title" required value={title} onChange={(e) => setTitle(e.target.value)} />
                   </CFormGroup>
                 </CCol>
                 <CCol xs='12'>

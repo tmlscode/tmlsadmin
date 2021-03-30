@@ -44,10 +44,12 @@ const Subcategory = React.lazy(() => import('./components/subcategories'));
 const Events = React.lazy(() => import('./components/Events'));
 const Photo = React.lazy(() => import('./components/photo'));
 const Product = React.lazy(() => import('./components/products/index'));
+const Location = React.lazy(() => import('./components/locations'));
 
 
 const routes = [
   { path: '/', exact: true, name: 'Home' },
+  { path: '/locations', exact: true, name: 'location', component: Location },
   { path: '/productsetup', exact: true, name: 'product setup', component: Brand },
   { path: '/products', exact: true, name: ' Products', component: Product },
   { path: '/productclients', exact: true, name: 'product clients', component: Category },

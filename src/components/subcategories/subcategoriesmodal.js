@@ -13,7 +13,6 @@ import {
   CLabel,
   CSpinner,
   CAlert,
-  CSelect
 } from '@coreui/react'
 import { useDispatch, useSelector } from 'react-redux';
 import { createCategory } from '../../store/actions/appactions';

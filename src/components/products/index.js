@@ -17,8 +17,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { clearSuccess, getProducts, getCategories, getSubcategories, getBrands, getClients, getColors, getSizes,sideBar, setEditmodal } from '../../store/actions/appactions';
 import Lightbox from 'react-image-lightbox';
 import moment from 'moment';
-import he from 'he';
-const fields = [{key: 'title'},{key: 'brand'},{key: 'client', label: 'Product Client'}, {key: 'category', label: 'Product Category'},{key: 'subcategory', label: 'Product Type'},{key: 'size'},{key: 'color'},{key: 'gallery'},,{key: 'image'},{key: 'since', label: 'Date'}, {key: 'Action'}]
+const fields = [{key: 'title'},{key: 'brand'},{key: 'client', label: 'Product Client'}, {key: 'category', label: 'Product Category'},{key: 'subcategory', label: 'Product Type'},{key: 'size'},{key: 'color'},{key: 'gallery'},{key: 'image'},{key: 'since', label: 'Date'}, {key: 'Action'}]
 
 const Products = () => {
   const history = useHistory()
@@ -29,12 +28,11 @@ const Products = () => {
   const [brand, setBrand] = useState('');
   const dispatch = useDispatch();
   const app = useSelector(state => state.app)
-  const [showedit, setShowedit] = useState(false);
   const [images, setImages] = useState([]);
   const [photoIndex, setPhotoindex] = useState(0);
   const [open, setOpen] = useState(false);
   const [deletes, setDeletes] = useState(false);
-  const [editorwords, setEditorwords] = useState('');
+  const [showedit, setShowedit] = useState(false);
 
   useEffect(() => {
     dispatch(sideBar(false))
@@ -45,7 +43,7 @@ const Products = () => {
     dispatch(getClients());
     dispatch(getColors());
     dispatch(getSizes());
-    clearSuccess();
+    dispatch(clearSuccess());
   }, [dispatch]);
 
   const pageChange = newPage => {
@@ -59,18 +57,11 @@ const Products = () => {
   const handleClose = () => {
       setShow(false);
       dispatch(getProducts());
-      clearSuccess();
+      dispatch(clearSuccess());
   }
-
-  const handleClosedit = () => {
-    setShowedit(false);
-    setBrand('');  
-    dispatch(getProducts());
-    dispatch(clearSuccess());
-  }
-
   const onOpen = (title) => {
-    dispatch(setEditmodal(title));
+    setBrand(title);
+    setShowedit(true);
   }
 
 
@@ -82,7 +73,7 @@ const Products = () => {
   const handleClosedelete = () => {
     setDeletes(false);
     dispatch(getProducts()); 
-    clearSuccess();
+    dispatch(clearSuccess());
 }
 
   const onDelete = (title) => {
@@ -90,6 +81,11 @@ const Products = () => {
     setDeletes(true)
   }
 
+  const handleClosedit = () => {
+    setShowedit(false);
+    dispatch(getProducts());
+    dispatch(clearSuccess());
+  }
 
   return (
       <>
@@ -108,7 +104,7 @@ const Products = () => {
           />        
         )}
       <Modal show={show} close={handleClose}/>
-      <EditModal/>
+    <EditModal show={showedit} close={handleClosedit} brand={brand} />
       <Deletemodal show={deletes} close={handleClosedelete} brand={brand}/>
     <CRow>
       <CCol xl={12}>
@@ -177,15 +173,15 @@ const Products = () => {
                 'gallery':
                 (item)=>(
                   <td>
-                   <a variant="ghost" color="transparent" onClick={() => onOpenphotos(item.gallery)}>
+                   <span variant="ghost" color="transparent" onClick={() => onOpenphotos(item.gallery)}>
                 {item.gallery.length} photos
-              </a>
+              </span>
                   </td>
                 ),
                 'image':
                 (item)=>(
                   <td>
-                   <a variant="ghost" color="transparent" onClick={() => onOpenphotos([item.image])}>image</a>
+                   <span variant="ghost" color="transparent" onClick={() => onOpenphotos([item.image])}>image</span>
                   </td>
                 ),
                 'since':
@@ -197,7 +193,7 @@ const Products = () => {
               'Action':
                 (item)=>(
                   <td>
-                   <a onClick={() => onOpen(item)}>edit</a> | <a onClick={() => onDelete(item)}>delete</a>
+                   <span onClick={() => onOpen(item)}>edit</span> | <span onClick={() => onDelete(item)}>delete</span>
                   </td>
                 )
             }}

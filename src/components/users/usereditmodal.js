@@ -28,10 +28,17 @@ const Modals = ({show, close, brand}) => {
   const onSubmit = () => {
     dispatch(editUser(app.user.token, name, address, mobile, brand._id));
   }
+
+  const setting = () => {
+    setName(brand.name);
+    setAddress(brand.address);
+    setMobile(brand.mobile);
+  }
   return (
             <CModal 
               show={show} 
               onClose={close}
+              onOpened={setting}
             >
               <CModalHeader closeButton>
                 <CModalTitle>Edit user</CModalTitle>

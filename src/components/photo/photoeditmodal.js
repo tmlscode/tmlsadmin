@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react'
+import React, { useState } from 'react'
 import {
   CButton,
   CModal,
@@ -19,7 +19,6 @@ import {
 import CIcon from '@coreui/icons-react'
 import { useDispatch, useSelector } from 'react-redux';
 import { editPhoto } from '../../store/actions/appactions';
-import he from 'he';
 import moment from 'moment';
 
 
@@ -57,16 +56,25 @@ const Modals = ({show, close, brand}) => {
    setPhotourl('');
   }
 
+  const setting = () => {
+    const formateddate = moment(brand.date).format('YYYY-MM-DD');
+    setTitle(brand.title);
+    setDescription(brand.about);
+    setVenue(brand.venue);
+    setPhotourl(brand.url);
+    setDate(formateddate);
+  }
 
 
   return (
             <CModal 
               show={show} 
               onClose={close}
+              onOpened={setting}
               size='lg'
             >
               <CModalHeader closeButton>
-                <CModalTitle>Edit {brand.title} Photo vote</CModalTitle>
+                <CModalTitle>Edit Photo vote</CModalTitle>
               </CModalHeader>
               <CModalBody>
               <CCol xs="12">

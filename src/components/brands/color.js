@@ -1,26 +1,15 @@
 import React, { useState, useEffect } from 'react'
 import { useHistory, useLocation } from 'react-router-dom'
 import {
-  CCard,
-  CCardBody,
-  CCardHeader,
-  CCol,
   CDataTable,
-  CRow,
   CPagination,
-  CTabs,
-  CNav,
-  CNavLink,
-  CNavItem,
-  CTabContent,
-  CTabPane,
-  CButton,
 } from '@coreui/react'
 import Modal from './brandmodal';
 import EditModal from './coloreditmodal';
 import { useDispatch, useSelector } from 'react-redux';
 import { clearSuccess, getColors } from 'src/store/actions/appactions';
 import moment from 'moment';
+
 
 const fields = [{key: 'title'}, {key: 'since'}, {key: 'Action'}]
 
@@ -91,7 +80,7 @@ const Users = () => {
               'Action':
                 (item)=>(
                   <td>
-                   <a onClick={() => onOpen(item)}>edit</a>
+                   <span onClick={() => onOpen(item)}>edit</span>
                   </td>
                 )
             }}

@@ -138,7 +138,6 @@ export const sideBar = (sidebarShow) => async dispatch => {
                                 payload: res.data
                             })
                 }).catch(err => {
-                    console.log(err.response.data);
                     dispatch({
                         type: types.ERROR,
                         payload: {
@@ -148,6 +147,27 @@ export const sideBar = (sidebarShow) => async dispatch => {
                     })
                 })
             }
+
+            export const getLocations = () => async dispatch => { 
+                dispatch({
+                    type: types.LOADING,
+                })
+                    await Swahili.get('/location').then(res => {
+            
+                        dispatch({
+                                    type: types.GET_LOCATIONS,
+                                    payload: res.data
+                                })
+                    }).catch(err => {
+                        dispatch({
+                            type: types.ERROR,
+                            payload: {
+                                type: 'locationserror',
+                                error: err
+                            }
+                        })
+                    })
+                }
 
         export const getSubcategories = () => async dispatch => { 
             dispatch({
@@ -277,6 +297,29 @@ export const sideBar = (sidebarShow) => async dispatch => {
             
                 }
 
+
+                export const editLocation = (token, locationid, title, price ) => async dispatch => { 
+                    dispatch({
+                        type: types.LOADING,
+                    })
+                        await Swahili.post('/location/edit', {token, locationid, title, price }).then(res => {
+                            dispatch({
+                                        type: types.SUCCESS_EDIT,
+                                        payload: res.data
+                                    })
+                        }).catch(err => {
+                            dispatch({
+                                type: types.ERROR,
+                                payload: {
+                                    type: 'locationsediterror',
+                                    error: err
+                                }
+                            })
+                        })
+                
+                    }
+    
+
                 export const editCategory = (token, categoryid, title) => async dispatch => { 
                     dispatch({
                         type: types.LOADING,
@@ -383,6 +426,27 @@ export const sideBar = (sidebarShow) => async dispatch => {
             
             }
 
+            export const createLocation = (token, title, price) => async dispatch => { 
+                dispatch({
+                    type: types.LOADING,
+                })
+                    await Swahili.post('/location/create', {token, title, price}).then(res => {
+                        dispatch({
+                                    type: types.SUCCESS_LOCATION,
+                                    payload: res.data
+                                })
+                    }).catch(err => {
+                        dispatch({
+                            type: types.ERROR,
+                            payload: {
+                                type: 'locationserror',
+                                error: err
+                            }
+                        })
+                    })
+                
+                }
+
             export const createSubcategory = (title, token) => async dispatch => { 
                 dispatch({
                     type: types.LOADING,
@@ -441,6 +505,7 @@ export const sideBar = (sidebarShow) => async dispatch => {
                                 })
                         // window.location.replace('/dashboard');
                     }).catch(err => {
+                        console.log(err.response.data);
                         dispatch({
                             type: types.ERROR,
                             payload: {

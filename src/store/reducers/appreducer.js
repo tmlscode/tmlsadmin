@@ -78,12 +78,27 @@ export const appReducer = (state = initialState, action) => {
         successsize: false,
         successsizes: false,
         successsubcategory: false,
+        successlocation: false,
       }
     case types.CLOSE_MODAL:
       return {
         ...state,
         editmodal: false,
         parameters: {}
+      }
+    case types.SUCCESS_LOCATION:
+      return {
+        ...state,
+        successlocation: true,
+        loading: false,
+        error: null
+      }
+    case types.GET_LOCATIONS:
+      return {
+        ...state,
+        locations: action.payload,
+        loading: false,
+        error: null
       }
     case types.SUCCESS_REGISTER:
         return {

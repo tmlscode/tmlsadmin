@@ -33,7 +33,7 @@ const Users = () => {
 
   useEffect(() => {
     dispatch(getUsers(app.user.token, app.user._id));
-    clearSuccess();
+    dispatch(clearSuccess());
   }, [dispatch, app.user.token, app.user._id]);
 
   const pageChange = newPage => {
@@ -47,13 +47,13 @@ const Users = () => {
   const handleClose = () => {
       setShow(false);
       dispatch(getUsers(app.user.token, app.user._id)); 
-      clearSuccess();
+      dispatch(clearSuccess());
   }
 
   const handleClosedelete = () => {
     setDeletes(false);
     dispatch(getUsers(app.user.token, app.user._id)); 
-    clearSuccess();
+    dispatch(clearSuccess());
 }
 
   const handleClosedit = () => {
@@ -114,7 +114,7 @@ const users = app.users ? app.users.filter(user => user.role !== 'root') : [];
               'Action':
                 (item)=>(
                   <td>
-                   <a  onClick={() => onOpen(item)}>edit</a> | <a  onClick={() => onDelete(item)}>delete</a>
+                   <span onClick={() => onOpen(item)}>edit</span> | <span onClick={() => onDelete(item)}>delete</span>
                   </td>
                 )
             }}

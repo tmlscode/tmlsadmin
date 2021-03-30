@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import {
   CButton,
   CModal,
@@ -18,20 +18,27 @@ import { useDispatch, useSelector } from 'react-redux';
 import { editClient } from 'src/store/actions/appactions';
 
 const Modals = ({show, close, brand}) => {
-  const [title, setTitle] = useState(brand.title);
+  const [title, setTitle] = useState('');
   const dispatch = useDispatch();
   const app = useSelector(state => state.app)
 
   const onSubmit = () => {
     dispatch(editClient(app.user.token, brand._id, title));
   }
+
+  const setting = () => {
+    setTitle(brand.title);
+  }
+
   return (
             <CModal 
               show={show} 
               onClose={close}
+              onOpened={setting}
+              id={brand._id}
             >
               <CModalHeader closeButton>
-                <CModalTitle>Edit {brand.title} Product Client</CModalTitle>
+                <CModalTitle>Edit Product Client</CModalTitle>
               </CModalHeader>
               <CModalBody>
               <CCol xs="12">
@@ -49,7 +56,7 @@ const Modals = ({show, close, brand}) => {
                 <CCol xs="12">
                   <CFormGroup>
                     <CLabel htmlFor="name">Title</CLabel>
-                    <CInput id="name" placeholder="Enter Title" required value={title} onChange={(e) => setTitle(e.target.value)} />
+                    <CInput id="name" required value={title} onChange={(e) => setTitle(e.target.value)} />
                   </CFormGroup>
                 </CCol>
                 <CCol xs='12'>

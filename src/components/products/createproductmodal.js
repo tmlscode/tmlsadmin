@@ -1,4 +1,4 @@
-import React, { useState, useRef, useMemo } from 'react'
+import React, { useState } from 'react'
 import {
   CButton,
   CModal,
@@ -20,16 +20,12 @@ import {
 import CIcon from '@coreui/icons-react'
 import { useDispatch, useSelector } from 'react-redux';
 import { createProduct } from '../../store/actions/appactions';
-import JoditEditor from "jodit-react";
-import he from 'he';
-import moment from 'moment';
 
 
 const Modals = ({show, close}) => {
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [photoUrl, setPhotourl] = useState([]);
-  const [venue, setVenue] = useState('');
   const dispatch = useDispatch();
   const [category, setCategory] = useState('');
   const [subcategory, setSubcategory] = useState('');
@@ -38,8 +34,6 @@ const Modals = ({show, close}) => {
   const [sizes, setSizes] = useState([]);
   const [colors, setColors] = useState([]);
   const app = useSelector(state => state.app)
-	const [content, setContent] = useState('');
-  const [date, setDate] = useState(new Date());
   const [url, setUrl] = useState('');
   const [price, setPrice] = useState(0);
   const [quantity, setQuantity] = useState(0);
@@ -148,6 +142,7 @@ const Modals = ({show, close}) => {
                 <CFormGroup>
                     <CLabel htmlFor="ccmonth">Brand</CLabel>
                     <CSelect custom name="ccmonth" id="ccmonth" value={brand} onChange={(e) => setBrand(e.target.value)}>
+                    <option disabled value=''>Enter Brand</option>
                      {app.brands ? app.brands.map(category => {
                        return (
                         <option value={category._id}>{category.title}</option>
@@ -160,6 +155,7 @@ const Modals = ({show, close}) => {
                 <CFormGroup>
                     <CLabel htmlFor="ccmonth">Product Client</CLabel>
                     <CSelect custom name="ccmonth" id="ccmonth" value={client} onChange={(e) => setClient(e.target.value)}>
+                    <option disabled value=''>Enter Product Client</option>
                      {app.clients ? app.clients.map(category => {
                        return (
                         <option value={category._id}>{category.title}</option>
@@ -172,6 +168,7 @@ const Modals = ({show, close}) => {
                 <CFormGroup>
                     <CLabel htmlFor="ccmonth">Product Category</CLabel>
                     <CSelect custom name="ccmonth" id="ccmonth" value={category} onChange={(e) => setCategory(e.target.value)}>
+                    <option disabled value=''>Enter Product Category</option>
                      {app.categories ? app.categories.map(category => {
                        return (
                         <option value={category._id}>{category.title}</option>
@@ -184,6 +181,7 @@ const Modals = ({show, close}) => {
                 <CFormGroup>
                     <CLabel htmlFor="ccmonth">Product Type</CLabel>
                     <CSelect custom name="ccmonth" id="ccmonth" value={subcategory} onChange={(e) => setSubcategory(e.target.value)}>
+                    <option disabled value=''>Enter Product Type</option>
                      {app.subcategories ? app.subcategories.map(category => {
                        return (
                         <option value={category._id}>{category.title}</option>
@@ -196,6 +194,7 @@ const Modals = ({show, close}) => {
                 <CFormGroup>
                     <CLabel htmlFor="ccmonth">Colors</CLabel> <small>selected colors: {colors.toString()}</small>
                     <CSelect custom name="ccmonth" id="ccmonth" value={color} onChange={(e) => {setColor(e.target.value); handleColors(e.target.value)}}> 
+                    <option disabled value=''>Enter Colors</option>
                     {app.colors ? app.colors.map(category => {
                        return (
                         <option value={category.title}>{category.title}</option>
@@ -208,6 +207,7 @@ const Modals = ({show, close}) => {
                 <CFormGroup>
                     <CLabel htmlFor="ccmonth">Sizes</CLabel> <small>selected sizes: {sizes.toString()}</small>
                     <CSelect custom name="ccmonth" id="ccmonth" value={size} onChange={(e) => {setSize(e.target.value); handleSizes(e.target.value)}}> 
+                    <option disabled value=''>Enter Sizes</option>
                     {app.sizes ? app.sizes.map(category => {
                        return (
                         <option value={category.title}>{category.title}</option>

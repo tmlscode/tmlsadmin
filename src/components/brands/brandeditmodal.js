@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import {
   CButton,
   CModal,
@@ -26,13 +26,18 @@ const Modals = ({show, close, brand}) => {
     dispatch(editBrand(app.user.token, brand._id, title));
   }
 
+  const setting = () => {
+    setTitle(brand.title);
+  }
+
   return (
             <CModal 
               show={show} 
               onClose={close}
+              onOpened={setting}
             >
               <CModalHeader closeButton>
-                <CModalTitle>Edit {brand.title} Brand</CModalTitle>
+                <CModalTitle>Edit Brand</CModalTitle>
               </CModalHeader>
               <CModalBody>
               <CCol xs="12">

@@ -25,14 +25,13 @@ const Users = () => {
   const [page, setPage] = useState(currentPage)
   const [show, setShow] = useState(false);
   const [brand, setBrand] = useState('');
-  const [close, setClose] = useState(false);
   const dispatch = useDispatch();
   const app = useSelector(state => state.app)
   const [showedit, setShowedit] = useState(false);
 
   useEffect(() => {
     dispatch(getClients());
-    clearSuccess();
+    dispatch(clearSuccess());
   }, [dispatch]);
 
   const pageChange = newPage => {
@@ -46,7 +45,7 @@ const Users = () => {
   const handleClose = () => {
       setShow(false);
       dispatch(getClients());
-      clearSuccess();
+      dispatch(clearSuccess());
   }
 
   const handleClosedit = () => {
@@ -95,7 +94,7 @@ const Users = () => {
               'Action':
                 (item)=>(
                   <td>
-                   <a onClick={(e) => {setBrand(item); setShowedit(true)}}>edit</a>
+                   <span onClick={(e) => {setBrand(item); setShowedit(true)}}>edit</span>
                   </td>
                 )
             }}

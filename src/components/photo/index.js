@@ -37,7 +37,7 @@ const Users = () => {
 
   useEffect(() => {
     dispatch(getPhotos());
-    clearSuccess();
+    dispatch(clearSuccess());
   }, [dispatch]);
 
   const pageChange = newPage => {
@@ -81,7 +81,7 @@ const Users = () => {
   const handleClosedelete = () => {
     setDeletes(false);
     dispatch(getPhotos()); 
-    clearSuccess();
+    dispatch(clearSuccess());
 }
 
 
@@ -138,9 +138,9 @@ const Users = () => {
                 'url':
                 (item)=>(
                   <td>
-              <a variant="ghost" color="transparent" onClick={() => onOpenphotos([item.url])}>
+              <span variant="ghost" color="transparent" onClick={() => onOpenphotos([item.url])}>
                photo
-              </a>
+              </span>
                   </td>
                 ),
                 'date':
@@ -152,7 +152,7 @@ const Users = () => {
               'Action':
                 (item)=>(
                   <td>
-                   <a onClick={(e) => onOpen(e, item)}>edit</a> | {item.state === 'active' ? <a onClick={(e) => onDelete(item)}>deactivate</a> : <a onClick={(e) => onDelete(item)}>activate</a>}
+                   <span onClick={(e) => onOpen(e, item)}>edit</span> | {item.state === 'active' ? <span onClick={(e) => onDelete(item)}>deactivate</span> : <span onClick={(e) => onDelete(item)}>activate</span>}
                   </td>
                 )
             }}

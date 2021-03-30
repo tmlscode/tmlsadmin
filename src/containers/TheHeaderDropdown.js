@@ -6,7 +6,7 @@ import {
   CDropdownToggle,
   CImg
 } from '@coreui/react'
-import { useSelector, useDispatch } from 'react-redux'
+import { useDispatch } from 'react-redux'
 import {Logout} from '../store/actions/appactions';
 import Cookies from 'js-cookie';
 

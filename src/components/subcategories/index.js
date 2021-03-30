@@ -31,7 +31,7 @@ const Users = () => {
 
   useEffect(() => {
     dispatch(getCategories());
-    clearSuccess();
+    dispatch(clearSuccess());
   }, [dispatch]);
 
   const pageChange = newPage => {
@@ -45,13 +45,13 @@ const Users = () => {
   const handleClose = () => {
       setShow(false);
       dispatch(getCategories());
-      clearSuccess();
+      dispatch(clearSuccess());
   }
 
   const handleClosedit = () => {
     setShowedit(false);
     dispatch(getCategories());
-    clearSuccess();
+    dispatch(clearSuccess());
   }
 
 
@@ -94,10 +94,10 @@ const Users = () => {
               'Action':
                 (item)=>(
                   <td>
-                   <a onClick={(e) => {setBrand(item); setShowedit(true)}}>
+                   <span onClick={(e) => {setBrand(item); setShowedit(true)}}>
                 Edit
-              </a>
-                  </td>
+              </span>
+                 </td>
                 )
             }}
           />
