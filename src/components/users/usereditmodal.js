@@ -81,7 +81,7 @@ const Modals = ({show, close, brand}) => {
                   </CFormGroup>
                 </CCol> */}
                 <CCol xs='12'>
-                <CButton color="primary" block onClick={onSubmit}>{app.loading ? <CSpinner color="success" size="sm" /> : 'submit'}</CButton>
+                <CButton color="primary" block onClick={onSubmit}>{app.loading ? <CSpinner color="success" size="sm" /> : 'Edit'}</CButton>
                 </CCol>
               </CRow>
               </CCol>

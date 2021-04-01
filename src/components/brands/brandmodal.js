@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect} from 'react'
 import {
   CButton,
   CModal,
@@ -12,10 +12,11 @@ import {
   CFormGroup,
   CInput,
   CLabel,
-  CSpinner
+  CSpinner,
+  CAlert
 } from '@coreui/react'
 import { useDispatch, useSelector } from 'react-redux';
-import { createBrand, createSubcategory, createColor, createSize } from '../../store/actions/appactions';
+import { createBrand, createSubcategory, createColor, createSize, clearsuccessdata } from '../../store/actions/appactions';
 
 const Modals = ({show, close}) => {
   const [title, setTitle] = useState('');
@@ -36,17 +37,36 @@ const Modals = ({show, close}) => {
       return null;
     }
   }
+
+  useEffect(() => {
+    if(app.successentries){
+      setTitle('')
+      dispatch(clearsuccessdata());
+    }else{
+      return null
+    }
+  })
   return (
             <CModal 
               show={show} 
               onClose={close}
             >
               <CModalHeader closeButton>
-                <CModalTitle>Create Brand</CModalTitle>
+                <CModalTitle>Create {choice}</CModalTitle>
               </CModalHeader>
               <CModalBody>
               <CCol xs="12">
               <CRow>
+              {app.error && (app.error.type === 'colorerror' || app.error.type === 'branderror' || app.error.type === 'sizeerror' || app.error.type === 'subcategoryerror') ?  <CCol xs='12'>
+                <CAlert color="danger" closeButton>
+                An error occured, please try again
+              </CAlert>
+                </CCol> : null}
+                {app.successentriesmsg ? <CCol xs='12'>
+                <CAlert color="success">
+                 {choice} Created successfully
+              </CAlert>
+                </CCol> : null}
                 <CCol xs="12">
                   <CFormGroup>
                     <CLabel htmlFor="name">Title</CLabel>

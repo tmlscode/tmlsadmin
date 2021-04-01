@@ -43,7 +43,7 @@ const Modals = (props) => {
   const onSubmit = () => {
     const about = description;   
 
-    dispatch(editProduct(app.user.token, app.parameters._id, title, about, url, photoUrl, price, category, subcategory, brand, sizes, colors, quantity, client));
+    dispatch(editProduct(app.user.token, props.brand._id, title, about, url, photoUrl, price, category, subcategory, brand, sizes, colors, quantity, client));
   }
 
 
@@ -273,11 +273,12 @@ const Modals = (props) => {
                  )
                }) : null}
                 <CCol xs='12'>
-                <CButton  color="primary" block onClick={() => onSubmit()}>{app.loading ?  <CSpinner color="success" size="sm" /> : 'create'}</CButton>
+                <CButton  color="primary" block onClick={() => onSubmit()}>{app.loading ?  <CSpinner color="success" size="sm" /> : 'Edit'}</CButton>
                 </CCol>
               </CRow>
               </CCol>
               </CModalBody>
+
               <CModalFooter>
               </CModalFooter>
             </CModal>

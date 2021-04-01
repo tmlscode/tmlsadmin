@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import {
   CButton,
   CModal,
@@ -19,7 +19,7 @@ import {
 } from '@coreui/react'
 import CIcon from '@coreui/icons-react'
 import { useDispatch, useSelector } from 'react-redux';
-import { createProduct } from '../../store/actions/appactions';
+import { createProduct, clearsuccessdata} from '../../store/actions/appactions';
 
 
 const Modals = ({show, close}) => {
@@ -46,6 +46,28 @@ const Modals = ({show, close}) => {
 
     dispatch(createProduct(app.user.token, title, about, url, photoUrl, price, category, subcategory, brand, sizes, colors, quantity, client));
   }
+
+  useEffect(() => {
+    if(app.successproduct){
+      setTitle('')
+      setQuantity(0);
+      setSizes([]);
+      setColors([]);
+      setBrand('');
+      setPhotourl([]);
+      setUrl('');
+      setCategory('');
+      setSubcategory('');
+      setDescription('');
+      setClient('');
+      setPrice('');
+      setColor('');
+      setSize('');
+      dispatch(clearsuccessdata());
+    }else{
+      return null
+    }
+  })
 
   const uploadfile = async e => {
     const files = e.target.files;
@@ -115,7 +137,7 @@ const Modals = ({show, close}) => {
                 An error occured, please try again
               </CAlert>
                 </CCol> : null}
-                {app.successproduct ? <CCol xs='12'>
+                {app.successproductmsg ? <CCol xs='12'>
                 <CAlert color="success">
                 Product Created successfully
               </CAlert>

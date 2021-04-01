@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect} from 'react'
 import {
   CButton,
   CModal,
@@ -18,7 +18,7 @@ import {
 } from '@coreui/react'
 import CIcon from '@coreui/icons-react'
 import { useDispatch, useSelector } from 'react-redux';
-import { createPhoto } from '../../store/actions/appactions';
+import { createPhoto, clearsuccessdata} from '../../store/actions/appactions';
 import moment from 'moment';
 
 
@@ -37,6 +37,17 @@ const Modals = ({show, close}) => {
     dispatch(createPhoto(app.user.token, title, description, venue, photoUrl, dbdate));
   }
 
+  useEffect(() => {
+    if(app.successphoto){
+      setTitle('')
+      setPhotourl('');
+      setDescription('');
+      setVenue('');
+      dispatch(clearsuccessdata());
+    }else{
+      return null
+    }
+  })
   const uploadfile = async e => {
     const files = e.target.files;
     const data = new FormData();
@@ -74,7 +85,7 @@ const Modals = ({show, close}) => {
                 An error occured, please try again
               </CAlert>
                 </CCol> : null}
-                {app.successphoto ? <CCol xs='12'>
+                {app.successphotomsg ? <CCol xs='12'>
                 <CAlert color="success">
                 Photo Created successfully
               </CAlert>

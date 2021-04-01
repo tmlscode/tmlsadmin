@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import {
   CButton,
   CModal,
@@ -15,7 +15,7 @@ import {
   CSpinner
 } from '@coreui/react'
 import { useDispatch, useSelector } from 'react-redux';
-import { createLocation } from '../../store/actions/appactions';
+import { createLocation, clearsuccessdata} from '../../store/actions/appactions';
 
 const Modals = ({show, close}) => {
   const [title, setTitle] = useState('');
@@ -26,6 +26,16 @@ const Modals = ({show, close}) => {
   const onSubmit = () => {
     dispatch(createLocation(app.user.token, title, price, ));
   }
+
+  useEffect(() => {
+    if(app.successlocation){
+      setTitle('')
+      setPrice('')
+      dispatch(clearsuccessdata());
+    }else{
+      return null
+    }
+  })
   return (
             <CModal 
               show={show} 
@@ -42,7 +52,7 @@ const Modals = ({show, close}) => {
                 An error occured, please try again
               </CAlert>
                 </CCol> : null}
-                {app.successlocation ? <CCol xs='12'>
+                {app.successlocationmsg ? <CCol xs='12'>
                 <CAlert color="success">
                 Location Created successfully
               </CAlert>

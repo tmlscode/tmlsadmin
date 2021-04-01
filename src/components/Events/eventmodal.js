@@ -1,4 +1,4 @@
-import React, { useState, useRef, useMemo } from 'react'
+import React, { useState, useRef, useMemo, useEffect} from 'react'
 import {
   CButton,
   CModal,
@@ -17,7 +17,7 @@ import {
 } from '@coreui/react'
 import CIcon from '@coreui/icons-react'
 import { useDispatch, useSelector } from 'react-redux';
-import { createEvent } from '../../store/actions/appactions';
+import { createEvent, clearsuccessdata} from '../../store/actions/appactions';
 import JoditEditor from "jodit-react";
 import he from 'he';
 import moment from 'moment';
@@ -32,6 +32,18 @@ const Modals = ({show, close}) => {
   const editor = useRef(null)
 	const [content, setContent] = useState('');
   const [date, setDate] = useState(new Date());
+
+  useEffect(() => {
+    if(app.successevent){
+      setTitle('')
+      setPhotourl([]);
+      setContent('');
+      setVenue('');
+      dispatch(clearsuccessdata());
+    }else{
+      return null
+    }
+  })
 	
 	const config = {
 		buttons: [ "bold", "italic", "underline", "strikethrough", "|", "ul", "ol", "|", "center", "left", "right", "justify", "|", "link", "image"],
@@ -96,7 +108,7 @@ const Modals = ({show, close}) => {
                 An error occured, please try again
               </CAlert>
                 </CCol> : null}
-                {app.successevent ? <CCol xs='12'>
+                {app.successeventmsg ? <CCol xs='12'>
                 <CAlert color="success">
                 Event Created successfully
               </CAlert>

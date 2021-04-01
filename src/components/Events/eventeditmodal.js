@@ -154,7 +154,7 @@ const setting = () => {
                 />), [] )}
                 </CCol>
                 <CCol xs='12'>
-                <CButton  color="primary" block onClick={() => onSubmit()}>{app.loading ?  <CSpinner color="success" size="sm" /> : 'create'}</CButton>
+                <CButton  color="primary" block onClick={() => onSubmit()}>{app.loading ?  <CSpinner color="success" size="sm" /> : 'Edit'}</CButton>
                 </CCol>
               </CRow>
               </CCol>

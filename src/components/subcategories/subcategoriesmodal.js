@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import {
   CButton,
   CModal,
@@ -15,7 +15,7 @@ import {
   CAlert,
 } from '@coreui/react'
 import { useDispatch, useSelector } from 'react-redux';
-import { createCategory } from '../../store/actions/appactions';
+import { createCategory, clearsuccessdata } from '../../store/actions/appactions';
 
 const Modals = ({show, close}) => {
   const [title, setTitle] = useState('');
@@ -25,6 +25,9 @@ const Modals = ({show, close}) => {
   const onSubmit = () => {
     dispatch(createCategory(title, app.user.token));
   }
+
+
+
   return (
             <CModal 
               show={show} 
@@ -41,7 +44,7 @@ const Modals = ({show, close}) => {
                 An error occured, please try again
               </CAlert>
                 </CCol> : null}
-                {app.successcategory ? <CCol xs='12'>
+                {app.successcategorymsg ? <CCol xs='12'>
                 <CAlert color="success">
                  Product Category successfully
               </CAlert>

@@ -18,6 +18,18 @@ export const appReducer = (state = initialState, action) => {
         ...state,
         photo: action.payload
       }
+    case types.CLEARSUCCESS:
+      return {
+        ...state,
+        successclient: false,
+        successcategory: false,
+        successentries: false,
+        successproduct: false,
+        successlocation: false,
+        successevent: false,
+        successphoto: false,
+        successadmin: false
+      }
     case types.LOGOUT:
       return {
         state: {}
@@ -67,18 +79,27 @@ export const appReducer = (state = initialState, action) => {
         ...state,
         successedit: false,
         successadmin: false,
+        successadminmsg: false,
         successcategory: false,
         successclient: false,
         successclients: false,
         successcolor: false,
         successcolors: false,
         successevent: false,
+        successeventmsg: false,
         successphoto: false,
+        successphotomsg: false,
         successproduct: false,
         successsize: false,
         successsizes: false,
         successsubcategory: false,
         successlocation: false,
+        successclientmsg: false,
+        successcategorymsg: false,
+        successentries: false,
+        successentriesmsg: false,
+        successproductmsg: false,
+        successlocationmsg: false
       }
     case types.CLOSE_MODAL:
       return {
@@ -90,6 +111,7 @@ export const appReducer = (state = initialState, action) => {
       return {
         ...state,
         successlocation: true,
+        successlocationmsg: true,
         loading: false,
         error: null
       }
@@ -106,6 +128,7 @@ export const appReducer = (state = initialState, action) => {
             loading: false,
             user: action.payload,
             successadmin: false,
+            
         }
     case types.SUCCESS_EDIT:
       return {
@@ -118,18 +141,22 @@ export const appReducer = (state = initialState, action) => {
               ...state,
               loading: false,
               successadmin: true,
+              successadminmsg: true,
+
         }
     case types.SUCCESS_CREATE_EVENT:
         return {
               ...state,
               loading: false,
               successevent: true,
+              successeventmsg: true,
           }
      case types.SUCCESS_CREATE_PHOTO:
             return {
                   ...state,
                   loading: false,
                   successphoto: true,
+                  successphotomsg: true,
               }
     case types.SET:
       return {
@@ -194,7 +221,8 @@ export const appReducer = (state = initialState, action) => {
     case types.SUCCESS_BRAND:
       return {
         ...state,
-        brands: [action.payload, ...state.brands],
+        successentries: true,
+        successentriesmsg: true,
         loading: false
       }
     case types.SUCCESS_CATEGORY:
@@ -202,6 +230,7 @@ export const appReducer = (state = initialState, action) => {
         ...state,
         loading: false,
         successcategory: true,
+        successcategorymsg: true,
         error: null
       }
       case types.SUCCESS_COLOR:
@@ -209,6 +238,8 @@ export const appReducer = (state = initialState, action) => {
           ...state,
           loading: false,
           successcolor: true,
+          successentries: true,
+        successentriesmsg: true,
           error: null
         }
         case types.SUCCESS_SIZE:
@@ -216,13 +247,17 @@ export const appReducer = (state = initialState, action) => {
             ...state,
             loading: false,
             successsize: true,
+            successentries: true,
+        successentriesmsg: true,
             error: null
           }
       case types.SUCCESS_CLIENT:
         return {
           ...state,
           loading: false,
+          successclientmsg: true,
           successclient: true,
+          
           error: null,
         }
       case types.SUCCESS_SUBCATEGORY:
@@ -230,12 +265,15 @@ export const appReducer = (state = initialState, action) => {
           ...state,
           loading: false,
           successsubcategory: true,
+          successentries: true,
+          successentriesmsg: true,
           error: null
         }
       case types.SUCCESS_CREATE_PRODUCT:
         return {
           ...state,
           successproduct: true,
+          successproductmsg: true,
           loading: false,
           error: false
         }

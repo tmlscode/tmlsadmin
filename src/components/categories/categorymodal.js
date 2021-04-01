@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import {
   CButton,
   CModal,
@@ -15,16 +15,25 @@ import {
   CSpinner
 } from '@coreui/react'
 import { useDispatch, useSelector } from 'react-redux';
-import { createClient } from '../../store/actions/appactions';
+import { createClient, clearsuccessdata } from '../../store/actions/appactions';
 
 const Modals = ({show, close}) => {
+  const app = useSelector(state => state.app)
   const [title, setTitle] = useState('');
   const dispatch = useDispatch();
-  const app = useSelector(state => state.app)
 
   const onSubmit = () => {
     dispatch(createClient(title, app.user.token));
   }
+
+  useEffect(() => {
+    if(app.successclient){
+      setTitle('')
+      dispatch(clearsuccessdata());
+    }else{
+      return null
+    }
+  })
   return (
             <CModal 
               show={show} 
@@ -41,7 +50,7 @@ const Modals = ({show, close}) => {
                 An error occured, please try again
               </CAlert>
                 </CCol> : null}
-                {app.successclient ? <CCol xs='12'>
+                {app.successclientmsg ? <CCol xs='12'>
                 <CAlert color="success">
                 Client Created successfully
               </CAlert>

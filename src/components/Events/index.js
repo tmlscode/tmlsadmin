@@ -63,7 +63,6 @@ const Users = () => {
 
   const onOpen = (title) => {
     const words = he.decode(title.about);
-    console.log(words);
     setBrand(title)
     setEditorwords(words);
     setShowedit(true)
@@ -160,7 +159,7 @@ const Users = () => {
               'Action':
                 (item)=>(
                   <td>
-                   <span onClick={() => onOpen(item)}>edit</span> | {item.isactive ? <span onClick={() => onDelete(item)}>deactivate</span> : <span onClick={() => onDelete(item)}>activate</span>}
+                     <span onClick={(e) => onOpen(item)}>edit</span> | {item.state === 'active' ? <span onClick={(e) => onDelete(item)}>deactivate</span> : <span onClick={(e) => onDelete(item)}>activate</span>}
                   </td>
                 )
             }}

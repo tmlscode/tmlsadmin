@@ -10,6 +10,8 @@ import { icons } from './assets/icons'
 import { Provider } from 'react-redux'
 import store from './store/store'
 import 'react-image-lightbox/style.css';
+import MainChartExample from './views/charts/MainChartExample';
+import './main.css'
 
 
 React.icons = icons

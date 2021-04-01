@@ -2,6 +2,7 @@ export const SET = 'SET';
 export const GET_POSTS = 'GET_POSTS';
 export const NEXT_STEP = 'NEXT_STEP';
 export const ERROR = 'ERROR';
+export const CLEARSUCCESS = 'CLEARSUCCESS';
 export const SUCCESS_MOBILE = 'SUCCESS_MOBILE';
 export const SUCCESS_CONFIRM = 'SUCCESS_CONFIRM';
 export const LOADING = 'LOADING';

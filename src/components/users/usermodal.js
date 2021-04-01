@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect} from 'react'
 import {
   CButton,
   CModal,
@@ -14,7 +14,7 @@ import {
   CSpinner,
   CAlert
 } from '@coreui/react'
-import { createUser } from '../../store/actions/appactions';
+import { createUser, clearsuccessdata} from '../../store/actions/appactions';
 import { useDispatch, useSelector } from 'react-redux';
 
 const Modals = ({show, close}) => {
@@ -25,6 +25,17 @@ const Modals = ({show, close}) => {
   const app = useSelector(state => state.app)
   const dispatch = useDispatch();
 
+  useEffect(() => {
+    if(app.successadmin){
+      setName('')
+      setPassword('');
+      setAddress('');
+      setMobile('');
+      dispatch(clearsuccessdata());
+    }else{
+      return null
+    }
+  })
 
   const onSubmit = () => {
     dispatch(createUser(app.user.token, name, address, mobile, password));
@@ -45,7 +56,7 @@ const Modals = ({show, close}) => {
                 An error occured, please try again
               </CAlert>
                 </CCol> : null}
-                {app.successadmin ?  <CCol xs='12'>
+                {app.successadminmsg ?  <CCol xs='12'>
                 <CAlert color="success" closeButton>
                 Admin created successfully
               </CAlert>

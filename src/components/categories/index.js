@@ -35,7 +35,7 @@ const Users = () => {
   }, [dispatch]);
 
   const pageChange = newPage => {
-    currentPage !== newPage && history.push(`/category?page=${newPage}`)
+    currentPage !== newPage && history.push(`/productclients?page=${newPage}`)
   }
 
   useEffect(() => {

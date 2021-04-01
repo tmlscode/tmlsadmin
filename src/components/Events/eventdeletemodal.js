@@ -20,7 +20,15 @@ const Modals = ({show, close, brand}) => {
 
 
   const onSubmit = () => {
-    dispatch(deleteEvent(app.user.token, brand._id, brand.isactive));
+    if(brand.state === 'active'){
+      const value = 'inactive'
+      dispatch(deleteEvent(app.user.token, brand._id, value));
+    }else if(brand.state === 'inactive'){
+      const value = 'active'
+      dispatch(deleteEvent(app.user.token, brand._id, value));
+    } else {
+      return null;
+    }
   }
   return (
     <CModal 
@@ -43,10 +51,10 @@ const Modals = ({show, close, brand}) => {
               </CAlert>
                 </CCol> : null}
     </CRow>
-      Are you sure you want to delete {brand ? brand.title : null}?
+      Are you sure you want to {brand.state === 'active' ? "deactivate" : "activate"} {brand ? brand.title : null}?
     </CModalBody>
     <CModalFooter>
-      <CButton color={brand.isactive ? 'danger' : 'success'} onClick={onSubmit}>{app.loading ? <CSpinner color="white" size="sm" /> : brand.isactive ? 'deactivate' : 'activate'}</CButton>{' '}
+      <CButton color={brand.state === 'active' ? 'danger' : 'success'} onClick={onSubmit}>{app.loading ? <CSpinner color="white" size="sm" /> : brand.state === 'active' ? 'deactivate' : 'activate'}</CButton>{' '}
       <CButton 
         color="secondary" 
         onClick={close}

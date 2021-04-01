@@ -10,6 +10,12 @@ export const sideBar = (sidebarShow) => async dispatch => {
     })
   }
 
+  export const clearsuccessdata = () => async dispatch => {
+      dispatch({
+          type: types.CLEARSUCCESS
+      })
+  }
+
   export const setPhoto = (photo) => async dispatch => { 
     dispatch({
         type: types.SET_PHOTO,
@@ -599,14 +605,14 @@ export const sideBar = (sidebarShow) => async dispatch => {
                 
                 }
 
-                export const deleteEvent = (token, eventid, isactive) => async dispatch => { 
+                export const deleteEvent = (token, eventid, state) => async dispatch => { 
                     dispatch({
                         type: types.CLEAR_ERROR,
                     })
                     dispatch({
                         type: types.LOADING,
                     })
-                    await Swahili.post('/event/toggle', {token, eventid, isactive}).then(res => {
+                    await Swahili.post('/event/toggle', {token, eventid, state}).then(res => {
                         console.log(res.data);
                         dispatch({
                                     type: types.SUCCESS_EDIT,
