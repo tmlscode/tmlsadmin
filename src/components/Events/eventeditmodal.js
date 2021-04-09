@@ -17,7 +17,7 @@ import {
 } from '@coreui/react'
 import CIcon from '@coreui/icons-react'
 import { useDispatch, useSelector } from 'react-redux';
-import { createEvent } from '../../store/actions/appactions';
+import { editEvent } from '../../store/actions/appactions';
 import JoditEditor from "jodit-react";
 import he from 'he';
 import moment from 'moment';
@@ -51,7 +51,7 @@ const Modals = ({show, close, brand, editorwords}) => {
     const dbdate = moment(date).format();
     
 
-    dispatch(createEvent(app.user.token, title, about, venue, photoUrl, dbdate));
+    dispatch(editEvent(app.user.token, brand._id, title, about, photoUrl, venue,  dbdate));
   }
 
   const uploadfile = async e => {
@@ -100,12 +100,12 @@ const setting = () => {
               <CModalBody>
               <CCol xs="12">
               <CRow>
-              {app.error && app.error.type === 'createeventerror' ?  <CCol xs='12'>
+              {app.error && app.error.type === 'editeventerror' ?  <CCol xs='12'>
                 <CAlert color="danger" closeButton>
                 An error occured, please try again
               </CAlert>
                 </CCol> : null}
-                {app.successevent ? <CCol xs='12'>
+                {app.successedit ? <CCol xs='12'>
                 <CAlert color="success">
                 Event Edited successfully
               </CAlert>

@@ -717,6 +717,30 @@ export const sideBar = (sidebarShow) => async dispatch => {
                 
                 }
 
+                export const editEvent = (token, eventid, title, about, gallery, venue, date) => async dispatch => { 
+                    dispatch({
+                        type: types.CLEAR_ERROR,
+                    })
+                    dispatch({
+                        type: types.LOADING,
+                    })
+                    await Swahili.post('/event/edit', {token, eventid, title, about, gallery, venue, date}).then(res => {
+                        dispatch({
+                                    type: types.SUCCESS_EDIT,
+                                    payload: res.data
+                                })
+                    }).catch(err => {
+                        dispatch({
+                            type: types.ERROR,
+                            payload: {
+                                type: 'editeventerror',
+                                error: err.response.data
+                            }
+                        })
+                    })
+                
+                }
+
                 export const createProduct = (token, title, about, image, gallery, price, category, subcategory, brand, size, color, quantity, client) => async dispatch => { 
                     dispatch({
                         type: types.CLEAR_ERROR,

@@ -1,3 +1,11 @@
 .c-sidebar-nav-link .cactive{
 background-color: #321fdb !important;
 }
+
+.c-sidebar .c-sidebar-nav-link.c-active{
+    background-color: #321fdb !important;
+}
+
+.c-sidebar .c-sidebar-nav-link:hover{
+   background-color:  rgba(255, 255, 255, 0.05) !important;
+}
