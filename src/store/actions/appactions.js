@@ -65,6 +65,29 @@ export const sideBar = (sidebarShow) => async dispatch => {
     
     }
 
+    export const getTrendingbrands = () => async dispatch => { 
+        dispatch({
+            type: types.LOADING,
+        })
+            await Swahili.get('/trendingbrand').then(res => {
+    
+                dispatch({
+                            type: types.GET_TRENDINGBRANDS,
+                            payload: res.data
+                        })
+            }).catch(err => {
+                console.log(err.response.data);
+                dispatch({
+                    type: types.ERROR,
+                    payload: {
+                        type: 'trendingbranderror',
+                        error: err
+                    }
+                })
+            })
+        
+        }
+
     export const getColors = () => async dispatch => { 
         dispatch({
             type: types.LOADING,
@@ -153,6 +176,49 @@ export const sideBar = (sidebarShow) => async dispatch => {
                     })
                 })
             }
+
+            export const getPayments = () => async dispatch => { 
+                dispatch({
+                    type: types.LOADING,
+                })
+                    await Swahili.get('/cart').then(res => {
+            
+                        dispatch({
+                                    type: types.GET_PAYMENTS,
+                                    payload: res.data
+                                })
+                    }).catch(err => {
+                        dispatch({
+                            type: types.ERROR,
+                            payload: {
+                                type: 'paymenterror',
+                                error: err
+                            }
+                        })
+                    })
+                }
+
+                export const getSpecialorders = () => async dispatch => { 
+                    dispatch({
+                        type: types.LOADING,
+                    })
+                        await Swahili.get('/specialorder').then(res => {
+                
+                            dispatch({
+                                        type: types.GET_SPECIALORDERS,
+                                        payload: res.data
+                                    })
+                        }).catch(err => {
+                            dispatch({
+                                type: types.ERROR,
+                                payload: {
+                                    type: 'specialorderserror',
+                                    error: err
+                                }
+                            })
+                        })
+                    }
+    
 
             export const getLocations = () => async dispatch => { 
                 dispatch({
@@ -432,6 +498,30 @@ export const sideBar = (sidebarShow) => async dispatch => {
             
             }
 
+
+            export const createTrending = (token, photo, brand, category, gender) => async dispatch => { 
+                dispatch({
+                    type: types.LOADING,
+                })
+                    await Swahili.post('/trendingbrand/create', {token, photo, brand, category, gender}).then(res => {
+                        dispatch({
+                                    type: types.SUCCESS_TRENDING,
+                                    payload: res.data
+                                })
+                    }).catch(err => {
+                        console.log(err.response.data);
+                        dispatch({
+                            type: types.ERROR,
+                            payload: {
+                                type: 'trendingerror',
+                                error: err
+                            }
+                        })
+                    })
+                
+                }
+
+                
             export const createLocation = (token, title, price) => async dispatch => { 
                 dispatch({
                     type: types.LOADING,
@@ -598,6 +688,84 @@ export const sideBar = (sidebarShow) => async dispatch => {
                             type: types.ERROR,
                             payload: {
                                 type: 'editadminerror',
+                                error: err.response.data
+                            }
+                        })
+                    })
+                
+                }
+
+                export const deleteTrending = (token, trendingbrandid) => async dispatch => { 
+                    dispatch({
+                        type: types.CLEAR_ERROR,
+                    })
+                    dispatch({
+                        type: types.LOADING,
+                    })
+                    await Swahili.post('/trendingbrand/delete', {token, trendingbrandid}).then(res => {
+                        dispatch({
+                                    type: types.SUCCESS_EDIT,
+                                    payload: res.data
+                                })
+                        // window.location.replace('/dashboard');
+                    }).catch(err => {
+                        console.log(err.response.data);
+                        dispatch({
+                            type: types.ERROR,
+                            payload: {
+                                type: 'deletetrendingerror',
+                                error: err.response.data
+                            }
+                        })
+                    })
+                
+                }
+
+                export const changeSpecial = (token, specialorder_id, brand) => async dispatch => { 
+                    dispatch({
+                        type: types.CLEAR_ERROR,
+                    })
+                    dispatch({
+                        type: types.LOADING,
+                    })
+                    await Swahili.post(`/specialorder/${brand}`, {token, specialorder_id}).then(res => {
+                        dispatch({
+                                    type: types.SUCCESS_EDIT,
+                                    payload: res.data
+                                })
+                        // window.location.replace('/dashboard');
+                    }).catch(err => {
+                        console.log(err.response.data);
+                        dispatch({
+                            type: types.ERROR,
+                            payload: {
+                                type: 'changepecialerror',
+                                error: err.response.data
+                            }
+                        })
+                    })
+                
+                }
+
+                export const changeStatus = (token, cart_id) => async dispatch => { 
+                    dispatch({
+                        type: types.CLEAR_ERROR,
+                    })
+                    dispatch({
+                        type: types.LOADING,
+                    })
+                    await Swahili.post('/cart/complete', {token, cart_id}).then(res => {
+                        dispatch({
+                                    type: types.SUCCESS_EDIT,
+                                    payload: res.data
+                                })
+                        // window.location.replace('/dashboard');
+                    }).catch(err => {
+                        console.log(err.response.data);
+                        dispatch({
+                            type: types.ERROR,
+                            payload: {
+                                type: 'changestatuserror',
                                 error: err.response.data
                             }
                         })
@@ -934,6 +1102,28 @@ export const sideBar = (sidebarShow) => async dispatch => {
                                     })
                                 
                                 }
+
+                                export const getAllUsers = () => async dispatch => { 
+                                    dispatch({
+                                        type: types.LOADING,
+                                    })
+                                        await Swahili.get('/user').then(res => {
+                                            
+                                                dispatch({
+                                                    type: types.SUCCESS_ALLUSERS,
+                                                    payload: res.data,
+                                                })
+                                        }).catch(err => {
+                                            dispatch({
+                                                type: types.ERROR,
+                                                payload: {
+                                                    type: 'getalluserserror',
+                                                    error: err
+                                                }
+                                            })
+                                        })
+                                    
+                                    }
 
                                 export const getUsers = (token) => async dispatch => { 
                                     dispatch({

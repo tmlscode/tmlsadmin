@@ -29,6 +29,12 @@ const _nav =  [
   }, 
   {
     _tag: 'CSidebarNavItem',
+    name: 'Trendingbrands',
+    to: '/trendingbrands',
+    icon: <CIcon content={freeSet.cilTag} customClasses="c-sidebar-nav-icon"/>,
+  },
+  {
+    _tag: 'CSidebarNavItem',
     name: 'Products Registration Form',
     to: '/products',
     icon: <CIcon content={freeSet.cilCart} customClasses="c-sidebar-nav-icon"/>,
@@ -42,7 +48,13 @@ const _nav =  [
   {
     _tag: 'CSidebarNavItem',
     name: 'Payment',
-    to: '/locations',
+    to: '/payment',
+    icon: <CIcon content={freeSet.cilCash} customClasses="c-sidebar-nav-icon"/>,
+  },
+  {
+    _tag: 'CSidebarNavItem',
+    name: 'Special Orders',
+    to: '/specialorders',
     icon: <CIcon content={freeSet.cilCash} customClasses="c-sidebar-nav-icon"/>,
   },
   {
@@ -56,13 +68,22 @@ const _nav =  [
     name: 'Photos Rating',
     to: '/photos',
     icon: <CIcon content={freeSet.cilImage} customClasses="c-sidebar-nav-icon"/>,
+  },
+  {
+    _tag: 'CSidebarNavItem',
+    name: 'Site Customers',
+    to: '/sitecustomers',
+    icon: <CIcon name="cil-user" customClasses="c-sidebar-nav-icon"/>,
   },  
   {
     _tag: 'CSidebarNavItem',
-    name: 'User',
+    name: 'Admin Users',
     to: '/users',
     icon: <CIcon name="cil-user" customClasses="c-sidebar-nav-icon"/>,
   },
+  
+  
+  
   
   
 ]

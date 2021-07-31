@@ -28,7 +28,8 @@ export const appReducer = (state = initialState, action) => {
         successlocation: false,
         successevent: false,
         successphoto: false,
-        successadmin: false
+        successadmin: false,
+        successtrending: false,
       }
     case types.LOGOUT:
       return {
@@ -45,6 +46,12 @@ export const appReducer = (state = initialState, action) => {
         return {
             ...state,
              user: action.payload,
+      }
+    case types.SUCCESS_ALLUSERS:
+      return {
+        ...state,
+        loading: false,
+        allusers: action.payload
       }
     case types.SUCCESS_USERS:
         return {
@@ -99,7 +106,8 @@ export const appReducer = (state = initialState, action) => {
         successentries: false,
         successentriesmsg: false,
         successproductmsg: false,
-        successlocationmsg: false
+        successlocationmsg: false,
+        successtrending: false,
       }
     case types.CLOSE_MODAL:
       return {
@@ -212,6 +220,13 @@ export const appReducer = (state = initialState, action) => {
               loading: false,
               error: null
             }
+    case types.GET_PAYMENTS:
+          return{
+              ...state,
+              payments: action.payload,
+              loading: false,
+              error: null
+            }
     case types.GET_SUBCATEGORY:
             return{
                 ...state,
@@ -225,6 +240,12 @@ export const appReducer = (state = initialState, action) => {
         successentriesmsg: true,
         loading: false
       }
+    case types.SUCCESS_TRENDING:
+      return {
+        ...state,
+        successtrending: true,
+        loading: false,
+      }
     case types.SUCCESS_CATEGORY:
       return {
         ...state,
@@ -232,6 +253,18 @@ export const appReducer = (state = initialState, action) => {
         successcategory: true,
         successcategorymsg: true,
         error: null
+      }
+    case types.GET_TRENDINGBRANDS:
+      return {
+        ...state,
+        trendingbrands: action.payload,
+        loading: false
+      }
+    case types.GET_SPECIALORDERS:
+      return {
+        ...state,
+        specialorders: action.payload,
+        loading: false
       }
       case types.SUCCESS_COLOR:
         return {

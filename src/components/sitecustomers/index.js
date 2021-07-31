@@ -10,13 +10,14 @@ import {
   CPagination,
   CButton,
 } from '@coreui/react'
-import Modal from './subcategoriesmodal';
-import EditModal from './subcategorieseditmodal';
-import { useDispatch, useSelector } from 'react-redux';
-import { getCategories, clearSuccess } from '../../store/actions/appactions';
+// import Modal from './usermodal';
+// import EditModal from './usereditmodal';
+// import Deletemodal from './userdeletemodal';
 import moment from 'moment';
+import { useDispatch, useSelector } from 'react-redux';
+import { clearSuccess, getAllUsers } from 'src/store/actions/appactions';
 
-const fields = [{key: 'title'} , {key: 'since', label: 'Date'}, {key: 'Action'}]
+const fields = [{key: 'name'}, {key: 'mobile'},{key: 'address'},{key: 'since', label: 'Date'}]
 
 const Users = () => {
   const history = useHistory()
@@ -28,14 +29,15 @@ const Users = () => {
   const dispatch = useDispatch();
   const app = useSelector(state => state.app)
   const [showedit, setShowedit] = useState(false);
+  const [deletes, setDeletes] = useState(false);
 
   useEffect(() => {
-    dispatch(getCategories());
+    dispatch(getAllUsers());
     dispatch(clearSuccess());
-  }, [dispatch]);
+  }, [dispatch, app.user.token, app.user._id]);
 
   const pageChange = newPage => {
-    currentPage !== newPage && history.push(`/productscategories?page=${newPage}`)
+    currentPage !== newPage && history.push(`/sitecustomers?page=${newPage}`)
   }
 
   useEffect(() => {
@@ -44,67 +46,84 @@ const Users = () => {
 
   const handleClose = () => {
       setShow(false);
-      dispatch(getCategories());
+      dispatch(getAllUsers()); 
       dispatch(clearSuccess());
   }
 
+  const handleClosedelete = () => {
+    setDeletes(false);
+    dispatch(getAllUsers(app.user.token, app.user._id)); 
+    dispatch(clearSuccess());
+}
+
   const handleClosedit = () => {
     setShowedit(false);
-    dispatch(getCategories());
+    setBrand('');  
+    dispatch(getAllUsers(app.user.token, app.user._id));
     dispatch(clearSuccess());
   }
 
+  const onOpen = (title) => {
+    setBrand(title)
+    setShowedit(true)
+  }
 
+  const onDelete = (title) => {
+    setBrand(title)
+    setDeletes(true)
+  }
+
+  const roles = ['root', 'admin']
+const users = app.allusers ? app.allusers.filter(user => !roles.includes(user.role)) : [];
 
   return (
       <>
-      <Modal show={show} close={handleClose}/>
+      {/* <Modal show={show} close={handleClose}/>
       <EditModal show={showedit} close={handleClosedit} brand={brand}/>
+      <Deletemodal show={deletes} close={handleClosedelete} brand={brand}/> */}
     <CRow>
       <CCol xl={12}>
         <CCard>
           <CCardHeader>
           <CRow>
                  <CCol xs="11"  className="mb-3 mb-xl-0">
-                  Product Categories
+                  Site customers
                 </CCol>
-                <CCol xs="1" className="mb-3 mb-xl-0" style={{display: 'flex', alignItems: 'flex-end', flexDirection: 'row'}}>
+                {/* <CCol xs="1" className="mb-3 mb-xl-0" style={{display: 'flex', alignItems: 'flex-end', flexDirection: 'row'}}>
                 <CButton color="primary" onClick={() => setShow(true)}>Create</CButton>
-                </CCol>
+                </CCol> */}
                 </CRow>
           </CCardHeader>
           <CCardBody>
           <CDataTable
-            items={app.categories}
+            items={users}
             fields={fields}
             hover
             striped
+            loading={app.loading}
             alignItems='space-between'
             itemsPerPage={5}
             activePage={page}
-            loading={app.loading}
             clickableRows
             scopedSlots = {{
-                'since':
-                (item)=>(
-                  <td>
-                 {moment(item.since).format('DD/MM/YY')}
-                  </td>
-                ),
-              'Action':
-                (item)=>(
-                  <td>
-                   <span onClick={(e) => {setBrand(item); setShowedit(true)}}>
-                Edit
-              </span>
-                 </td>
-                )
+              'since':
+              (item)=>(
+                <td>
+                {moment(item.since).format('DD/MM/YY')}
+                </td>
+              ),
+              // 'Action':
+              //   (item)=>(
+              //     <td>
+              //      <span onClick={() => onOpen(item)}>edit</span> | <span onClick={() => onDelete(item)}>delete</span>
+              //     </td>
+              //   )
             }}
           />
           <CPagination
             activePage={page}
             onActivePageChange={pageChange}
-            pages={app.categories ? parseInt(app.categories.length / 4) + 1 : 4}
+            pages={users ? parseInt(users.length / 4) + 1 : 4}
             doubleArrows={false} 
             align="center"
           />

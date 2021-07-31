@@ -10,13 +10,15 @@ import {
   CPagination,
   CButton,
 } from '@coreui/react'
-import Modal from './subcategoriesmodal';
-import EditModal from './subcategorieseditmodal';
+import Modal from './create';
+import EditModal from './edit';
 import { useDispatch, useSelector } from 'react-redux';
-import { getCategories, clearSuccess } from '../../store/actions/appactions';
+import { getTrendingbrands, clearSuccess, getBrands } from '../../store/actions/appactions';
 import moment from 'moment';
+import Lightbox from 'react-image-lightbox';
 
-const fields = [{key: 'title'} , {key: 'since', label: 'Date'}, {key: 'Action'}]
+
+const fields = [{key: 'title'}, {key: 'category'},{key: 'gender'},{key: 'photo'},{key: 'since', label: 'Date'}, {key: 'Action'}]
 
 const Users = () => {
   const history = useHistory()
@@ -28,14 +30,18 @@ const Users = () => {
   const dispatch = useDispatch();
   const app = useSelector(state => state.app)
   const [showedit, setShowedit] = useState(false);
+  const [images, setImages] = useState([]);
+  const [photoIndex, setPhotoindex] = useState(0);
+  const [open, setOpen] = useState(false);
 
   useEffect(() => {
-    dispatch(getCategories());
+    dispatch(getTrendingbrands());
+    dispatch(getBrands());
     dispatch(clearSuccess());
   }, [dispatch]);
 
   const pageChange = newPage => {
-    currentPage !== newPage && history.push(`/productscategories?page=${newPage}`)
+    currentPage !== newPage && history.push(`/trendingbrands?page=${newPage}`)
   }
 
   useEffect(() => {
@@ -44,20 +50,37 @@ const Users = () => {
 
   const handleClose = () => {
       setShow(false);
-      dispatch(getCategories());
+      dispatch(getTrendingbrands());
       dispatch(clearSuccess());
   }
 
   const handleClosedit = () => {
     setShowedit(false);
-    dispatch(getCategories());
+    dispatch(getTrendingbrands());
     dispatch(clearSuccess());
   }
 
-
+  const onOpenphotos = (photos) => {
+    setImages([photos]);
+    setOpen(true);
+  }
 
   return (
       <>
+       {open && (
+           <Lightbox
+            mainSrc={images[photoIndex]}
+            nextSrc={images[(photoIndex + 1) % images.length]}
+            prevSrc={images[(photoIndex + images.length - 1) % images.length]}
+            onCloseRequest={() => setOpen(false)}
+            onMovePrevRequest={() =>
+             setPhotoindex((photoIndex + images.length - 1) % images.length)
+            }
+            onMoveNextRequest={() =>
+              setPhotoindex((photoIndex + 1) % images.length,)
+            }
+          />        
+        )}
       <Modal show={show} close={handleClose}/>
       <EditModal show={showedit} close={handleClosedit} brand={brand}/>
     <CRow>
@@ -66,7 +89,7 @@ const Users = () => {
           <CCardHeader>
           <CRow>
                  <CCol xs="11"  className="mb-3 mb-xl-0">
-                  Product Categories
+                  Trending brands
                 </CCol>
                 <CCol xs="1" className="mb-3 mb-xl-0" style={{display: 'flex', alignItems: 'flex-end', flexDirection: 'row'}}>
                 <CButton color="primary" onClick={() => setShow(true)}>Create</CButton>
@@ -75,7 +98,7 @@ const Users = () => {
           </CCardHeader>
           <CCardBody>
           <CDataTable
-            items={app.categories}
+            items={app.trendingbrands}
             fields={fields}
             hover
             striped
@@ -85,26 +108,36 @@ const Users = () => {
             loading={app.loading}
             clickableRows
             scopedSlots = {{
-                'since':
+              'title':
                 (item)=>(
                   <td>
-                 {moment(item.since).format('DD/MM/YY')}
+                   {item.brand.title}
                   </td>
                 ),
+                'photo':
+                (item)=>(
+                  <td>
+                   <span variant="ghost" color="transparent" onClick={() => onOpenphotos([item.photo])}>image</span>
+                  </td>
+                ),
+              'since':
+              (item)=>(
+                <td>
+               {moment(item.since).format('DD/MM/YY')}
+                </td>
+              ),
               'Action':
                 (item)=>(
                   <td>
-                   <span onClick={(e) => {setBrand(item); setShowedit(true)}}>
-                Edit
-              </span>
-                 </td>
+                   <span onClick={(e) => {setBrand(item); setShowedit(true)}}>Delete</span>
+                  </td>
                 )
             }}
           />
           <CPagination
             activePage={page}
             onActivePageChange={pageChange}
-            pages={app.categories ? parseInt(app.categories.length / 4) + 1 : 4}
+            pages={app.trendingbrands ? parseInt(app.trendingbrands.length / 4) + 1 : 4}
             doubleArrows={false} 
             align="center"
           />

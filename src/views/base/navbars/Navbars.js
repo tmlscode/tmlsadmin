@@ -92,11 +92,11 @@ const CNavbars = () => {
           <CNavbar color="faded" light>
             <CNavbarBrand>
               <CImg
-                src="https://placekitten.com/g/30/30"
+                src="https://res.cloudinary.com/dqf4lqxyi/image/upload/v1619334684/Logo_iuko45.png"
                 className="d-inline-block align-top"
                 alt="CoreuiVue"
               />
-              CoreUI React
+             ken
             </CNavbarBrand>
           </CNavbar>
         </CCardBody>

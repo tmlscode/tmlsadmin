@@ -1,5 +1,5 @@
 import axios from 'axios';
 
 export default axios.create({
-  baseURL: 'https://obscure-eyrie-51964.herokuapp.com/'
+  baseURL: 'https://floating-basin-41575.herokuapp.com/'
 });

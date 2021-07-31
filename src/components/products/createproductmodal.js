@@ -144,26 +144,26 @@ const Modals = ({show, close}) => {
                 </CCol> : null}
                 <CCol xs="6">
                   <CFormGroup>
-                    <CLabel htmlFor="name">Title</CLabel>
-                    <CInput id="name" placeholder="Enter title" required value={title} onChange={(e) => setTitle(e.target.value)} />
+                    <CLabel htmlFor="name">Product name</CLabel>
+                    <CInput id="name" placeholder="Enter product name" required value={title} onChange={(e) => setTitle(e.target.value)} />
                   </CFormGroup>
                 </CCol>
                 <CCol xs="6">
                   <CFormGroup>
-                    <CLabel htmlFor="name">Price</CLabel>
-                    <CInput id="name" placeholder="Enter price" required value={price} onChange={(e) => setPrice(e.target.value)} />
+                    <CLabel htmlFor="price">Price</CLabel>
+                    <CInput id="price" placeholder="Enter price" required value={price} onChange={(e) => setPrice(e.target.value)} />
                   </CFormGroup>
                 </CCol>
                 <CCol xs="6">
                   <CFormGroup>
-                    <CLabel htmlFor="name">Quantity</CLabel>
-                    <CInput id="name" placeholder="Enter your name" required value={quantity} onChange={(e) => setQuantity(e.target.value)} />
+                    <CLabel htmlFor="quantity">Quantity</CLabel>
+                    <CInput id="quantity" placeholder="Enter quantity" required value={quantity} onChange={(e) => setQuantity(e.target.value)} />
                   </CFormGroup>
                 </CCol>
                 <CCol xs="6">
                 <CFormGroup>
-                    <CLabel htmlFor="ccmonth">Brand</CLabel>
-                    <CSelect custom name="ccmonth" id="ccmonth" value={brand} onChange={(e) => setBrand(e.target.value)}>
+                    <CLabel htmlFor="brand">Brand</CLabel>
+                    <CSelect custom name="brand" id="brand" value={brand} onChange={(e) => setBrand(e.target.value)}>
                     <option disabled value=''>Enter Brand</option>
                      {app.brands ? app.brands.map(category => {
                        return (
@@ -175,8 +175,8 @@ const Modals = ({show, close}) => {
                 </CCol>
                 <CCol xs="6">
                 <CFormGroup>
-                    <CLabel htmlFor="ccmonth">Product Client</CLabel>
-                    <CSelect custom name="ccmonth" id="ccmonth" value={client} onChange={(e) => setClient(e.target.value)}>
+                    <CLabel htmlFor="productclient">Product Client</CLabel>
+                    <CSelect custom name="productclient" id="productclient" value={client} onChange={(e) => setClient(e.target.value)}>
                     <option disabled value=''>Enter Product Client</option>
                      {app.clients ? app.clients.map(category => {
                        return (
@@ -188,8 +188,8 @@ const Modals = ({show, close}) => {
                 </CCol>
                 <CCol xs="6">
                 <CFormGroup>
-                    <CLabel htmlFor="ccmonth">Product Category</CLabel>
-                    <CSelect custom name="ccmonth" id="ccmonth" value={category} onChange={(e) => setCategory(e.target.value)}>
+                    <CLabel htmlFor="productcategory">Product Category</CLabel>
+                    <CSelect custom name="productcategory" id="productcategory" value={category} onChange={(e) => setCategory(e.target.value)}>
                     <option disabled value=''>Enter Product Category</option>
                      {app.categories ? app.categories.map(category => {
                        return (
@@ -201,8 +201,8 @@ const Modals = ({show, close}) => {
                 </CCol>
                 <CCol xs="6">
                 <CFormGroup>
-                    <CLabel htmlFor="ccmonth">Product Type</CLabel>
-                    <CSelect custom name="ccmonth" id="ccmonth" value={subcategory} onChange={(e) => setSubcategory(e.target.value)}>
+                    <CLabel htmlFor="producttype">Product Type</CLabel>
+                    <CSelect custom name="producttype" id="producttype" value={subcategory} onChange={(e) => setSubcategory(e.target.value)}>
                     <option disabled value=''>Enter Product Type</option>
                      {app.subcategories ? app.subcategories.map(category => {
                        return (
@@ -214,8 +214,8 @@ const Modals = ({show, close}) => {
                 </CCol>
                 <CCol xs="6">
                 <CFormGroup>
-                    <CLabel htmlFor="ccmonth">Colors</CLabel> <small>selected colors: {colors.toString()}</small>
-                    <CSelect custom name="ccmonth" id="ccmonth" value={color} onChange={(e) => {setColor(e.target.value); handleColors(e.target.value)}}> 
+                    <CLabel htmlFor="colors">Colors</CLabel> <small>selected colors: {colors.toString()}</small>
+                    <CSelect custom name="colors" id="colors" value={color} onChange={(e) => {setColor(e.target.value); handleColors(e.target.value)}}> 
                     <option disabled value=''>Enter Colors</option>
                     {app.colors ? app.colors.map(category => {
                        return (
@@ -227,8 +227,8 @@ const Modals = ({show, close}) => {
                 </CCol>
                 <CCol xs="6">
                 <CFormGroup>
-                    <CLabel htmlFor="ccmonth">Sizes</CLabel> <small>selected sizes: {sizes.toString()}</small>
-                    <CSelect custom name="ccmonth" id="ccmonth" value={size} onChange={(e) => {setSize(e.target.value); handleSizes(e.target.value)}}> 
+                    <CLabel htmlFor="sizes">Sizes</CLabel> <small>selected sizes: {sizes.toString()}</small>
+                    <CSelect custom name="sizes" id="sizes" value={size} onChange={(e) => {setSize(e.target.value); handleSizes(e.target.value)}}> 
                     <option disabled value=''>Enter Sizes</option>
                     {app.sizes ? app.sizes.map(category => {
                        return (
@@ -249,12 +249,12 @@ const Modals = ({show, close}) => {
                     />
                     </CCol>
                 <CCol xs={6} style={{marginBottom: 30}}>
-                <CLabel htmlFor="file-input">Image upload</CLabel>
-                <CInputFile id="file-input" name="file-input" onChange={uploadimagefile} disabled={url}/>
+                <CLabel htmlFor="imageupload">Image upload</CLabel>
+                <CInputFile id="imageupload" name="imageupload" onChange={uploadimagefile} disabled={url}/>
                 </CCol>
                 <CCol xs={6} style={{marginBottom: 30}}>
-                <CLabel htmlFor="file-input">Gallery upload</CLabel>
-                <CInputFile id="file-input" name="file-input" onChange={uploadfile}/>
+                <CLabel htmlFor="galleryupload">Gallery upload</CLabel>
+                <CInputFile id="galleryupload" name="galleryupload" onChange={uploadfile}/>
                 </CCol>
                 {url ?
                    <CCol xs='3' style={{height: 150, marginBottom: 20}}>

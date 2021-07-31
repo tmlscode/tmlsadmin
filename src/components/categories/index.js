@@ -102,7 +102,7 @@ const Users = () => {
           <CPagination
             activePage={page}
             onActivePageChange={pageChange}
-            pages={4}
+            pages={app.clients ? parseInt(app.clients.length / 4) + 1 : 4}
             doubleArrows={false} 
             align="center"
           />

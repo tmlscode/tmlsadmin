@@ -10,14 +10,16 @@ import {
   CPagination,
   CButton,
 } from '@coreui/react'
-import Modal from './createproductmodal';
-import EditModal from './editproductmodal';
-import Deletemodal from './deleteproductmodal';
+// import Modal from './createproductmodal';
+import EditModal from './products';
+import Deletemodal from './edit';
 import { useDispatch, useSelector } from 'react-redux';
-import { clearSuccess, getProducts, getCategories, getSubcategories, getBrands, getClients, getColors, getSizes,sideBar, setEditmodal } from '../../store/actions/appactions';
+import { clearSuccess, getPayments } from '../../store/actions/appactions';
 import Lightbox from 'react-image-lightbox';
 import moment from 'moment';
-const fields = [{key: 'title'},{key: 'brand'},{key: 'client', label: 'Product Client'}, {key: 'category', label: 'Product Category'},{key: 'subcategory', label: 'Product Type'},{key: 'size'},{key: 'color'},{key: 'gallery'},{key: 'image'},{key: 'since', label: 'Date'}, {key: 'Action'}]
+const fields = [{key: 'user', label: 'Username'}, {key: '_id', label: 'order id'},{key: 'products'}, {key: 'state'}, {key: 'total', label: 'total price'},
+// {key: 'brand'},{key: 'client', label: 'Product Client'}, {key: 'category', label: 'Product Category'},{key: 'subcategory', label: 'Product Type'},{key: 'size'},{key: 'color'},{key: 'gallery'},{key: 'image'},
+{key: 'since', label: 'Date'}, {key: 'Action'}]
 
 const Products = () => {
   const history = useHistory()
@@ -35,19 +37,13 @@ const Products = () => {
   const [showedit, setShowedit] = useState(false);
 
   useEffect(() => {
-    dispatch(sideBar(false))
-    dispatch(getProducts());
-    dispatch(getCategories());
-    dispatch(getSubcategories());
-    dispatch(getBrands());
-    dispatch(getClients());
-    dispatch(getColors());
-    dispatch(getSizes());
+    // dispatch(sideBar(false))
+    dispatch(getPayments());
     dispatch(clearSuccess());
   }, [dispatch]);
 
   const pageChange = newPage => {
-    currentPage !== newPage && history.push(`/products?page=${newPage}`)
+    currentPage !== newPage && history.push(`/payment?page=${newPage}`)
   }
 
   useEffect(() => {
@@ -56,7 +52,7 @@ const Products = () => {
 
   const handleClose = () => {
       setShow(false);
-      dispatch(getProducts());
+      dispatch(getPayments());
       dispatch(clearSuccess());
   }
   const onOpen = (title) => {
@@ -72,7 +68,7 @@ const Products = () => {
 
   const handleClosedelete = () => {
     setDeletes(false);
-    dispatch(getProducts()); 
+    dispatch(getPayments()); 
     dispatch(clearSuccess());
 }
 
@@ -82,14 +78,15 @@ const Products = () => {
   }
 
   const handleClosedit = () => {
-    setShowedit(false);
-    dispatch(getProducts());
+    setOpen(false);
+    setImages('');
+    dispatch(getPayments());
     dispatch(clearSuccess());
   }
 
   return (
       <>
-      {open && (
+      {/* {open && (
            <Lightbox
             mainSrc={images[photoIndex]}
             nextSrc={images[(photoIndex + 1) % images.length]}
@@ -102,9 +99,9 @@ const Products = () => {
               setPhotoindex((photoIndex + 1) % images.length,)
             }
           />        
-        )}
-      <Modal show={show} close={handleClose}/>
-    <EditModal show={showedit} close={handleClosedit} brand={brand} />
+        )} */}
+      {/* <Modal show={show} close={handleClose}/> */}
+    <EditModal show={open} close={handleClosedit} purchases={images} />
       <Deletemodal show={deletes} close={handleClosedelete} brand={brand}/>
     <CRow>
       <CCol xl={12}>
@@ -114,14 +111,14 @@ const Products = () => {
                  <CCol xs="11"  className="mb-3 mb-xl-0">
                   Products
                 </CCol>
-                <CCol xs="1" className="mb-3 mb-xl-0" style={{display: 'flex', alignItems: 'flex-end', flexDirection: 'row'}}>
+                {/* <CCol xs="1" className="mb-3 mb-xl-0" style={{display: 'flex', alignItems: 'flex-end', flexDirection: 'row'}}>
                 <CButton color="primary" onClick={() => setShow(true)}>Create</CButton>
-                </CCol>
+                </CCol> */}
                 </CRow>
           </CCardHeader>
           <CCardBody>
           <CDataTable
-            items={app.products}
+            items={app.payments}
             fields={fields}
             hover
             striped
@@ -131,59 +128,26 @@ const Products = () => {
             activePage={page}
             clickableRows
             scopedSlots = {{
-              'brand':
+              'user':
+              (item)=>(
+                <td>
+                 {item.user.name}
+                </td>
+              ),
+                'products':
                 (item)=>(
                   <td>
-                   {item.brand.title}
-                  </td>
-                ),
-                'client':
-                (item)=>(
-                  <td>
-                   {item.client.title}
-                  </td>
-                ),
-              'category':
-                (item)=>(
-                  <td>
-                   {item.category.title}
-                  </td>
-                ),
-                'subcategory':
-                (item)=>(
-                  <td>
-                     {item.subcategory.title}
-              {/* <a variant="ghost" color="transparent" onClick={() => onOpenphotos(item.gallery)}>
-                {item.gallery.length} photos
-              </a> */}
-                  </td>
-                ),
-                'size':
-                (item)=>(
-                  <td>
-                    { item.size.toString()}
-                  </td>
-                ),
-                'color':
-                (item)=>(
-                  <td>
-                    { item.color.toString()}
-                  </td>
-                ),
-                'gallery':
-                (item)=>(
-                  <td>
-                   <span variant="ghost" color="transparent" onClick={() => onOpenphotos(item.gallery)}>
-                {item.gallery.length} photos
+                   <span variant="ghost" color="transparent" onClick={() => onOpenphotos(item.products)}>
+                {item.products.length} product(s)
               </span>
                   </td>
                 ),
-                'image':
-                (item)=>(
-                  <td>
-                   <span variant="ghost" color="transparent" onClick={() => onOpenphotos([item.image])}>image</span>
-                  </td>
-                ),
+            //     'image':
+            //     (item)=>(
+            //       <td>
+            //        <span variant="ghost" color="transparent" onClick={() => onOpenphotos([item.image])}>image</span>
+            //       </td>
+            //     ),
                 'since':
                 (item)=>(
                   <td>
@@ -193,7 +157,7 @@ const Products = () => {
               'Action':
                 (item)=>(
                   <td>
-                   <span onClick={() => onOpen(item)}>edit</span> | <span onClick={() => onDelete(item)}>delete</span>
+                 {item.state === 'paid' ?   <span onClick={() => onDelete(item)}>change status</span> : '---'}
                   </td>
                 )
             }}
@@ -201,7 +165,7 @@ const Products = () => {
           <CPagination
             activePage={page}
             onActivePageChange={pageChange}
-            pages={app.products ? parseInt(app.products.length / 4) + 1 : 4}
+            pages={app.payments ? parseInt(app.payments.length / 4) + 1 : 4}
             doubleArrows={false} 
             align="center"
           />

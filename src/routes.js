@@ -45,10 +45,18 @@ const Events = React.lazy(() => import('./components/Events'));
 const Photo = React.lazy(() => import('./components/photo'));
 const Product = React.lazy(() => import('./components/products/index'));
 const Location = React.lazy(() => import('./components/locations'));
+const Payment = React.lazy(() => import('./components/payment'));
+const Trendingbrands = React.lazy(() => import('./components/trendingbrands'));
+const Specialorders = React.lazy(() => import('./components/specialorders'));
+const Sitecustomers = React.lazy(() => import('./components/sitecustomers'));
 
 
 const routes = [
   { path: '/', exact: true, name: 'Home' },
+  {path: '/payment', exact: true, name: 'payment', component: Payment},
+  {path: '/specialorders', exact: true, name: 'specialorders', component: Specialorders},
+  {path: '/sitecustomers', exact: true, name: 'sitecustomers', component: Sitecustomers},
+  {path: '/trendingbrands', exact: true, name: 'trendingbrands', component: Trendingbrands},
   { path: '/locations', exact: true, name: 'location', component: Location },
   { path: '/productsetup', exact: true, name: 'product setup', component: Brand },
   { path: '/products', exact: true, name: ' Products', component: Product },

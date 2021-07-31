@@ -122,7 +122,7 @@ const users = app.users ? app.users.filter(user => user.role !== 'root') : [];
           <CPagination
             activePage={page}
             onActivePageChange={pageChange}
-            pages={4}
+            pages={users ? parseInt(users.length / 4) + 1 : 4}
             doubleArrows={false} 
             align="center"
           />

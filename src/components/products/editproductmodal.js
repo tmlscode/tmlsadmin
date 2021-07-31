@@ -62,19 +62,13 @@ const Modals = (props) => {
   }
 
   const removeImage = (photoindex) => {
-    console.log(photoindex);
-    let array = [];
-    array.push(photoUrl);
-    for( var i = 0; i < array.length; i++){ 
-    
-      if ( array[i] === photoindex) { 
-  
-          array.splice(i, photoindex); 
-          
-      }
-      setPhotourl(array);
+    let photos = photoUrl;
+
+    delete photos[photoindex]
+
+    setPhotourl(photos);
   }
-  }
+
 
   const uploadimagefile = async e => {
     const files = e.target.files;
@@ -147,8 +141,8 @@ const Modals = (props) => {
                 </CCol> : null}
                 <CCol xs="6">
                   <CFormGroup>
-                    <CLabel htmlFor="name">Title</CLabel>
-                    <CInput id="name" placeholder="Enter your name" required value={title} onChange={(e) => setTitle(e.target.value)} />
+                    <CLabel htmlFor="name">Product name</CLabel>
+                    <CInput id="name" placeholder="Enter product name" required value={title} onChange={(e) => setTitle(e.target.value)} />
                   </CFormGroup>
                 </CCol>
                 <CCol xs="6">
@@ -160,7 +154,7 @@ const Modals = (props) => {
                 <CCol xs="6">
                   <CFormGroup>
                     <CLabel htmlFor="name">Quantity</CLabel>
-                    <CInput id="name" placeholder="Enter your name" required value={quantity} onChange={(e) => setQuantity(e.target.value)} />
+                    <CInput id="name" placeholder="Enter quantity" required value={quantity} onChange={(e) => setQuantity(e.target.value)} />
                   </CFormGroup>
                 </CCol>
                 <CCol xs="6">
@@ -266,7 +260,7 @@ const Modals = (props) => {
                  return (
                    <CCol xs='3' style={{height: 150, marginBottom: 20}}>
                         <CButton  variant="ghost" color="transparent" style={{backgroundImage: `url(${photo})`, height: 150, width: '100%', backgroundSize: 'cover', backgroundPosition: 'center', display: 'flex', flexDirection: 'row', alignItems: 'flex-start', justifyContent: 'flex-end'}}>
-                        <CIcon name="cil-x-circle" style={{color: 'red'}} size='lg' onClick={() => removeImage(index)} />
+                        <span name="cil-x-circle" style={{color: 'red'}} size='lg' onClick={() => removeImage(index)}>x</span>
                         </CButton>
                   
                    </CCol>

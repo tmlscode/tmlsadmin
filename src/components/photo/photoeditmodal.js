@@ -92,13 +92,13 @@ const Modals = ({show, close, brand}) => {
                 <CCol xs="6">
                   <CFormGroup>
                     <CLabel htmlFor="name">Title</CLabel>
-                    <CInput id="name" placeholder="Enter your name" required value={title} onChange={(e) => setTitle(e.target.value)} />
+                    <CInput id="name" placeholder="Enter title" required value={title} onChange={(e) => setTitle(e.target.value)} />
                   </CFormGroup>
                 </CCol>
                 <CCol xs="6">
                   <CFormGroup>
                     <CLabel htmlFor="name">Venue</CLabel>
-                    <CInput id="name" placeholder="Enter your name" required value={venue} onChange={(e) => setVenue(e.target.value)} />
+                    <CInput id="name" placeholder="Enter venue" required value={venue} onChange={(e) => setVenue(e.target.value)} />
                   </CFormGroup>
                 </CCol>
                 <CCol xs="6">
