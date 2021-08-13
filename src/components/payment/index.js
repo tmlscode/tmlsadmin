@@ -17,7 +17,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { clearSuccess, getPayments } from '../../store/actions/appactions';
 import Lightbox from 'react-image-lightbox';
 import moment from 'moment';
-const fields = [{key: 'user', label: 'Username'}, {key: '_id', label: 'order id'},{key: 'products'}, {key: 'state'}, {key: 'total', label: 'total price'},
+const fields = [{key: 'user', label: 'Username'},{key: 'products'}, {key: 'state'}, {key: 'details'},
 // {key: 'brand'},{key: 'client', label: 'Product Client'}, {key: 'category', label: 'Product Category'},{key: 'subcategory', label: 'Product Type'},{key: 'size'},{key: 'color'},{key: 'gallery'},{key: 'image'},
 {key: 'since', label: 'Date'}, {key: 'Action'}]
 
@@ -84,6 +84,7 @@ const Products = () => {
     dispatch(clearSuccess());
   }
 
+  console.log(app.payments);
   return (
       <>
       {/* {open && (
@@ -131,14 +132,14 @@ const Products = () => {
               'user':
               (item)=>(
                 <td>
-                 {item.user.name}
+                 {item?.fullname}
                 </td>
               ),
                 'products':
                 (item)=>(
                   <td>
                    <span variant="ghost" color="transparent" onClick={() => onOpenphotos(item.products)}>
-                {item.products.length} product(s)
+                {item?.products?.length} product(s)
               </span>
                   </td>
                 ),

@@ -13,10 +13,10 @@ import {
 import Modal from './subcategoriesmodal';
 import EditModal from './subcategorieseditmodal';
 import { useDispatch, useSelector } from 'react-redux';
-import { getCategories, clearSuccess } from '../../store/actions/appactions';
+import { getCategories, clearSuccess, getClients } from '../../store/actions/appactions';
 import moment from 'moment';
 
-const fields = [{key: 'title'} , {key: 'since', label: 'Date'}, {key: 'Action'}]
+const fields = [{key: 'catalognumber'} , {key: 'since', label: 'Date'}, {key: 'Action'}]
 
 const Users = () => {
   const history = useHistory()
@@ -32,10 +32,11 @@ const Users = () => {
   useEffect(() => {
     dispatch(getCategories());
     dispatch(clearSuccess());
+    dispatch(getClients());
   }, [dispatch]);
 
   const pageChange = newPage => {
-    currentPage !== newPage && history.push(`/productscategories?page=${newPage}`)
+    currentPage !== newPage && history.push(`/catalognumbersetup?page=${newPage}`)
   }
 
   useEffect(() => {
@@ -66,7 +67,7 @@ const Users = () => {
           <CCardHeader>
           <CRow>
                  <CCol xs="11"  className="mb-3 mb-xl-0">
-                  Product Categories
+                  Product Catalogs
                 </CCol>
                 <CCol xs="1" className="mb-3 mb-xl-0" style={{display: 'flex', alignItems: 'flex-end', flexDirection: 'row'}}>
                 <CButton color="primary" onClick={() => setShow(true)}>Create</CButton>

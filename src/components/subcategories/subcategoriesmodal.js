@@ -12,6 +12,7 @@ import {
   CInput,
   CLabel,
   CSpinner,
+  CSelect,
   CAlert,
 } from '@coreui/react'
 import { useDispatch, useSelector } from 'react-redux';
@@ -21,11 +22,13 @@ const Modals = ({show, close}) => {
   const [title, setTitle] = useState('');
   const dispatch = useDispatch();
   const app = useSelector(state => state.app)
+  const [brand, setBrand] = useState('');
+  const [packagename, setPackagename] = useState('');
+
 
   const onSubmit = () => {
-    dispatch(createCategory(title, app.user.token));
+    dispatch(createCategory(title, brand, packagename, app.user.token));
   }
-
 
 
   return (
@@ -34,7 +37,7 @@ const Modals = ({show, close}) => {
               onClose={close}
             >
               <CModalHeader closeButton>
-                <CModalTitle>Create Product Category</CModalTitle>
+                <CModalTitle>Create Product catalog</CModalTitle>
               </CModalHeader>
               <CModalBody>
               <CCol xs="12">
@@ -51,8 +54,27 @@ const Modals = ({show, close}) => {
                 </CCol> : null}
                 <CCol xs="12">
                   <CFormGroup>
-                    <CLabel htmlFor="name">Title</CLabel>
-                    <CInput id="name" placeholder="Enter Title" required value={title} onChange={(e) => setTitle(e.target.value)} />
+                    <CLabel htmlFor="name">Catalog number</CLabel>
+                    <CInput id="name" placeholder="Enter catalog number" required value={title} onChange={(e) => setTitle(e.target.value)} />
+                  </CFormGroup>
+                </CCol>
+                <CCol xs="12">
+                <CFormGroup>
+                    <CLabel htmlFor="brand">Product name</CLabel>
+                    <CSelect custom name="brand" id="brand" value={brand} onChange={(e) => setBrand(e.target.value)}>
+                    <option disabled value=''>Enter Product name</option>
+                     {app.clients ? app.clients.map(category => {
+                       return (
+                        <option value={category._id}>{category.title}</option>
+                       )
+                     }) : null}
+                    </CSelect>
+                  </CFormGroup>
+                </CCol>
+                <CCol xs="12">
+                  <CFormGroup>
+                    <CLabel htmlFor="package">Package</CLabel>
+                    <CInput id="package" placeholder="Enter Package" required value={packagename} onChange={(e) => setPackagename(e.target.value)} />
                   </CFormGroup>
                 </CCol>
                 <CCol xs='12'>

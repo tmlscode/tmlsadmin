@@ -348,11 +348,11 @@ export const sideBar = (sidebarShow) => async dispatch => {
         
             }
 
-            export const editClient = (token, clientid, title) => async dispatch => { 
+            export const editClient = (token, clientid, title, productcategory, description, brand) => async dispatch => { 
                 dispatch({
                     type: types.LOADING,
                 })
-                    await Swahili.post('/client/edit', {token, clientid, title}).then(res => {
+                    await Swahili.post('/client/edit', {token, clientid, title, productcategory, description, brand}).then(res => {
                         dispatch({
                                     type: types.SUCCESS_EDIT,
                                     payload: res.data
@@ -477,11 +477,11 @@ export const sideBar = (sidebarShow) => async dispatch => {
                     
                         }
 
-        export const createClient = (title, token) => async dispatch => { 
+        export const createClient = (title, brand, productcategory, description, token) => async dispatch => { 
             dispatch({
                 type: types.LOADING,
             })
-                await Swahili.post('/client/create', {title, token}).then(res => {
+                await Swahili.post('/client/create', {title, productcategory, brand, description, token}).then(res => {
                     dispatch({
                                 type: types.SUCCESS_CLIENT,
                                 payload: res.data
@@ -564,11 +564,11 @@ export const sideBar = (sidebarShow) => async dispatch => {
                 
                 }
 
-                export const createCategory = (title, token) => async dispatch => { 
+                export const createCategory = (catalognumber, client, packagename, token) => async dispatch => { 
                     dispatch({
                         type: types.LOADING,
                     })
-                        await Swahili.post('/category/create', {title, token}).then(res => {
+                        await Swahili.post('/category/create', {catalognumber, client, packagename, token}).then(res => {
                             dispatch({
                                         type: types.SUCCESS_CATEGORY,
                                         payload: res.data
@@ -601,12 +601,11 @@ export const sideBar = (sidebarShow) => async dispatch => {
                                 })
                         // window.location.replace('/dashboard');
                     }).catch(err => {
-                        console.log(err.response.data);
                         dispatch({
                             type: types.ERROR,
                             payload: {
                                 type: 'loginerror',
-                                error: err.response.data
+                                error: err?.response?.data || 'something went wrong, try again'
                             }
                         })
                     })

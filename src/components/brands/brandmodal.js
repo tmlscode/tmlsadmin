@@ -52,7 +52,7 @@ const Modals = ({show, close}) => {
               onClose={close}
             >
               <CModalHeader closeButton>
-                <CModalTitle>Create {choice}</CModalTitle>
+                <CModalTitle>Create supplier / category</CModalTitle>
               </CModalHeader>
               <CModalBody>
               <CCol xs="12">
@@ -78,9 +78,7 @@ const Modals = ({show, close}) => {
                     <CLabel htmlFor="ccmonth">Choice</CLabel>
                     <CSelect custom name="ccmonth" id="ccmonth" value={choice} onChange={(e) => setChoice(e.target.value)}>
                         <option value="brand">Brand</option>
-                        <option value="producttype">Product Type</option>
-                        <option value="color">Color</option>
-                        <option value="size">Size</option>
+                        <option value="producttype">Product Category</option>
                     </CSelect>
                   </CFormGroup>
                 </CCol>

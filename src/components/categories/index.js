@@ -13,7 +13,7 @@ import {
 import Modal from './categorymodal';
 import EditModal from './categoryeditmodal';
 import { useDispatch, useSelector } from 'react-redux';
-import { getClients, clearSuccess } from '../../store/actions/appactions';
+import { getClients, clearSuccess, getSubcategories, getBrands } from '../../store/actions/appactions';
 import moment from 'moment';
 
 const fields = [{key: 'title'}, {key: 'since', label: 'Date'},{key: 'Action'}]
@@ -31,11 +31,13 @@ const Users = () => {
 
   useEffect(() => {
     dispatch(getClients());
+    dispatch(getSubcategories());
+    dispatch(getBrands());
     dispatch(clearSuccess());
   }, [dispatch]);
 
   const pageChange = newPage => {
-    currentPage !== newPage && history.push(`/productclients?page=${newPage}`)
+    currentPage !== newPage && history.push(`/productnamesetup?page=${newPage}`)
   }
 
   useEffect(() => {
@@ -66,7 +68,7 @@ const Users = () => {
           <CCardHeader>
           <CRow>
                  <CCol xs="11"  className="mb-3 mb-xl-0">
-                  Product Clients
+                  Product name setup
                 </CCol>
                 <CCol xs="1" className="mb-3 mb-xl-0" style={{display: 'flex', alignItems: 'flex-end', flexDirection: 'row'}}>
                 <CButton color="primary" onClick={() => setShow(true)}>Create</CButton>

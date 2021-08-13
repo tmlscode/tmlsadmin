@@ -94,16 +94,7 @@ const Users = () => {
                     Product Type
                   </CNavLink>
                 </CNavItem>
-                <CNavItem>
-                  <CNavLink data-tab="size">
-                    Product Size
-                  </CNavLink>
-                </CNavItem>
-                <CNavItem>
-                  <CNavLink data-tab="color">
-                    Product Color
-                  </CNavLink>
-                </CNavItem>
+                
               </CNav>
               <CTabContent>
                 <CTabPane data-tab="brands">

@@ -19,7 +19,7 @@ const setting = () => {
     setProducts(purchases);
 }
 
-const fields = [{key: 'title'},{key: 'colors'}, {key: 'sizes'}, {key: 'price'}, {key: 'quantity'}]
+const fields = [{key: 'title'},{key: 'brand', label: "supplier"}, {key: 'packages'}]
 
   return (
             <CModal 
@@ -41,6 +41,24 @@ const fields = [{key: 'title'},{key: 'colors'}, {key: 'sizes'}, {key: 'price'}, 
             loading={app.loading}
             alignItems='space-between'
             clickableRows
+            scopedSlots = {{
+              'brand':
+              (item)=>(
+                <td>
+                 {item?.brand.title}
+                </td>
+              ),
+              'packages':
+              (item)=>(
+                <td>
+                 {item?.packages?.map((pack) => {
+                   return (
+                     <span>{`${pack.packagename || ''} x ${pack?.quantity || ''}, `}</span>
+                   )
+                 })}
+                </td>
+              )
+            }}
             />
               </CCol>
               </CModalBody>

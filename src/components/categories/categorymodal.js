@@ -12,7 +12,9 @@ import {
   CInput,
   CAlert,
   CLabel,
-  CSpinner
+  CSpinner,
+  CSelect,
+  CTextarea
 } from '@coreui/react'
 import { useDispatch, useSelector } from 'react-redux';
 import { createClient, clearsuccessdata } from '../../store/actions/appactions';
@@ -20,10 +22,13 @@ import { createClient, clearsuccessdata } from '../../store/actions/appactions';
 const Modals = ({show, close}) => {
   const app = useSelector(state => state.app)
   const [title, setTitle] = useState('');
+  const [brand, setBrand] = useState('');
+  const [productcategory, setProductcategory] = useState('');
+  const [description, setDescription] = useState('');
   const dispatch = useDispatch();
 
   const onSubmit = () => {
-    dispatch(createClient(title, app.user.token));
+    dispatch(createClient(title, brand, productcategory, description, app.user.token));
   }
 
   useEffect(() => {
@@ -40,7 +45,7 @@ const Modals = ({show, close}) => {
               onClose={close}
             >
               <CModalHeader closeButton>
-                <CModalTitle>Create Product Client</CModalTitle>
+                <CModalTitle>Create Product name</CModalTitle>
               </CModalHeader>
               <CModalBody>
               <CCol xs="12">
@@ -61,6 +66,42 @@ const Modals = ({show, close}) => {
                     <CInput id="name" placeholder="Enter Title" required value={title} onChange={(e) => setTitle(e.target.value)} />
                   </CFormGroup>
                 </CCol>
+                <CCol xs="12">
+                <CFormGroup>
+                    <CLabel htmlFor="brand">Brand</CLabel>
+                    <CSelect custom name="brand" id="brand" value={brand} onChange={(e) => setBrand(e.target.value)}>
+                    <option disabled value=''>Enter Brand</option>
+                     {app.brands ? app.brands.map(category => {
+                       return (
+                        <option value={category._id}>{category.title}</option>
+                       )
+                     }) : null}
+                    </CSelect>
+                  </CFormGroup>
+                </CCol>
+                <CCol xs="12">
+                <CFormGroup>
+                    <CLabel htmlFor="category">Category</CLabel>
+                    <CSelect custom name="category" id="category" value={productcategory} onChange={(e) => setProductcategory(e.target.value)}>
+                    <option disabled value=''>Enter Product name</option>
+                     {app.subcategories ? app.subcategories.map(category => {
+                       return (
+                        <option value={category._id}>{category.title}</option>
+                       )
+                     }) : null}
+                    </CSelect>
+                  </CFormGroup>
+                </CCol>
+                <CCol xs='12' style={{marginBottom: 30}}>
+                    <CLabel htmlFor="textarea-input">Description</CLabel>
+                    <CTextarea 
+                      name="description" 
+                      value={description} 
+                      rows="9"
+                      onChange={(e) => setDescription(e.target.value)}
+                      placeholder="Description..." 
+                    />
+                    </CCol>
                 <CCol xs='12'>
                 <CButton  color="primary" block onClick={() => onSubmit()}>{app.loading ?  <CSpinner color="success" size="sm" /> : 'create'}</CButton>
                 </CCol>
