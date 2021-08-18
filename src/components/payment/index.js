@@ -158,7 +158,7 @@ const Products = () => {
               'Action':
                 (item)=>(
                   <td>
-                 {item.state === 'paid' ?   <span onClick={() => onDelete(item)}>change status</span> : '---'}
+                 {item.state === 'pending' ?   <span onClick={() => onDelete(item)}>change status</span> : '---'}
                   </td>
                 )
             }}

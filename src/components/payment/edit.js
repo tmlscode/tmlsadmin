@@ -29,7 +29,7 @@ const Modals = ({show, close, brand}) => {
     onClose={close}
   >
     <CModalHeader closeButton>
-      <CModalTitle>change status Trendingbrand</CModalTitle>
+      <CModalTitle>change order status</CModalTitle>
     </CModalHeader>
     <CModalBody>
     <CRow>
@@ -40,11 +40,11 @@ const Modals = ({show, close, brand}) => {
                 </CCol> : null}
                 {app.successedit ?  <CCol xs='12'>
                 <CAlert color="success" closeButton>
-                Trending brand status changed successfully
+                Order status changed successfully
               </CAlert>
                 </CCol> : null}
     </CRow>
-      Are you sure you want to change {brand ? `${brand.user.name}'s` : null} order status to {brand.status === 'pending' ? "cancelled" : "Delivered"}?
+      Are you sure you want to change {brand ? `${brand.fullname}'s` : null} order status to {brand.status === 'pending' ? "cancelled" : "Complete"}?
     </CModalBody>
     <CModalFooter>
       <CButton color="success" onClick={onSubmit}>{app.loading ? <CSpinner color="white" size="sm" /> : 'Submit'}</CButton>{' '}

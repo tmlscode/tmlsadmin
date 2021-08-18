@@ -11,6 +11,12 @@ const _nav =  [
   },
   {
     _tag: 'CSidebarNavItem',
+    name: 'Product Brand Setup',
+    to: '/productsetup',
+    icon:  <CIcon content={freeSet.cilTag} customClasses="c-sidebar-nav-icon"/>,
+  }, 
+  {
+    _tag: 'CSidebarNavItem',
     name: 'Product Name Setup',
     to: '/productnamesetup',
     icon: <CIcon content={freeSet.cilApps} customClasses="c-sidebar-nav-icon"/>,
@@ -21,12 +27,6 @@ const _nav =  [
     to: '/catalognumbersetup',
     icon: <CIcon content={freeSet.cilApps} customClasses="c-sidebar-nav-icon"/>,
   },
-  {
-    _tag: 'CSidebarNavItem',
-    name: 'Product setup',
-    to: '/productsetup',
-    icon:  <CIcon content={freeSet.cilTag} customClasses="c-sidebar-nav-icon"/>,
-  }, 
   // {
   //   _tag: 'CSidebarNavItem',
   //   name: 'Trendingbrands',
@@ -47,7 +47,7 @@ const _nav =  [
   // },
   {
     _tag: 'CSidebarNavItem',
-    name: 'Payment',
+    name: 'Received Orders',
     to: '/payment',
     icon: <CIcon content={freeSet.cilCash} customClasses="c-sidebar-nav-icon"/>,
   },

@@ -49,7 +49,8 @@ const TheHeader = () => {
       />
       <CHeaderBrand className="mx-auto d-lg-none" to="/">
         {/* <CIcon name="logo" height="48" alt="Logo"/> */}
-        <img src='https://res.cloudinary.com/dqf4lqxyi/image/upload/v1619334684/Logo_iuko45.png' alt='logo' style={{width: 150}}/>
+        <span style={{color: '#222222', fontSize: 20, fontWeight: 'bold'}}>TMLS</span>
+        {/* <img src='https://res.cloudinary.com/dqf4lqxyi/image/upload/v1619334684/Logo_iuko45.png' alt='logo' style={{width: 150}}/> */}
       </CHeaderBrand>
 
       <CHeaderNav className="d-md-down-none mr-auto">

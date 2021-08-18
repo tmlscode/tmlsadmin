@@ -392,11 +392,11 @@ export const sideBar = (sidebarShow) => async dispatch => {
                     }
     
 
-                export const editCategory = (token, categoryid, title) => async dispatch => { 
+                export const editCategory = (token, categoryid, catalognumber, packagename, client) => async dispatch => { 
                     dispatch({
                         type: types.LOADING,
                     })
-                        await Swahili.post('/category/edit', {token, categoryid, title}).then(res => {
+                        await Swahili.post('/category/edit', {token, categoryid, catalognumber, packagename, client}).then(res => {
                             dispatch({
                                         type: types.SUCCESS_EDIT,
                                         payload: res.data
@@ -477,11 +477,11 @@ export const sideBar = (sidebarShow) => async dispatch => {
                     
                         }
 
-        export const createClient = (title, brand, productcategory, description, token) => async dispatch => { 
+        export const createClient = (title, brand, productcategory, description, brandlabel, categorylabel, token) => async dispatch => { 
             dispatch({
                 type: types.LOADING,
             })
-                await Swahili.post('/client/create', {title, productcategory, brand, description, token}).then(res => {
+                await Swahili.post('/client/create', {title, productcategory, brand, description, brandlabel, categorylabel, token}).then(res => {
                     dispatch({
                                 type: types.SUCCESS_CLIENT,
                                 payload: res.data

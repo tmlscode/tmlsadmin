@@ -18,17 +18,24 @@ import {
 } from '@coreui/react'
 import { useDispatch, useSelector } from 'react-redux';
 import { createClient, clearsuccessdata } from '../../store/actions/appactions';
+import 'react-bootstrap-typeahead/css/Typeahead.css';
+import {
+  Typeahead,
+} from 'react-bootstrap-typeahead';
+
 
 const Modals = ({show, close}) => {
   const app = useSelector(state => state.app)
   const [title, setTitle] = useState('');
-  const [brand, setBrand] = useState('');
+  const [brand, setBrand] = useState([]);
   const [productcategory, setProductcategory] = useState('');
   const [description, setDescription] = useState('');
   const dispatch = useDispatch();
 
   const onSubmit = () => {
-    dispatch(createClient(title, brand, productcategory, description, app.user.token));
+    const brandlabel = app.brands.find(brands => brands._id === brand[0]?._id)
+    const categorylabel = app.subcategories.find(brands => brands._id === productcategory)
+    dispatch(createClient(title, brand[0]?._id, productcategory, description, brandlabel.title, categorylabel.title,  app.user.token));
   }
 
   useEffect(() => {
@@ -39,6 +46,8 @@ const Modals = ({show, close}) => {
       return null
     }
   })
+
+
   return (
             <CModal 
               show={show} 
@@ -57,7 +66,7 @@ const Modals = ({show, close}) => {
                 </CCol> : null}
                 {app.successclientmsg ? <CCol xs='12'>
                 <CAlert color="success">
-                Client Created successfully
+                Product name Created successfully
               </CAlert>
                 </CCol> : null}
                 <CCol xs="12">
@@ -69,14 +78,22 @@ const Modals = ({show, close}) => {
                 <CCol xs="12">
                 <CFormGroup>
                     <CLabel htmlFor="brand">Brand</CLabel>
-                    <CSelect custom name="brand" id="brand" value={brand} onChange={(e) => setBrand(e.target.value)}>
+                    <Typeahead
+          id="basic-typeahead-single"
+          labelKey="title"
+          onChange={setBrand}
+          options={app.brands}
+          placeholder="Choose a brand"
+          selected={brand}
+        />
+                    {/* <CSelect custom name="brand" id="brand" value={brand} onChange={(e) => setBrand(e.target.value)}>
                     <option disabled value=''>Enter Brand</option>
                      {app.brands ? app.brands.map(category => {
                        return (
                         <option value={category._id}>{category.title}</option>
                        )
                      }) : null}
-                    </CSelect>
+                    </CSelect> */}
                   </CFormGroup>
                 </CCol>
                 <CCol xs="12">

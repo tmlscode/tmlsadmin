@@ -28,7 +28,8 @@ const TheSidebar = () => {
       onShowChange={(val) => dispatch(sideBar(val))}
     >
       <CSidebarBrand className="d-md-down-none" to="/">
-        <img src='https://res.cloudinary.com/dqf4lqxyi/image/upload/v1619334684/Logo_iuko45.png' style={{width: 200, objectFit: 'contain'}}/>
+      <span style={{color: '#fff', fontSize: 20, fontWeight: 'bold'}}>TMLS</span>
+        {/* <img src='https://res.cloudinary.com/dqf4lqxyi/image/upload/v1619334684/Logo_iuko45.png' style={{width: 200, objectFit: 'contain'}}/> */}
       </CSidebarBrand>
       <CSidebarNav>
 

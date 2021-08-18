@@ -17,17 +17,21 @@ import {
 } from '@coreui/react'
 import { useDispatch, useSelector } from 'react-redux';
 import { createCategory, clearsuccessdata } from '../../store/actions/appactions';
+import 'react-bootstrap-typeahead/css/Typeahead.css';
+import {
+  Typeahead,
+} from 'react-bootstrap-typeahead';
 
 const Modals = ({show, close}) => {
   const [title, setTitle] = useState('');
   const dispatch = useDispatch();
   const app = useSelector(state => state.app)
-  const [brand, setBrand] = useState('');
+  const [brand, setBrand] = useState([]);
   const [packagename, setPackagename] = useState('');
 
 
   const onSubmit = () => {
-    dispatch(createCategory(title, brand, packagename, app.user.token));
+    dispatch(createCategory(title, brand[0]?._id, packagename, app.user.token));
   }
 
 
@@ -49,7 +53,7 @@ const Modals = ({show, close}) => {
                 </CCol> : null}
                 {app.successcategorymsg ? <CCol xs='12'>
                 <CAlert color="success">
-                 Product Category successfully
+                 Product Catalog successfully created
               </CAlert>
                 </CCol> : null}
                 <CCol xs="12">
@@ -61,14 +65,14 @@ const Modals = ({show, close}) => {
                 <CCol xs="12">
                 <CFormGroup>
                     <CLabel htmlFor="brand">Product name</CLabel>
-                    <CSelect custom name="brand" id="brand" value={brand} onChange={(e) => setBrand(e.target.value)}>
-                    <option disabled value=''>Enter Product name</option>
-                     {app.clients ? app.clients.map(category => {
-                       return (
-                        <option value={category._id}>{category.title}</option>
-                       )
-                     }) : null}
-                    </CSelect>
+                    <Typeahead
+          id="basic-typeahead-single"
+          labelKey="title"
+          onChange={setBrand}
+          options={app.clients}
+          placeholder="Choose a product"
+          selected={brand}
+        />
                   </CFormGroup>
                 </CCol>
                 <CCol xs="12">

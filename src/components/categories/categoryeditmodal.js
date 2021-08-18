@@ -18,22 +18,26 @@ import {
 } from '@coreui/react'
 import { useDispatch, useSelector } from 'react-redux';
 import { editClient } from 'src/store/actions/appactions';
+import 'react-bootstrap-typeahead/css/Typeahead.css';
+import {
+  Typeahead,
+} from 'react-bootstrap-typeahead';
 
 const Modals = ({show, close, brand}) => {
   const [title, setTitle] = useState('');
   const [productcategory, setProductcategory] = useState('');
   const [description, setDescription] = useState('');
-  const [brands, setBrands] = useState('');
+  const [brands, setBrands] = useState([]);
   const dispatch = useDispatch();
   const app = useSelector(state => state.app)
 
   const onSubmit = () => {
-    dispatch(editClient(app.user.token, brand._id, title, productcategory, description, brands));
+    dispatch(editClient(app.user.token, brand._id, title, productcategory, description, brands[0]?._id));
   }
 
   const setting = () => {
     setTitle(brand.title);
-    setBrands(brand.brand._id);
+    setBrands([brand.brand]);
     setProductcategory(brand.productcategory._id);
     setDescription(brand.description);
   }
@@ -58,7 +62,7 @@ const Modals = ({show, close, brand}) => {
                 </CCol> : null}
                 {app.successedit ? <CCol xs='12'>
                 <CAlert color="success">
-                Category Edited successfully
+                Pruduct name Edited successfully
               </CAlert>
                 </CCol> : null}
                 <CCol xs="12">
@@ -70,14 +74,14 @@ const Modals = ({show, close, brand}) => {
                 <CCol>
                 <CFormGroup>
                     <CLabel htmlFor="brand">Brand</CLabel>
-                    <CSelect custom name="brand" id="brand" value={brands} onChange={(e) => setBrands(e.target.value)}>
-                    <option disabled value=''>Enter Brand</option>
-                     {app.brands ? app.brands.map(category => {
-                       return (
-                        <option value={category._id}>{category.title}</option>
-                       )
-                     }) : null}
-                    </CSelect>
+                    <Typeahead
+          id="basic-typeahead-single"
+          labelKey="title"
+          onChange={setBrands}
+          options={app.brands}
+          placeholder="Choose a brand"
+          selected={brands}
+        />
                   </CFormGroup>
                 </CCol>
                 <CCol xs="12">
