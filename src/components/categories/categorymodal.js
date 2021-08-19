@@ -35,7 +35,7 @@ const Modals = ({show, close}) => {
   const onSubmit = () => {
     const brandlabel = app.brands.find(brands => brands._id === brand[0]?._id)
     const categorylabel = app.subcategories.find(brands => brands._id === productcategory)
-    dispatch(createClient(title, brand[0]?._id, productcategory, description, brandlabel.title, categorylabel.title,  app.user.token));
+    dispatch(createClient(title, brand[0]?._id, productcategory, description, brandlabel.title.toLowerCase(), categorylabel.title.toLowerCase(),  app.user.token));
   }
 
   useEffect(() => {
