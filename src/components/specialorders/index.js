@@ -17,7 +17,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { clearSuccess, getSpecialorders } from '../../store/actions/appactions';
 import Lightbox from 'react-image-lightbox';
 import moment from 'moment';
-const fields = [{key: 'user', label: 'Username'}, {key: 'phonenumber'}, {key: '_id', label: 'order id'},{key: 'productname'},{key: 'Details'},{key: 'quantity'},{key: 'state'},{key: 'since', label: 'Date'}, {key: 'Action'}]
+const fields = [{key: 'fullname', label: 'Fullname'}, {key: 'email'}, {key: 'subject', label: 'Subject'},{key: 'message'},{key: 'since', label: 'Date'}]
 
 const Products = () => {
   const history = useHistory()
@@ -41,7 +41,7 @@ const Products = () => {
   }, [dispatch]);
 
   const pageChange = newPage => {
-    currentPage !== newPage && history.push(`/specialorders?page=${newPage}`)
+    currentPage !== newPage && history.push(`/messages?page=${newPage}`)
   }
 
   useEffect(() => {
@@ -107,7 +107,7 @@ const Products = () => {
           <CCardHeader>
           <CRow>
                  <CCol xs="11"  className="mb-3 mb-xl-0">
-                  Specialorders
+                  Messages
                 </CCol>
                 {/* <CCol xs="1" className="mb-3 mb-xl-0" style={{display: 'flex', alignItems: 'flex-end', flexDirection: 'row'}}>
                 <CButton color="primary" onClick={() => setShow(true)}>Create</CButton>
@@ -126,38 +126,12 @@ const Products = () => {
             activePage={page}
             clickableRows
             scopedSlots = {{
-              'user':
-              (item)=>(
-                <td>
-                 {item?.user?.name || null}
-                </td>
-              ),
-              'phonenumber':
-              (item)=>(
-                <td>
-                 {item?.user?.mobile || null}
-                </td>
-              ),
-                'Details':
-                (item)=>(
-                  <td>
-                   <span variant="ghost" color="transparent" onClick={() => onOpenphotos(item)}>
-                view
-              </span>
-                  </td>
-                ),
                 'since':
                 (item)=>(
                   <td>
                    {moment(item?.since || null).format('L')}
                   </td>
                 ),
-              'Action':
-                (item)=>(
-                  <td>
-                 {item.state === 'pending' ?   <span onClick={() => onDelete(item)}>change status</span> : '---'}
-                  </td>
-                )
             }}
           />
           <CPagination

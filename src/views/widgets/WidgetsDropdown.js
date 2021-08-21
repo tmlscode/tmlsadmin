@@ -16,14 +16,7 @@ import {useSelector} from 'react-redux';
 const WidgetsDropdown = () => {
   // render
   const app = useSelector(state => state.app)
-  const paycustomers = app.payments && app.payments.length ? app.payments.filter(pay => (pay.state === 'paid' || pay.state === 'delivered')) : 0
-
-  const totalamountpaidarray = app.payments && app.payments.length  ? app.payments.filter(pay => (pay.state === 'paid' || pay.state === 'delivered')) : []
-
-  const sumTotal = arr =>
-  arr.reduce((sum, { total }) => sum + parseFloat(total), 0)
-  
-  const totalamountpaid = totalamountpaidarray && totalamountpaidarray.length > 0 ? sumTotal(paycustomers) : '0';
+  const paycustomers = app.payments;
 
   const totalspecialorders = app.specialorders && app.specialorders.length ? app.specialorders.length : '0';
 
@@ -63,7 +56,7 @@ const WidgetsDropdown = () => {
         <CWidgetDropdown
           color="gradient-info"
           header={paycustomers?.length || '---'}
-          text="Total Paying Customers"
+          text="Orders"
           footerSlot={
             <ChartLineSimple
               pointed
@@ -89,22 +82,6 @@ const WidgetsDropdown = () => {
         </CWidgetDropdown>
       </CCol>
 
-      <CCol sm="6" lg="3">
-        <CWidgetDropdown
-          color="gradient-warning"
-          header={totalamountpaid ? totalamountpaid : null}
-          text="Total Amount Paid"
-          footerSlot={
-            <ChartLineSimple
-              className="mt-3"
-              style={{height: '70px'}}
-              backgroundColor="rgba(255,255,255,.2)"
-              dataPoints={[]}
-              options={{ elements: { line: { borderWidth: 2.5 }}}}
-              pointHoverBackgroundColor="warning"
-            />
-          }
-        >
           {/* <CDropdown>
             <CDropdownToggle color="transparent">
               <CIcon name="cil-settings"/>
@@ -116,32 +93,12 @@ const WidgetsDropdown = () => {
               <CDropdownItem disabled>Disabled action</CDropdownItem>
             </CDropdownMenu>
           </CDropdown> */}
-        </CWidgetDropdown>
-      </CCol>
 
       <CCol sm="6" lg="3">
         <CWidgetDropdown
           color="gradient-danger"
           header={totalspecialorders}
-          text="Total Special orders"
-          footerSlot={
-            <ChartLineSimple
-              className="mt-3"
-              style={{height: '70px'}}
-              backgroundColor="rgba(255,255,255,.2)"
-              dataPoints={[]}
-              options={{ elements: { line: { borderWidth: 2.5 }}}}
-              pointHoverBackgroundColor="warning"
-            />
-          }
-        >
-        </CWidgetDropdown>
-      </CCol>
-      <CCol sm="6" lg="3">
-        <CWidgetDropdown
-          color="gradient-danger"
-          header={totalevents}
-          text="Total Events"
+          text="Total Messages"
           footerSlot={
             <ChartLineSimple
               className="mt-3"

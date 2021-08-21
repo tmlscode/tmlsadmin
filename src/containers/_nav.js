@@ -51,12 +51,12 @@ const _nav =  [
     to: '/payment',
     icon: <CIcon content={freeSet.cilCash} customClasses="c-sidebar-nav-icon"/>,
   },
-  // {
-  //   _tag: 'CSidebarNavItem',
-  //   name: 'Special Orders',
-  //   to: '/specialorders',
-  //   icon: <CIcon content={freeSet.cilCash} customClasses="c-sidebar-nav-icon"/>,
-  // },
+  {
+    _tag: 'CSidebarNavItem',
+    name: 'Messages',
+    to: '/messages',
+    icon: <CIcon content={freeSet.cilCash} customClasses="c-sidebar-nav-icon"/>,
+  },
   // {
   //   _tag: 'CSidebarNavItem',
   //   name: 'Events Rating',

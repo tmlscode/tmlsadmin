@@ -54,7 +54,7 @@ const Sitecustomers = React.lazy(() => import('./components/sitecustomers'));
 const routes = [
   { path: '/', exact: true, name: 'Home' },
   {path: '/payment', exact: true, name: 'payment', component: Payment},
-  {path: '/specialorders', exact: true, name: 'specialorders', component: Specialorders},
+  {path: '/messages', exact: true, name: 'Messages', component: Specialorders},
   {path: '/sitecustomers', exact: true, name: 'sitecustomers', component: Sitecustomers},
   {path: '/trendingbrands', exact: true, name: 'trendingbrands', component: Trendingbrands},
   { path: '/locations', exact: true, name: 'location', component: Location },
