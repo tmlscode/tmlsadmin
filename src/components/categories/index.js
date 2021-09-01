@@ -15,8 +15,9 @@ import EditModal from './categoryeditmodal';
 import { useDispatch, useSelector } from 'react-redux';
 import { getClients, clearSuccess, getSubcategories, getBrands } from '../../store/actions/appactions';
 import moment from 'moment';
+import Detailsmodal from './details';
 
-const fields = [{key: 'title'}, {key: 'since', label: 'Date'},{key: 'Action'}]
+const fields = [{key: 'title'},{key: 'brand'},{key: 'productcategory', label: "category"}, {key: 'description'}, {key: 'since', label: 'Date'},{key: 'Action'}]
 
 const Users = () => {
   const history = useHistory()
@@ -28,6 +29,7 @@ const Users = () => {
   const dispatch = useDispatch();
   const app = useSelector(state => state.app)
   const [showedit, setShowedit] = useState(false);
+  const [details, setDetails] = useState(false);
 
   useEffect(() => {
     dispatch(getClients());
@@ -56,12 +58,22 @@ const Users = () => {
     dispatch(clearSuccess());
   }
 
+  const onOpenmessage = (title) => {
+    setBrand(title);
+    setDetails(true);
+  }
+
+  const closedetails = () => {
+    setBrand('');
+    setDetails(false);
+  }
 
 
   return (
       <>
       <Modal show={show} close={handleClose}/>
       <EditModal show={showedit} close={handleClosedit} brand={brand}/>
+      <Detailsmodal show={details} close={closedetails} brand={brand}/>
     <CRow>
       <CCol xl={12}>
         <CCard>
@@ -87,6 +99,24 @@ const Users = () => {
             loading={app.loading}
             clickableRows
             scopedSlots = {{
+              'brand':
+              (item)=>(
+                <td>
+               <span>{item?.brand?.title}</span>
+                </td>
+              ),
+              'productcategory':
+              (item)=>(
+                <td>
+               <span>{item?.productcategory?.title}</span>
+                </td>
+              ),
+              'description':
+              (item)=>(
+                <td>
+                 <a onClick={() => onOpenmessage(item?.description)}>{item?.description?.length > 30 ? `${item?.description?.substring(0, 30)}...` : item?.description}</a>
+                </td>
+              ),
               'since':
               (item)=>(
                 <td>
