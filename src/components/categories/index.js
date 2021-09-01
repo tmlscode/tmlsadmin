@@ -16,6 +16,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getClients, clearSuccess, getSubcategories, getBrands } from '../../store/actions/appactions';
 import moment from 'moment';
 import Detailsmodal from './details';
+import Delete from './delete';
 
 const fields = [{key: 'title'},{key: 'brand'},{key: 'productcategory', label: "category"}, {key: 'description'}, {key: 'since', label: 'Date'},{key: 'Action'}]
 
@@ -30,6 +31,7 @@ const Users = () => {
   const app = useSelector(state => state.app)
   const [showedit, setShowedit] = useState(false);
   const [details, setDetails] = useState(false);
+  const [deletes, setDeletes] = useState(false);
 
   useEffect(() => {
     dispatch(getClients());
@@ -63,9 +65,22 @@ const Users = () => {
     setDetails(true);
   }
 
+
+  const onOpendelete = (title) => {
+    setBrand(title);
+    setDeletes(true);
+  }
+
   const closedetails = () => {
     setBrand('');
     setDetails(false);
+  }
+
+  const closeDelete = () => {
+    setBrand('');
+    setDeletes(false);
+    dispatch(getClients());
+    dispatch(clearSuccess());
   }
 
 
@@ -74,6 +89,7 @@ const Users = () => {
       <Modal show={show} close={handleClose}/>
       <EditModal show={showedit} close={handleClosedit} brand={brand}/>
       <Detailsmodal show={details} close={closedetails} brand={brand}/>
+      <Delete show={deletes} close={closeDelete} brand={brand}/>
     <CRow>
       <CCol xl={12}>
         <CCard>
@@ -126,7 +142,7 @@ const Users = () => {
               'Action':
                 (item)=>(
                   <td>
-                   <span onClick={(e) => {setBrand(item); setShowedit(true)}}>edit</span>
+                   <span onClick={(e) => {setBrand(item); setShowedit(true)}}>edit</span> | <span onClick={(e) => {onOpendelete(item)}}>delete</span>
                   </td>
                 )
             }}

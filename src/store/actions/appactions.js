@@ -694,6 +694,58 @@ export const sideBar = (sidebarShow) => async dispatch => {
                 
                 }
 
+                export const deleteClient = (token, adminid) => async dispatch => { 
+                    dispatch({
+                        type: types.CLEAR_ERROR,
+                    })
+                    dispatch({
+                        type: types.LOADING,
+                    })
+                    await Swahili.post('/client/delete', {token, clientid: adminid}).then(res => {
+                        dispatch({
+                                    type: types.SUCCESS_EDIT,
+                                    payload: res.data
+                                })
+                        // window.location.replace('/dashboard');
+                    }).catch(err => {
+                        console.log(err.response.data);
+                        dispatch({
+                            type: types.ERROR,
+                            payload: {
+                                type: 'editadminerror',
+                                error: err.response.data
+                            }
+                        })
+                    })
+                
+                }
+
+                export const deleteCategory = (token, adminid) => async dispatch => { 
+                    dispatch({
+                        type: types.CLEAR_ERROR,
+                    })
+                    dispatch({
+                        type: types.LOADING,
+                    })
+                    await Swahili.post('/category/delete', {token, categoryid: adminid}).then(res => {
+                        dispatch({
+                                    type: types.SUCCESS_EDIT,
+                                    payload: res.data
+                                })
+                        // window.location.replace('/dashboard');
+                    }).catch(err => {
+                        console.log(err.response.data);
+                        dispatch({
+                            type: types.ERROR,
+                            payload: {
+                                type: 'editadminerror',
+                                error: err.response.data
+                            }
+                        })
+                    })
+                
+                }
+
                 export const deleteTrending = (token, trendingbrandid) => async dispatch => { 
                     dispatch({
                         type: types.CLEAR_ERROR,

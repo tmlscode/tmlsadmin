@@ -15,6 +15,7 @@ import EditModal from './subcategorieseditmodal';
 import { useDispatch, useSelector } from 'react-redux';
 import { getCategories, clearSuccess, getClients } from '../../store/actions/appactions';
 import moment from 'moment';
+import Delete from './delete';
 
 const fields = [{key: 'catalognumber'} , {key: 'since', label: 'Date'}, {key: 'Action'}]
 
@@ -28,6 +29,7 @@ const Users = () => {
   const dispatch = useDispatch();
   const app = useSelector(state => state.app)
   const [showedit, setShowedit] = useState(false);
+  const [deletes, setDeletes] = useState(false);
 
   useEffect(() => {
     dispatch(getCategories());
@@ -56,11 +58,24 @@ const Users = () => {
   }
 
 
+  const onOpendelete = (title) => {
+    setBrand(title);
+    setDeletes(true);
+  }
+
+  const closeDelete = () => {
+    setBrand('');
+    setDeletes(false);
+    dispatch(getCategories());
+    dispatch(clearSuccess());
+  }
+
 
   return (
       <>
       <Modal show={show} close={handleClose}/>
       <EditModal show={showedit} close={handleClosedit} brand={brand}/>
+      <Delete show={deletes} close={closeDelete} brand={brand}/>
     <CRow>
       <CCol xl={12}>
         <CCard>
@@ -97,6 +112,8 @@ const Users = () => {
                   <td>
                    <span onClick={(e) => {setBrand(item); setShowedit(true)}}>
                 Edit
+              </span> | <span onClick={() => {onOpendelete(item)}}>
+                Delete
               </span>
                  </td>
                 )
