@@ -36,7 +36,7 @@ const Modals = ({show, close, brand}) => {
               onOpened={setting}
             >
               <CModalHeader closeButton>
-                <CModalTitle>Message</CModalTitle>
+                <CModalTitle>Details</CModalTitle>
               </CModalHeader>
               <CModalBody>
               <CCol xs="12">

@@ -15,11 +15,9 @@ import EditModal from './products';
 import Deletemodal from './edit';
 import { useDispatch, useSelector } from 'react-redux';
 import { clearSuccess, getPayments } from '../../store/actions/appactions';
-import Lightbox from 'react-image-lightbox';
+import Detailsmodal from './details';
 import moment from 'moment';
-const fields = [{key: 'user', label: 'Username'},{key: 'products'}, {key: 'state'}, {key: 'details'},
-// {key: 'brand'},{key: 'client', label: 'Product Client'}, {key: 'category', label: 'Product Category'},{key: 'subcategory', label: 'Product Type'},{key: 'size'},{key: 'color'},{key: 'gallery'},{key: 'image'},
-{key: 'since', label: 'Date'}, {key: 'Action'}]
+const fields = [{key: 'user', label: 'Username'},{key: 'products'},{key: 'email'},{key: 'company'}, {key: 'state'}, {key: 'productdetails'},{key: 'since', label: 'Date'}, {key: 'Action'}]
 
 const Products = () => {
   const history = useHistory()
@@ -35,6 +33,7 @@ const Products = () => {
   const [open, setOpen] = useState(false);
   const [deletes, setDeletes] = useState(false);
   const [showedit, setShowedit] = useState(false);
+  const [details, setDetails] = useState(false);
 
   useEffect(() => {
     // dispatch(sideBar(false))
@@ -55,9 +54,14 @@ const Products = () => {
       dispatch(getPayments());
       dispatch(clearSuccess());
   }
-  const onOpen = (title) => {
+  const onOpenmessage = (title) => {
     setBrand(title);
-    setShowedit(true);
+    setDetails(true);
+  }
+
+  const closedetails = () => {
+    setBrand('');
+    setDetails(false);
   }
 
 
@@ -104,6 +108,7 @@ const Products = () => {
       {/* <Modal show={show} close={handleClose}/> */}
     <EditModal show={open} close={handleClosedit} purchases={images} />
       <Deletemodal show={deletes} close={handleClosedelete} brand={brand}/>
+      <Detailsmodal show={details} close={closedetails} brand={brand}/>
     <CRow>
       <CCol xl={12}>
         <CCard>
@@ -143,12 +148,12 @@ const Products = () => {
               </span>
                   </td>
                 ),
-            //     'image':
-            //     (item)=>(
-            //       <td>
-            //        <span variant="ghost" color="transparent" onClick={() => onOpenphotos([item.image])}>image</span>
-            //       </td>
-            //     ),
+                'productdetails':
+                (item)=>(
+                  <td>
+                   <a onClick={() => onOpenmessage(item?.productdetails)}>{item?.productdetails?.length > 30 ? `${item?.productdetails?.substring(0, 30)}...` : item?.productdetails}</a>
+                  </td>
+                ),
                 'since':
                 (item)=>(
                   <td>

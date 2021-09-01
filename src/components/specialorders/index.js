@@ -53,10 +53,11 @@ const Products = () => {
       dispatch(getSpecialorders());
       dispatch(clearSuccess());
   }
-  const onOpen = (title) => {
-    setBrand(title);
+  const onOpenmessage = (message) => {
+    setBrand(message);
     setShowedit(true);
   }
+  
 
 
   const onOpenphotos = (photos) => {
@@ -77,6 +78,7 @@ const Products = () => {
 
   const handleClosedit = () => {
     setOpen(false);
+    setShowedit(false)
     setImages('');
     dispatch(getSpecialorders());
     dispatch(clearSuccess());
@@ -99,8 +101,7 @@ const Products = () => {
           />        
         )} */}
       {/* <Modal show={show} close={handleClose}/> */}
-    <EditModal show={open} close={handleClosedit} purchases={images} />
-      <Deletemodal show={deletes} close={handleClosedelete} special={brand}/>
+      <Deletemodal show={showedit} close={handleClosedit} brand={brand}/>
     <CRow>
       <CCol xl={12}>
         <CCard>
@@ -130,6 +131,12 @@ const Products = () => {
                 (item)=>(
                   <td>
                    {moment(item?.since || null).format('L')}
+                  </td>
+                ),
+                'message':
+                (item)=>(
+                  <td>
+                   <a onClick={() => onOpenmessage(item.message)}>{item.message.length > 30 ? `${item.message.substring(0, 30)}...` : item.message}</a>
                   </td>
                 ),
             }}
