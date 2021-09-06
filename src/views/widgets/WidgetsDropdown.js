@@ -20,7 +20,11 @@ const WidgetsDropdown = () => {
 
   const totalspecialorders = app.specialorders && app.specialorders.length ? app.specialorders.length : '0';
 
-  const totalevents = app.events && app.events.length ? app.events.length : '0';
+  const totalevents = app.clients && app.clients.length ? app.clients.length : '0';
+
+  const totalcatalogs = app.categories && app.categories.length ? app.categories.length : '0';
+
+  const totalbrands = app.brands && app.brands.length ? app.brands.length : '0';
   return (
     <CRow>
       <CCol sm="6" lg="3">
@@ -50,6 +54,54 @@ const WidgetsDropdown = () => {
             </CDropdownMenu>
           </CDropdown> */}
         </CWidgetDropdown>
+      </CCol>
+      <CCol sm='6' lg='3'>
+      <CWidgetDropdown
+          color="gradient-primary"
+          header={totalevents}
+          text="Total Products"
+          footerSlot={
+            <ChartLineSimple
+              pointed
+              className="c-chart-wrapper mt-3 mx-3"
+              style={{height: '70px'}}
+              dataPoints={[]}
+              pointHoverBackgroundColor="primary"
+            />
+          }
+        ></CWidgetDropdown>
+      </CCol>
+      <CCol sm='6' lg='3'>
+      <CWidgetDropdown
+          color="gradient-primary"
+          header={totalcatalogs}
+          text="Total Catalogs"
+          footerSlot={
+            <ChartLineSimple
+              pointed
+              className="c-chart-wrapper mt-3 mx-3"
+              style={{height: '70px'}}
+              dataPoints={[]}
+              pointHoverBackgroundColor="primary"
+            />
+          }
+        ></CWidgetDropdown>
+      </CCol>
+      <CCol sm='6' lg='3'>
+      <CWidgetDropdown
+          color="gradient-primary"
+          header={totalbrands}
+          text="Total brands"
+          footerSlot={
+            <ChartLineSimple
+              pointed
+              className="c-chart-wrapper mt-3 mx-3"
+              style={{height: '70px'}}
+              dataPoints={[]}
+              pointHoverBackgroundColor="primary"
+            />
+          }
+        ></CWidgetDropdown>
       </CCol>
 
       <CCol sm="6" lg="3">

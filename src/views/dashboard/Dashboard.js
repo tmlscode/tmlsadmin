@@ -15,7 +15,7 @@ import {
 import CIcon from '@coreui/icons-react'
 
 import MainChartExample from '../charts/MainChartExample.js'
-import { clearSuccess, getPayments, getAdmins, getAllUsers, getEvents, getSpecialorders } from '../../store/actions/appactions';
+import {getPayments, getClients, getAllUsers, getSpecialorders, getCategories, getSubcategories, getBrands } from '../../store/actions/appactions';
 import { useDispatch, useSelector } from 'react-redux';
 const WidgetsDropdown = lazy(() => import('../widgets/WidgetsDropdown.js'))
 const WidgetsBrand = lazy(() => import('../widgets/WidgetsBrand.js'))
@@ -25,8 +25,11 @@ const Dashboard = () => {
 const app = useSelector(state => state.app);
   useEffect(() => {
      dispatch(getPayments());
+     dispatch(getBrands());
      dispatch(getAllUsers());
-     dispatch(getEvents());
+     dispatch(getClients());
+     dispatch(getCategories());
+     dispatch(getSubcategories());
      dispatch(getSpecialorders());
   }, [])
   return (
