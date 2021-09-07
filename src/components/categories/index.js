@@ -153,6 +153,7 @@ const Users = () => {
             pages={app.clients ? parseInt(app.clients.length / 4) + 1 : 4}
             doubleArrows={false} 
             align="center"
+            limit={16}
           />
           </CCardBody>
         </CCard>

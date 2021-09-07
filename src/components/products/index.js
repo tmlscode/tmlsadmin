@@ -204,6 +204,7 @@ const Products = () => {
             pages={app.products ? parseInt(app.products.length / 4) + 1 : 4}
             doubleArrows={false} 
             align="center"
+            limit={16}
           />
           </CCardBody>
         </CCard>

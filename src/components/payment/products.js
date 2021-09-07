@@ -53,7 +53,7 @@ const fields = [{key: 'title'},{key: 'brand', label: "supplier"}, {key: 'package
                 <td>
                  {item?.packages?.map((pack) => {
                    return (
-                     <span>{`${pack.packagename || ''} x ${pack?.quantity || ''}, `}</span>
+                     <span>{pack?.catalognumber || ''} x {pack.quantity}&nbsp;&nbsp;,&nbsp;&nbsp;</span>
                    )
                  })}
                 </td>

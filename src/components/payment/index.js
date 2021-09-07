@@ -174,6 +174,7 @@ const Products = () => {
             pages={app.payments ? parseInt(app.payments.length / 4) + 1 : 4}
             doubleArrows={false} 
             align="center"
+            limit={16}
           />
           </CCardBody>
         </CCard>
