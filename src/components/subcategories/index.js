@@ -9,8 +9,11 @@ import {
   CRow,
   CPagination,
   CButton,
-  CInput
+  CInput,
+  CInputGroupPrepend,
+  CInputGroup
 } from '@coreui/react'
+import CIcon from '@coreui/icons-react'
 import Modal from './subcategoriesmodal';
 import EditModal from './subcategorieseditmodal';
 import { useDispatch, useSelector } from 'react-redux';
@@ -88,13 +91,16 @@ const Users = () => {
         <CCard>
           <CCardHeader>
           <CRow>
-                 <CCol xs="8"  className="mb-3 mb-xl-0">
+                 <CCol xs="7"  className="mb-3 mb-xl-0">
                   Product Catalogs
                 </CCol>
-                <CCol xs="3"  className="mb-3 mb-xl-0">
-                  <form onSubmit={(e) => {onSubmit(e)}}>
-                    <CInput id="name" placeholder="Search product name" value={titlesearch} onChange={(e) => setTitlesearch(e.target.value)} /> 
-                  </form>
+                <CCol xs="4"  className="mb-3 mb-xl-0">
+                <CInputGroup style={{borderRadius: 5, overflow: 'hidden'}}>
+                  <CInput style={{height: 35}} id="name" placeholder="Search catalog number" value={titlesearch} onChange={(e) => setTitlesearch(e.target.value)} /> 
+                      <CInputGroupPrepend>
+                        <CButton style={{height: 35}} type="button" onClick={(e) => {onSubmit(e)}} color="primary"><CIcon name="cil-magnifying-glass" /> Search</CButton>
+                      </CInputGroupPrepend>
+                    </CInputGroup>
                 </CCol>
                 <CCol xs="1" className="mb-3 mb-xl-0" style={{display: 'flex', alignItems: 'flex-end', flexDirection: 'row'}}>
                 <CButton color="primary" onClick={() => setShow(true)}>Create</CButton>
