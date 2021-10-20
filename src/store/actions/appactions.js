@@ -156,6 +156,28 @@ export const sideBar = (sidebarShow) => async dispatch => {
             })
         }
 
+        export const searchCategory = (search) => async dispatch => { 
+            dispatch({
+                type: types.LOADING,
+            })
+                await Swahili.post('/category/search', {search}).then(res => {
+        
+                    dispatch({
+                                type: types.GET_CATEGORY,
+                                payload: res.data
+                            })
+                }).catch(err => {
+                    console.log(err.response.data);
+                    dispatch({
+                        type: types.ERROR,
+                        payload: {
+                            type: 'categoryerror',
+                            error: err
+                        }
+                    })
+                })
+            }
+
         export const getClients = () => async dispatch => { 
             dispatch({
                 type: types.LOADING,
@@ -176,6 +198,27 @@ export const sideBar = (sidebarShow) => async dispatch => {
                     })
                 })
             }
+
+            export const searchClient = (search) => async dispatch => { 
+                dispatch({
+                    type: types.LOADING,
+                })
+                    await Swahili.post('/client/search', {search}).then(res => {
+            
+                        dispatch({
+                                    type: types.GET_CLIENTS,
+                                    payload: res.data
+                                })
+                    }).catch(err => {
+                        dispatch({
+                            type: types.ERROR,
+                            payload: {
+                                type: 'clienterror',
+                                error: err
+                            }
+                        })
+                    })
+                }
 
             export const getPayments = () => async dispatch => { 
                 dispatch({
@@ -720,6 +763,32 @@ export const sideBar = (sidebarShow) => async dispatch => {
                 
                 }
 
+                export const deleteBrand = (token, adminid) => async dispatch => { 
+                    dispatch({
+                        type: types.CLEAR_ERROR,
+                    })
+                    dispatch({
+                        type: types.LOADING,
+                    })
+                    await Swahili.post('/brand/delete', {token, brandid: adminid}).then(res => {
+                        dispatch({
+                                    type: types.SUCCESS_EDIT,
+                                    payload: res.data
+                                })
+                        // window.location.replace('/dashboard');
+                    }).catch(err => {
+                        console.log(err.response.data);
+                        dispatch({
+                            type: types.ERROR,
+                            payload: {
+                                type: 'deleteadminerror',
+                                error: err.response.data
+                            }
+                        })
+                    })
+                
+                }
+
                 export const deleteCategory = (token, adminid) => async dispatch => { 
                     dispatch({
                         type: types.CLEAR_ERROR,
@@ -728,6 +797,32 @@ export const sideBar = (sidebarShow) => async dispatch => {
                         type: types.LOADING,
                     })
                     await Swahili.post('/category/delete', {token, categoryid: adminid}).then(res => {
+                        dispatch({
+                                    type: types.SUCCESS_EDIT,
+                                    payload: res.data
+                                })
+                        // window.location.replace('/dashboard');
+                    }).catch(err => {
+                        console.log(err.response.data);
+                        dispatch({
+                            type: types.ERROR,
+                            payload: {
+                                type: 'editadminerror',
+                                error: err.response.data
+                            }
+                        })
+                    })
+                
+                }
+
+                export const deleteSubcategory = (token, adminid) => async dispatch => { 
+                    dispatch({
+                        type: types.CLEAR_ERROR,
+                    })
+                    dispatch({
+                        type: types.LOADING,
+                    })
+                    await Swahili.post('/subcategory/delete', {token, subcategoryid: adminid}).then(res => {
                         dispatch({
                                     type: types.SUCCESS_EDIT,
                                     payload: res.data

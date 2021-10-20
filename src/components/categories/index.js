@@ -9,11 +9,12 @@ import {
   CRow,
   CPagination,
   CButton,
+  CInput,
 } from '@coreui/react'
 import Modal from './categorymodal';
 import EditModal from './categoryeditmodal';
 import { useDispatch, useSelector } from 'react-redux';
-import { getClients, clearSuccess, getSubcategories, getBrands } from '../../store/actions/appactions';
+import { getClients, clearSuccess, getSubcategories, getBrands, searchClient } from '../../store/actions/appactions';
 import moment from 'moment';
 import Detailsmodal from './details';
 import Delete from './delete';
@@ -32,6 +33,7 @@ const Users = () => {
   const [showedit, setShowedit] = useState(false);
   const [details, setDetails] = useState(false);
   const [deletes, setDeletes] = useState(false);
+  const [titlesearch, setTitlesearch] = useState('');
 
   useEffect(() => {
     dispatch(getClients());
@@ -60,14 +62,14 @@ const Users = () => {
     dispatch(clearSuccess());
   }
 
-  const onOpenmessage = (title) => {
-    setBrand(title);
+  const onOpenmessage = (search) => {
+    setBrand(search);
     setDetails(true);
   }
 
 
-  const onOpendelete = (title) => {
-    setBrand(title);
+  const onOpendelete = (search) => {
+    setBrand(search);
     setDeletes(true);
   }
 
@@ -83,6 +85,12 @@ const Users = () => {
     dispatch(clearSuccess());
   }
 
+  const onSubmit = (e) => {
+    e.preventDefault();
+    dispatch(searchClient(titlesearch))
+
+  }
+
 
   return (
       <>
@@ -95,8 +103,13 @@ const Users = () => {
         <CCard>
           <CCardHeader>
           <CRow>
-                 <CCol xs="11"  className="mb-3 mb-xl-0">
+                 <CCol xs="8"  className="mb-3 mb-xl-0">
                   Product name setup
+                </CCol>
+                <CCol xs="3"  className="mb-3 mb-xl-0">
+                  <form onSubmit={(e) => {onSubmit(e)}}>
+                    <CInput id="name" placeholder="Search product name" value={titlesearch} onChange={(e) => setTitlesearch(e.target.value)} /> 
+                  </form>
                 </CCol>
                 <CCol xs="1" className="mb-3 mb-xl-0" style={{display: 'flex', alignItems: 'flex-end', flexDirection: 'row'}}>
                 <CButton color="primary" onClick={() => setShow(true)}>Create</CButton>

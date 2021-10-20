@@ -9,6 +9,7 @@ import EditModal from './brandeditmodal';
 import { useDispatch, useSelector } from 'react-redux';
 import { clearSuccess, getBrands } from 'src/store/actions/appactions';
 import moment from 'moment';
+import Delete from './deletebrand';
 
 const fields = [{key: 'title'}, {key: 'since'}, {key: 'Action'}]
 
@@ -22,6 +23,7 @@ const Users = () => {
   const dispatch = useDispatch();
   const app = useSelector(state => state.app)
   const [showedit, setShowedit] = useState(false);
+  const [deletes, setDeletes] = useState(false);
 
   useEffect(() => {
     dispatch(getBrands());
@@ -52,11 +54,25 @@ const Users = () => {
     setShowedit(true)
   }
 
+  const onOpendelete = (title) => {
+    setBrand(title);
+    setDeletes(true);
+  }
+
+
+  const closeDelete = () => {
+    setBrand('');
+    setDeletes(false);
+    dispatch(getBrands());
+    dispatch(clearSuccess());
+  }
+
 
 
   return (
       <>
       <Modal show={show} close={handleClose}/>
+      <Delete show={deletes} close={closeDelete} brand={brand}/>
       <EditModal show={showedit} close={handleClosedit} brand={brand}/>
     
                   <CDataTable
@@ -79,7 +95,7 @@ const Users = () => {
               'Action':
                 (item)=>(
                   <td>
-                   <span onClick={() => onOpen(item)}>edit</span>
+                   <span onClick={() => onOpen(item)}>edit</span> |  <span onClick={() => onOpendelete(item)}>delete</span>
                   </td>
                 )
             }}

@@ -9,11 +9,12 @@ import {
   CRow,
   CPagination,
   CButton,
+  CInput
 } from '@coreui/react'
 import Modal from './subcategoriesmodal';
 import EditModal from './subcategorieseditmodal';
 import { useDispatch, useSelector } from 'react-redux';
-import { getCategories, clearSuccess, getClients } from '../../store/actions/appactions';
+import { getCategories, clearSuccess, getClients, searchCategory } from '../../store/actions/appactions';
 import moment from 'moment';
 import Delete from './delete';
 
@@ -30,6 +31,7 @@ const Users = () => {
   const app = useSelector(state => state.app)
   const [showedit, setShowedit] = useState(false);
   const [deletes, setDeletes] = useState(false);
+  const [titlesearch, setTitlesearch] = useState('');
 
   useEffect(() => {
     dispatch(getCategories());
@@ -70,6 +72,11 @@ const Users = () => {
     dispatch(clearSuccess());
   }
 
+  const onSubmit = (e) => {
+    e.preventDefault();
+    dispatch(searchCategory(titlesearch))
+
+  }
 
   return (
       <>
@@ -81,8 +88,13 @@ const Users = () => {
         <CCard>
           <CCardHeader>
           <CRow>
-                 <CCol xs="11"  className="mb-3 mb-xl-0">
+                 <CCol xs="8"  className="mb-3 mb-xl-0">
                   Product Catalogs
+                </CCol>
+                <CCol xs="3"  className="mb-3 mb-xl-0">
+                  <form onSubmit={(e) => {onSubmit(e)}}>
+                    <CInput id="name" placeholder="Search product name" value={titlesearch} onChange={(e) => setTitlesearch(e.target.value)} /> 
+                  </form>
                 </CCol>
                 <CCol xs="1" className="mb-3 mb-xl-0" style={{display: 'flex', alignItems: 'flex-end', flexDirection: 'row'}}>
                 <CButton color="primary" onClick={() => setShow(true)}>Create</CButton>
